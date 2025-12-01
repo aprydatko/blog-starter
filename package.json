@@ -5,7 +5,9 @@
   "description": "The simple blog starter",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "pnpm turbo run dev",
+    "build": "pnpm turbo run build",
+    "lint": "pnpm turbo run lint"
   },
   "keywords": [
     "blog",
