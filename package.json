@@ -8,6 +8,7 @@
     "dev": "pnpm turbo run dev",
     "build": "pnpm turbo run build",
     "lint": "pnpm turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "pnpm turbo check-types"
   },
   "keywords": [
@@ -26,6 +27,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "prettier": "^3.7.3",
     "turbo": "^2.6.1",
     "typescript": "^5.9.3"
   }
