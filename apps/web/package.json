@@ -11,6 +11,7 @@
     "check-types": "next typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@blog-starter/ui": "workspace:*",
     "next": "16.0.6",
     "react": "19.2.0",
     "react-dom": "19.2.0"
