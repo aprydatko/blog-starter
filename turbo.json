@@ -8,6 +8,9 @@
     "lint": {
       "dependsOn": ["^lint"]
     },
+    "check-types": {
+      "dependsOn": ["^check-types"]
+    },
     "test": {
       "outputs": ["coverage/**"],
       "dependsOn": ["build"]

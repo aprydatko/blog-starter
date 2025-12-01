@@ -11,6 +11,9 @@ importers:
       turbo:
         specifier: ^2.6.1
         version: 2.6.1
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   apps/web:
     dependencies:
@@ -27,6 +30,9 @@ importers:
       '@blog-starter/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      '@blog-starter/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.1.17
@@ -84,6 +90,8 @@ importers:
       eslint-plugin-turbo:
         specifier: ^2.6.1
         version: 2.6.1(eslint@9.39.1(jiti@2.6.1))(turbo@2.6.1)
+
+  packages/typescript-config: {}
 
 packages:
 
