@@ -1,0 +1,16 @@
+{
+  "name": "@blog-starter/tailwind-config",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Shared Tailwind CSS configuration for the blog-starter project",
+  "author": "Arthur Prydatko",
+  "exports": {
+    ".": "./shared-styles.css",
+    "./postcss": "./postcss.config.js"
+  },
+  "devDependencies": {
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17"
+  }
+}

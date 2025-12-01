@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@blog-starter/eslint-config": "workspace:*",
+    "@blog-starter/tailwind-config": "workspace:*",
     "@blog-starter/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

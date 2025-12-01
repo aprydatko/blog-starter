@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@blog-starter/tailwind-config";
 
 :root {
   --background: #ffffff;
