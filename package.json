@@ -7,9 +7,14 @@
   "scripts": {
     "dev": "pnpm turbo run dev",
     "build": "pnpm turbo run build",
+    "db:migrate:deploy": "turbo run db:migrate:deploy",
+    "db:migrate:dev": "turbo run db:migrate:dev",
+    "db:push": "turbo run db:push",
+    "db:seed": "turbo run db:seed",
     "lint": "pnpm turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "pnpm turbo check-types"
+    "check-types": "pnpm turbo check-types",
+    "generate": "turbo run generate"
   },
   "keywords": [
     "blog",
@@ -26,9 +31,18 @@
     "apps/*",
     "packages/*"
   ],
+  "prisma": {
+    "schema": "packages/database/prisma/schema.prisma",
+    "seed": "tsx packages/database/src/seed.ts"
+  },
   "devDependencies": {
     "prettier": "^3.7.3",
+    "prisma": "^7.0.1",
+    "tsx": "^4.21.0",
     "turbo": "^2.6.1",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.0.1"
   }
 }

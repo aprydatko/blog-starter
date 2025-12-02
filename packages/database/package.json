@@ -1,0 +1,38 @@
+{
+  "name": "@bloger-starter/db",
+  "version": "0.0.0",
+  "exports": {
+    ".": "./src/client.ts"
+  },
+  "scripts": {
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:seed": "tsx src/seed.ts",
+    "db:reset": "npx prisma migrate reset",
+    "dev": "tsup src/* --watch",
+    "format": "prisma format",
+    "generate": "prisma generate",
+    "lint": "eslint . --max-warnings 0",
+    "prebuild": "npm run generate",
+    "predev": "npm run generate",
+    "studio": "prisma studio"
+  },
+  "devDependencies": {
+    "@blog-starter/eslint-config": "workspace:*",
+    "@blog-starter/typescript-config": "workspace:*",
+    "@prisma/client-runtime-utils": "^7.0.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.5.0",
+    "prisma": "^7.0.1",
+    "rimraf": "^6.1.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.0.1"
+  }
+}
