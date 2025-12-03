@@ -3,14 +3,23 @@
     "version": "0.0.0",
     "private": true,
     "files": [
+        "browser/jest-preset.js",
+        "e2e/jest-preset.js",
         "node/jest-preset.js"
     ],
     "exports": {
         "./node": "./node/jest-preset.js",
-        "./node/jest-preset": "./node/jest-preset.js"
+        "./browser": "./browser/jest-preset.js",
+        "./e2e": "./e2e/jest-preset.js",
+        "./node/jest-preset": "./node/jest-preset.js",
+        "./e2e/jest-preset": "./e2e/jest-preset.js",
+        "./browser/jest-preset": "./browser/jest-preset.js"
     },
     "devDependencies": {
-        "jest": "^29.0.0",
-        "ts-jest": "^29.0.0"
+        "jest-environment-jsdom": "^30.2.0"
+    },
+    "dependencies": {
+        "jest": "^29.7.0",
+        "ts-jest": "^29.4.6"
     }
 }

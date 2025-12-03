@@ -1,9 +1,4 @@
-import { config as baseConfig } from '@blog-starter/eslint-config/base'
+import { config } from "@blog-starter/eslint-config";
 
-/** @type {import("eslint").Linter.Config[]} */
-export default [
-    ...baseConfig,
-    {
-        ignores: ['**/__tests__/**']
-    }
-]
+/** @type {import("eslint").Linter.Config} */
+export default config;

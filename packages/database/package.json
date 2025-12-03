@@ -22,6 +22,7 @@
     "@blog-starter/eslint-config": "workspace:*",
     "@blog-starter/typescript-config": "workspace:*",
     "@prisma/client-runtime-utils": "^7.0.1",
+    "dotenv": "^17.2.3",
     "eslint": "^9.39.1",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.5.0",

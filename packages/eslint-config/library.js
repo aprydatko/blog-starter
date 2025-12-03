@@ -25,6 +25,7 @@ export default {
   ignorePatterns: [
     ".*.js",
     "node_modules/",
+    "src/generated/",
     "dist/",
   ],
   overrides: [
