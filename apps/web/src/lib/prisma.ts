@@ -1,4 +1,3 @@
-import prisma from "@bloger-starter/db"
+import prisma from '@bloger-starter/db'
 
 export default prisma
-

@@ -2,6 +2,8 @@
   "extends": "@blog-starter/typescript-config/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "declaration": false,
+    "declarationMap": false,
     "paths": {
       "@/*": [
         "./*"

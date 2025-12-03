@@ -1,17 +1,17 @@
-import { SignIn, SignOut } from "@/src/components/auth-components";
-import { auth } from "@/src/lib/auth";
-import prisma from "@/src/lib/prisma";
+import { SignIn, SignOut } from '@/src/components/auth-components'
+import { auth } from '@/src/lib/auth'
+import prisma from '@/src/lib/prisma'
 
 const Page = async () => {
-  const session = await auth();
-  let user = null;
+  const session = await auth()
+  let user = null
 
   if (session) {
     user = await prisma.user.findUnique({
       where: {
         id: session.user?.id,
-      }
-    });
+      },
+    })
   }
 
   return (
@@ -35,9 +35,7 @@ const Page = async () => {
             </div>
 
             <div className="bg-neutral-900 rounded p-3">
-              <pre className="text-xs text-gray-300">
-                {JSON.stringify(user, null, 2)}
-              </pre>
+              <pre className="text-xs text-gray-300">{JSON.stringify(user, null, 2)}</pre>
             </div>
 
             <div className="text-center">
@@ -47,7 +45,7 @@ const Page = async () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

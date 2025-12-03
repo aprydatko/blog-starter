@@ -1,0 +1,23 @@
+# Ignore the entire 'dist' directory
+dist/
+
+# Ignore the entire 'dist' directory
+generated/
+
+# Ignore the entire 'packages' directory
+packages/
+
+# Ignore the 'node_modules' directory (often ignored by default, but good practice to include)
+node_modules/
+
+# Ignore a specific file
+config/my-config.js
+
+# Ignore all files with a certain extension in the 'temp' folder
+temp/*.css
+
+# Ignore an entire folder named 'amplify' no matter where it is
+amplify
+
+# Ignore all Markdown files
+**/*.md
