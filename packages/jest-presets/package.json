@@ -2,18 +2,19 @@
     "name": "@blog-starter/jest-presets",
     "version": "0.0.0",
     "private": true,
+    "license": "MIT",
     "files": [
-        "browser/jest-preset.js",
-        "e2e/jest-preset.js",
-        "node/jest-preset.js"
+        "browser/jest-preset.ts",
+        "e2e/jest-preset.ts",
+        "node/jest-preset.ts"
     ],
     "exports": {
         "./node": "./node/jest-preset.js",
         "./browser": "./browser/jest-preset.js",
         "./e2e": "./e2e/jest-preset.js",
         "./node/jest-preset": "./node/jest-preset.js",
-        "./e2e/jest-preset": "./e2e/jest-preset.js",
-        "./browser/jest-preset": "./browser/jest-preset.js"
+        "./browser/jest-preset": "./browser/jest-preset.js",
+        "./e2e/jest-preset": "./e2e/jest-preset.js"
     },
     "devDependencies": {
         "jest-environment-jsdom": "^30.2.0"

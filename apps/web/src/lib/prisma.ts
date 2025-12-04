@@ -1,3 +1,3 @@
-import prisma from '@bloger-starter/db'
+import prisma from '@prisma/client/extension'
 
-export default prisma
+export { prisma }

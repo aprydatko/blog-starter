@@ -1,4 +1,4 @@
-import { signIn, signOut } from '@/src/lib/auth'
+import { signIn, signOut } from '@/lib/auth'
 
 export function SignIn({ provider }: { provider?: string }) {
   return (

@@ -1,6 +1,6 @@
-import { SignIn, SignOut } from '@/src/components/auth-components'
-import { auth } from '@/src/lib/auth'
-import prisma from '@/src/lib/prisma'
+import { SignIn, SignOut } from '@/components/auth-components'
+import { auth } from '@/lib/auth'
+import { prisma } from '@/lib/prisma'
 
 const Page = async () => {
   const session = await auth()
