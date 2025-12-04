@@ -1,6 +1,6 @@
 // src/your-post-validator.ts
 
-import { validateSlug } from '@/lib/utils';  // Reusing the validateSlug function
+import { validateSlug } from '@/lib/utils' // Reusing the validateSlug function
 
 /**
  * Validates the post data, ensuring that title, content, and slug are valid.
@@ -10,18 +10,18 @@ import { validateSlug } from '@/lib/utils';  // Reusing the validateSlug functio
 export function validatePostData(post: { title: string; content?: string; slug?: string }): boolean {
   // Check if title and content are non-empty strings
   if (!post.title || typeof post.title !== 'string' || post.title.trim() === '') {
-    return false;
+    return false
   }
 
   if (!post.content || typeof post.content !== 'string' || post.content.trim() === '') {
-    return false;
+    return false
   }
 
   // Validate slug using the existing validateSlug function
   if (!validateSlug(post.slug!)) {
-    return false;
+    return false
   }
 
   // All fields are valid
-  return true;
+  return true
 }

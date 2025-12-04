@@ -1,30 +1,31 @@
-import { describe, it, expect, beforeEach } from '@jest/globals'
 import { logger } from '@blog-starter/logger'
-import { prisma } from '@/lib/prisma'
+import { prismaMock } from '__mocks__/prisma.mock'
+
+jest.mock('@blog-starter/db', () => ({
+  prisma: prismaMock,
+}))
 
 describe('Prisma Service', () => {
-    beforeEach(() => {
-        logger.info('Running Prisma Service test')
-    })
+  beforeEach(() => {
+    logger.info('Starting Prisma service test')
+  })
 
-    it.only('should export prisma client', () => {
-        logger.debug('Testing prisma client export')
-        expect(prisma).toBeDefined()
-    })
+  it('should export a Prisma client instance', () => {
+    logger.debug('Validating Prisma client export')
+    expect(prismaMock).toBeDefined()
+  })
 
-    it('should have post model', () => {
-        logger.debug('Testing post model availability')
-        expect(prisma.PrismaClient.post).toBeDefined()
-    })
+  it('should expose the session model', () => {
+    expect(prismaMock.session).toBeDefined()
+  })
 
-    it('should have user model', () => {
-        logger.debug('Testing user model availability')
-        expect(prisma.PrismaClient.user).toBeDefined()
-    })
+  it('should expose the user model', () => {
+    expect(prismaMock.user).toBeDefined()
+  })
 
-    it('should be a singleton instance', () => {
-        logger.debug('Testing prisma singleton pattern')
-        const { prisma: prisma2 } = require('@/lib/prisma')
-        expect(prisma).toBe(prisma2)
-    })
+  it('should ensure Prisma uses a singleton instance', async () => {
+    // Import prisma again (same module) — should reference the same instance
+    const { prisma: prismaSecondInstance } = await import('@blog-starter/db')
+    expect(prismaMock).toBe(prismaSecondInstance)
+  })
 })

@@ -15,7 +15,7 @@
     "lint": "pnpm turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "pnpm turbo check-types",
-    "generate": "turbo run generate --filter=@bloger-starter/db"
+    "generate": "turbo run generate --filter=@blog-starter/db"
   },
   "keywords": [
     "blog",

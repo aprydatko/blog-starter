@@ -8,7 +8,7 @@
  */
 export function truncateText(text: string, maxLength: number): string {
   if (text.length > maxLength) {
-    return text.slice(0, maxLength) + '...';  // Truncate and add ellipsis
+    return text.slice(0, maxLength) + '...' // Truncate and add ellipsis
   }
-  return text;  // Return the original text if it's within the limit
+  return text // Return the original text if it's within the limit
 }

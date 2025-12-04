@@ -1,5 +1,5 @@
 {
-    "extends": "@blog-starter/typescript-config/base.json",
+    "extends": "@blog-starter/typescript-config/logger.json",
     "compilerOptions": {
         "outDir": "dist",
         "rootDir": "src",

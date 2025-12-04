@@ -6,11 +6,11 @@
  */
 export function validateSlug(slug: string | null): boolean {
   // Regular expression to match slugs (lowercase alphanumeric and hyphens)
-  const slugRegex = /^[a-z0-9-]+$/;
+  const slugRegex = /^[a-z0-9-]+$/
 
   if (!slug) {
-    return false; // Handle null, undefined, or empty strings
+    return false // Handle null, undefined, or empty strings
   }
 
-  return slugRegex.test(slug); // Validate using regex
+  return slugRegex.test(slug) // Validate using regex
 }

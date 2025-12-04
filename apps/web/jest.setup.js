@@ -1,72 +1,58 @@
-// jest.setup.js
-const { afterEach } = require("@jest/globals")
+﻿/* eslint-disable @typescript-eslint/no-require-imports */
+const { beforeEach } = require("@jest/globals");
+require('@testing-library/jest-dom');
 
-// Mock global fetch
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({}),
-  })
-)
+// Mock TextEncoder/Decoder
+const { TextEncoder, TextDecoder } = require('text-encoding');
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+global.setImmediate = jest.fn();
 
-// Set up custom matchers (e.g., for testing React components or DOM elements)
-require("@testing-library/jest-dom")
+// Mock CSS imports - Jest can't parse CSS files
+jest.mock('@blog-starter/ui/styles.css', () => ({}));
 
-// Make sure to mock global window object if you're using any properties like `localStorage` or `sessionStorage`
-Object.defineProperty(global, 'window', {
-  value: global,
-})
+// Mock next/font/google
+jest.mock('next/font/google', () => ({
+  Geist: jest.fn(() => ({
+    variable: '--font-geist-sans',
+  })),
+  Geist_Mono: jest.fn(() => ({
+    variable: '--font-geist-mono',
+  })),
+}));
 
-global.window = global // In case you are manually setting `window`
-
-// Mocking localStorage (if used in your tests)
-Object.defineProperty(global.window, 'localStorage', {
-  value: {
-    getItem: jest.fn(),
-    setItem: jest.fn(),
-    removeItem: jest.fn(),
-    clear: jest.fn(),
-  },
-})
-
-// Mock the nextjs `next/router` (if using Next.js)
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    route: '/',
-    pathname: '/',
-    query: '',
-    asPath: '/',
-  }),
-}))
-
-// Example: Mock global console methods if needed
-global.console = {
-  ...global.console,
-  log: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn(),
-}
-
-// Setting up global variables or environment variables (if needed)
-process.env.NODE_ENV = 'test'  // Ensure you're in test mode
-process.env.NEXTAUTH_URL = 'http://localhost:3000'
-process.env.NEXTAUTH_SECRET = 'test-secret'
-process.env.GITHUB_ID = 'test-github-id'
-process.env.GITHUB_SECRET = 'test-github-secret'
-process.env.DATABASE_URL = 'postgresql://test:test@localhost:5432/test'
-
-// If using custom logging utility, mock it for tests
+// Mock the logger
 jest.mock('@blog-starter/logger', () => ({
   logger: {
+    trace: jest.fn(),
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
-  }
-}))
+    fatal: jest.fn(),
+    levels: {
+      labels: { '10': 'trace', '20': 'debug', '30': 'info', '40': 'warn', '50': 'error', '60': 'fatal' },
+      values: { trace: 10, debug: 20, info: 30, warn: 40, error: 50, fatal: 60 },
+    },
+  },
+}));
 
-// Optional: Global setup for testing React components or utilities
-const { cleanup } = require("@testing-library/react")
-afterEach(() => {
-  // Clean up the DOM after each test to avoid memory leaks
-  cleanup()
+// Mock the useSession hook globally for all tests
+jest.mock('next-auth/react', () => ({
+  useSession: jest.fn().mockReturnValue({
+    status: 'authenticated',
+    data: {
+      user: {
+        id: 'mockUserId',
+        name: 'Mock User',
+        email: 'mockuser@example.com',
+        image: 'https://example.com/mockuser.png',
+      },
+    },
+  }),
+}));
+
+// Optional: Clear mocks before each test to ensure fresh state
+beforeEach(() => {
+  jest.clearAllMocks();
 })

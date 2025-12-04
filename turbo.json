@@ -1,8 +1,6 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "globalEnv": [
-    "GITHUB_ID",
-    "GITHUB_SECRET",
     "NODE_ENV",
     "LOG_LEVEL"
   ],
@@ -31,7 +29,16 @@
         "^check-types"
       ]
     },
-    "test": {},
+    "test": {
+      "env": [
+        "NEXTAUTH_URL",
+        "AUTH_GITHUB_ID",
+        "AUTH_GITHUB_SECRET",
+        "AUTH_SECRET",
+        "DATABASE_URL",
+        "CI"
+      ]
+    },
     "dev": {
       "cache": false,
       "persistent": true

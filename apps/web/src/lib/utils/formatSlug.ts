@@ -10,7 +10,7 @@
  */
 export function formatSlug(title: string): string {
   return title
-    .toLowerCase()  // Convert to lowercase
-    .replace(/\s+/g, '-')  // Replace spaces with hyphens
-    .replace(/[^\w-]+/g, '');  // Remove any non-alphanumeric characters (except hyphens)
+    .toLowerCase() // Convert to lowercase
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/[^\w-]+/g, '') // Remove any non-alphanumeric characters (except hyphens)
 }

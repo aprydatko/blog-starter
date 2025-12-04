@@ -21,7 +21,7 @@
     "next-env.d.ts",
     "next.config.js",
     ".next/types/**/*.ts"
-  ],
+, "__mocks__/**/*.js"  ],
   "exclude": [
     "node_modules"
   ]

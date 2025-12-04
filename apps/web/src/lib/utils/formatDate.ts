@@ -10,6 +10,6 @@ export function formatDate(date: Date): string {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  };
-  return new Intl.DateTimeFormat('en-US', options).format(date);
+  }
+  return new Intl.DateTimeFormat('en-US', options).format(date)
 }

@@ -31,6 +31,11 @@ export const nextJsConfig = [
       ...pluginReact.configs.flat.recommended.languageOptions,
       globals: {
         ...globals.serviceworker,
+        process: "readonly",  // Add process as a global
+        global: "readonly",  // Add global as a global
+        jest: "readonly",  // Jest globals
+        require: "readonly",
+        window: "readonly",  // Add window if you're mocking it
       },
     },
   },

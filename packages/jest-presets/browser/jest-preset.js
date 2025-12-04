@@ -13,7 +13,7 @@ module.exports = {
         }]
     },
     transformIgnorePatterns: [
-        '/node_modules/(?!(next-auth|@auth)/)'
+        '/node_modules/(?!(next-auth|@auth|@prisma)/)'
     ],
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
     modulePathIgnorePatterns: [
