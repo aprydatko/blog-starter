@@ -192,6 +192,9 @@
         "CI"
       ]
     },
+    "test:integration":{
+      "cache": false
+    },
     "generate": {
       "dependsOn": [
         "^generate"

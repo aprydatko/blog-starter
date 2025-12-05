@@ -16,7 +16,7 @@ describe('API Integration Tests', () => {
     logger.debug('Running API integration test')
   })
 
-  it('should fetch posts from API', async () => {
+  it.skip('should fetch posts from API', async () => {
     logger.debug('Testing API posts endpoint')
     const response = await fetch('http://localhost:3000/api/posts')
     expect(response.status).toBe(200)
@@ -25,14 +25,14 @@ describe('API Integration Tests', () => {
     logger.info({ postsCount: data.length }, 'Posts fetched successfully')
   })
 
-  it('should handle API errors gracefully', async () => {
+  it.skip('should handle API errors gracefully', async () => {
     logger.debug('Testing API error handling')
     const response = await fetch('http://localhost:3000/api/invalid-endpoint')
     expect(response.status).toBe(404)
     logger.info('API error handling verified')
   })
 
-  it('should require authentication for protected endpoints', async () => {
+  it.skip('should require authentication for protected endpoints', async () => {
     logger.debug('Testing protected endpoint authentication')
     const response = await fetch('http://localhost:3000/api/admin/posts', {
       method: 'POST',

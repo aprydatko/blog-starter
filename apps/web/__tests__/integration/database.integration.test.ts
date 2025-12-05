@@ -14,41 +14,42 @@ describe('Database Integration Tests', () => {
   beforeAll(async () => {
     logger.info('Setting up database integration tests')
     await prisma.$connect()
-    console.log("Connect successfull!");
-    console.log(process.env.DATABASE_URL);
-
   })
 
-  // afterAll(async () => {
-  //   logger.info('Cleaning up database integration tests')
-  //   try {
-  //     await prisma.user.deleteMany({
-  //       where: { email: testUser.email },
-  //     })
-  //   } catch (error) {
-  //     logger.warn(`Error cleaning up test user: ${(error as Error).message}`)
-  //   } finally {
-  //     await prisma.$disconnect()
-  //   }
-  // })
+  afterAll(async () => {
+    logger.info('Cleaning up database integration tests')
+    try {
+      await prisma.user.deleteMany({
+        where: { email: testUser.email },
+      })
+    } catch (error) {
+      logger.warn(`Error cleaning up test user: ${(error as Error).message}`)
+    } finally {
+      await prisma.$disconnect()
+    }
+  })
 
-  it.only('should create and retrieve a user', async () => {
-    const users = await prisma.user.findMany();
-    console.log(users);
+  it('should create and retrieve a user', async () => {
+    const created = await prisma.user.create({
+      data: {
+        email: testUser.email,
+        name: testUser.name,
+      },
+    })
 
-    // expect(created).toMatchObject({
-    //   email: testUser.email,
-    //   name: testUser.name,
-    // })
+    expect(created).toMatchObject({
+      email: testUser.email,
+      name: testUser.name,
+    })
 
-    // const retrieved = await prisma.user.findUnique({
-    //   where: { id: created.id },
-    // })
+    const retrieved = await prisma.user.findUnique({
+      where: { id: created.id },
+    })
 
-    // expect(retrieved).toMatchObject({
-    //   id: created.id,
-    //   email: testUser.email,
-    //   name: testUser.name,
-    // })
+    expect(retrieved).toMatchObject({
+      id: created.id,
+      email: testUser.email,
+      name: testUser.name,
+    })
   })
 })

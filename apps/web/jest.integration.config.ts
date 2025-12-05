@@ -8,6 +8,9 @@ const config: Config = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@/envConfig$': '<rootDir>/src/lib/envConfig.ts',
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(@auth|@prisma|@blog-starter)/)',
+  ],
 }
 
 export default config

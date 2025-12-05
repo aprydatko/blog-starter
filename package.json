@@ -24,7 +24,8 @@
     "push:prod": "turbo run push:prod --filter @blog-starter/db",
     "push:test": "turbo run push:test --filter @blog-starter/db",
     "seed:test": "turbo run seed:test --filter @blog-starter/db",
-    "seed:prod": "turbo run seed:prod --filter @blog-starter/db"
+    "seed:prod": "turbo run seed:prod --filter @blog-starter/db",
+    "test:integration": "turbo run test:integration --filter web"
   },
   "keywords": [
     "blog",

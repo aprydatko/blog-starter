@@ -1,7 +1,5 @@
 ﻿/* eslint-disable @typescript-eslint/no-require-imports */
-const { beforeEach, beforeAll, afterAll } = require("@jest/globals");
-const { execSync } = require("child_process")
-
+const { beforeEach } = require("@jest/globals");
 require('@testing-library/jest-dom');
 
 // Mock TextEncoder/Decoder
@@ -53,19 +51,6 @@ jest.mock('next-auth/react', () => ({
     },
   }),
 }));
-
-beforeAll(() => {
-  process.env.NODE_ENV = 'test';
-  require('dotenv').config(); // Load .env.test
-  
-  // Run Prisma migrations for the test database
-  execSync('npx prisma migrate deploy --schema=packages/database/prisma/schema.prisma', { stdio: 'inherit' });
-});
-
-afterAll(() => {
-  // Optionally reset the database after tests (or close connections)
-  execSync('npx prisma migrate reset --force --schema=packages/database/prisma/schema.prisma', { stdio: 'inherit' });
-});
 
 // Optional: Clear mocks before each test to ensure fresh state
 beforeEach(() => {
