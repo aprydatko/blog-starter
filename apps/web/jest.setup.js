@@ -59,12 +59,12 @@ beforeAll(() => {
   require('dotenv').config(); // Load .env.test
   
   // Run Prisma migrations for the test database
-  execSync('npx prisma migrate dev --name init', { stdio: 'inherit' });
+  execSync('npx prisma migrate deploy --schema=packages/database/prisma/schema.prisma', { stdio: 'inherit' });
 });
 
 afterAll(() => {
   // Optionally reset the database after tests (or close connections)
-  execSync('npx prisma migrate reset --force', { stdio: 'inherit' });
+  execSync('npx prisma migrate reset --force --schema=packages/database/prisma/schema.prisma', { stdio: 'inherit' });
 });
 
 // Optional: Clear mocks before each test to ensure fresh state

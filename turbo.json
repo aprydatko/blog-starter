@@ -29,6 +29,159 @@
         "^check-types"
       ]
     },
+    "reset": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma",
+        ".env*"
+      ],
+      "cache": false
+    },
+    "reset:prod": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma",
+        ".env*"
+      ],
+      "cache": false
+    },
+    "reset:test": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma",
+        ".env*"
+      ],
+      "env": [
+        "PRISMA_DDL_FORCE=true"
+      ],
+      "cache": false
+    },
+    "migrate": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma"
+      ],
+      "env": [
+        "DATABASE_URL"
+      ],
+      "cache": false
+    },
+    "migrate:prod": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma"
+      ],
+      "env": [
+        "DATABASE_URL"
+      ],
+      "cache": false
+    },
+    "migrate:test": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma"
+      ],
+      "env": [
+        "DATABASE_URL"
+      ],
+      "cache": true
+    },
+    "push": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma"
+      ],
+      "env": [
+        "DATABASE_URL"
+      ],
+      "cache": false
+    },
+    "push:prod": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma"
+      ],
+      "env": [
+        "DATABASE_URL"
+      ],
+      "cache": false
+    },
+    "push:test": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma"
+      ],
+      "env": [
+        "DATABASE_URL"
+      ],
+      "cache": false
+    },
+    "seed": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma"
+      ],
+      "env": [
+        "DATABASE_URL"
+      ],
+      "cache": true
+    },
+    "seed:test": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma"
+      ],
+      "env": [
+        "DATABASE_URL"
+      ],
+      "cache": false
+    },
+    "seed:prod": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma"
+      ],
+      "env": [
+        "DATABASE_URL"
+      ],
+      "cache": true
+    },
+    "studio": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "packages/database/prisma/schema.prisma"
+      ],
+      "env": [
+        "DATABASE_URL"
+      ],
+      "cache": false
+    },
     "test": {
       "env": [
         "NEXTAUTH_URL",
@@ -38,23 +191,6 @@
         "DATABASE_URL",
         "CI"
       ]
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    },
-    "db:migrate:dev": {
-      "cache": false,
-      "persistent": true
-    },
-    "db:migrate:deploy": {
-      "cache": false
-    },
-    "db:push": {
-      "cache": false
-    },
-    "db:seed": {
-      "cache": false
     },
     "generate": {
       "dependsOn": [

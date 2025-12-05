@@ -2,8 +2,10 @@ import { prisma } from './client';
 
 async function main() {
   // Create Users
-  const user1 = await prisma.user.create({
-    data: {
+  const user1 = await prisma.user.upsert({
+    where: { email: 'john.doe@example.com' },
+    update: {},
+    create: {
       name: 'John Doe',
       email: 'john.doe@example.com',
       emailVerified: new Date(),
@@ -11,8 +13,10 @@ async function main() {
     },
   });
 
-  const user2 = await prisma.user.create({
-    data: {
+  const user2 = await prisma.user.upsert({
+    where: { email: 'jane.smith@example.com' },
+    update: {},
+    create: {
       name: 'Jane Smith',
       email: 'jane.smith@example.com',
       emailVerified: new Date(),
@@ -21,8 +25,15 @@ async function main() {
   });
 
   // Create Accounts for the Users
-  const account1 = await prisma.account.create({
-    data: {
+  const account1 = await prisma.account.upsert({
+    where: {
+      provider_providerAccountId: {
+        provider: 'google',
+        providerAccountId: 'google_account_123',
+      },
+    },
+    update: {},
+    create: {
       userId: user1.id,
       type: 'oauth',
       provider: 'google',
@@ -37,8 +48,15 @@ async function main() {
     },
   });
 
-  const account2 = await prisma.account.create({
-    data: {
+  const account2 = await prisma.account.upsert({
+    where: {
+      provider_providerAccountId: {
+        provider: 'github',
+        providerAccountId: 'github_account_456',
+      },
+    },
+    update: {},
+    create: {
       userId: user2.id,
       type: 'oauth',
       provider: 'github',
@@ -54,16 +72,20 @@ async function main() {
   });
 
   // Create Sessions for the Users
-  const session1 = await prisma.session.create({
-    data: {
+  const session1 = await prisma.session.upsert({
+    where: { sessionToken: 'session_token_123' },
+    update: {},
+    create: {
       sessionToken: 'session_token_123',
       userId: user1.id,
       expires: new Date(Date.now() + 3600000), // 1 hour from now
     },
   });
 
-  const session2 = await prisma.session.create({
-    data: {
+  const session2 = await prisma.session.upsert({
+    where: { sessionToken: 'session_token_456' },
+    update: {},
+    create: {
       sessionToken: 'session_token_456',
       userId: user2.id,
       expires: new Date(Date.now() + 3600000), // 1 hour from now
@@ -71,16 +93,30 @@ async function main() {
   });
 
   // Create Verification Tokens (Usually for email verification)
-  const verificationToken1 = await prisma.verificationToken.create({
-    data: {
+  const verificationToken1 = await prisma.verificationToken.upsert({
+    where: {
+      identifier_token: {
+        identifier: user1.email!,
+        token: 'verification_token_123',
+      },
+    },
+    update: {},
+    create: {
       identifier: user1.email!,
       token: 'verification_token_123',
       expires: new Date(Date.now() + 3600000), // 1 hour from now
     },
   });
 
-  const verificationToken2 = await prisma.verificationToken.create({
-    data: {
+  const verificationToken2 = await prisma.verificationToken.upsert({
+    where: {
+      identifier_token: {
+        identifier: user2.email!,
+        token: 'verification_token_456',
+      },
+    },
+    update: {},
+    create: {
       identifier: user2.email!,
       token: 'verification_token_456',
       expires: new Date(Date.now() + 3600000),

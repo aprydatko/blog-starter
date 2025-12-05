@@ -9,7 +9,7 @@
     "migrate": "prisma migrate dev",
     "reset": "npx prisma migrate reset",
     "push": "prisma db push",
-    "seed": "tsx src/seed.ts",
+    "seed": "dotenv -e .env -- tsx src/seed.ts",
     "dev": "tsup src/* --watch",
     "format": "prisma format",
     "generate": "prisma generate",
