@@ -1,12 +1,14 @@
 ﻿/* eslint-disable @typescript-eslint/no-require-imports */
-const { beforeEach } = require("@jest/globals");
+const { beforeEach, beforeAll, afterAll } = require("@jest/globals");
+const { execSync } = require("child_process")
+
 require('@testing-library/jest-dom');
 
 // Mock TextEncoder/Decoder
-const { TextEncoder, TextDecoder } = require('text-encoding');
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder;
-global.setImmediate = jest.fn();
+// const { TextEncoder, TextDecoder } = require('text-encoding');
+// global.TextEncoder = TextEncoder;
+// global.TextDecoder = TextDecoder;
+// global.setImmediate = jest.fn();
 
 // Mock CSS imports - Jest can't parse CSS files
 jest.mock('@blog-starter/ui/styles.css', () => ({}));
@@ -51,6 +53,19 @@ jest.mock('next-auth/react', () => ({
     },
   }),
 }));
+
+beforeAll(() => {
+  process.env.NODE_ENV = 'test';
+  require('dotenv').config(); // Load .env.test
+  
+  // Run Prisma migrations for the test database
+  execSync('npx prisma migrate dev --name init', { stdio: 'inherit' });
+});
+
+afterAll(() => {
+  // Optionally reset the database after tests (or close connections)
+  execSync('npx prisma migrate reset --force', { stdio: 'inherit' });
+});
 
 // Optional: Clear mocks before each test to ensure fresh state
 beforeEach(() => {

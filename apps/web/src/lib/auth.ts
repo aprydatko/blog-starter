@@ -1,5 +1,3 @@
-import '../../envConfig' // don't change path! (for jest tests)
-
 import { initializeAuth } from '@/services/authService'
 
 // Initialize NextAuth via service wrapper. Kept as destructured exports
