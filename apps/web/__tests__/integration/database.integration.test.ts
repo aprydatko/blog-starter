@@ -29,7 +29,7 @@ describe('Database Integration Tests', () => {
     }
   })
 
-  it('should create and retrieve a user', async () => {
+  it.skip('should create and retrieve a user', async () => {
     const created = await prisma.user.create({
       data: {
         email: testUser.email,

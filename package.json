@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "pnpm turbo run dev",
     "build": "pnpm turbo run build",
-    "test": "pnpm turbo run test --filter=web",
+    "test": "pnpm turbo run test",
     "lint": "pnpm turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "pnpm turbo check-types",
@@ -25,7 +25,9 @@
     "push:test": "turbo run push:test --filter @blog-starter/db",
     "seed:test": "turbo run seed:test --filter @blog-starter/db",
     "seed:prod": "turbo run seed:prod --filter @blog-starter/db",
-    "test:integration": "turbo run test:integration --filter web"
+    "test:unit": "turbo run test:unit --filter web",
+    "test:integration": "turbo run test:integration --filter web",
+    "test:e2e": "turbo run test:e2e --filter web"
   },
   "keywords": [
     "blog",

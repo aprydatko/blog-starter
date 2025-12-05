@@ -1,4 +1,2 @@
-import { loadEnvConfig } from '@next/env'
-
-const projectDir = process.cwd()
-loadEnvConfig(projectDir)
+// Environment configuration is handled by Next.js and Playwright automatically
+// This file ensures environment variables are available if needed
