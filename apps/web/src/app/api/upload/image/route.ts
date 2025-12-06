@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
 import { existsSync } from 'fs'
+import { prisma } from '@blog-starter/db'
 
 export async function POST(request: NextRequest) {
   try {
@@ -65,6 +66,21 @@ export async function POST(request: NextRequest) {
 
     // Return the public URL
     const publicUrl = `/uploads/images/${uniqueFileName}`
+
+    // Save media record to database
+    try {
+      await prisma.media.create({
+        data: {
+          url: publicUrl,
+          filename: uniqueFileName,
+          mimeType: file.type,
+          size: file.size
+        }
+      })
+    } catch (dbError) {
+      // Log error but don't fail the upload if DB save fails
+      console.error('Error saving media to database:', dbError)
+    }
 
     return NextResponse.json(
       {
