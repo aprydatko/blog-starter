@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@blog-starter/db'
 import { generateSlug, ensureUniqueSlug } from '@/lib/utils/slug'
+import { auth } from '@/lib/auth'
 
 export interface CreatePostInput {
     title: string
@@ -19,6 +20,19 @@ export interface UpdatePostInput {
     excerpt?: string
     published?: boolean
     tags?: string[]
+}
+
+export async function getCurrentUserId() {
+    try {
+        const session = await auth()
+        if (!session?.user?.id) {
+            return null
+        }
+        return session.user.id
+    } catch (error) {
+        console.error('Error getting current user ID:', error)
+        return null
+    }
 }
 
 export async function createPost(data: CreatePostInput) {

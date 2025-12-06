@@ -22,7 +22,7 @@ import {
     Image as ImageIcon
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 
 interface TiptapEditorProps {
     content: string
@@ -54,6 +54,7 @@ export function TiptapEditor({ content, onChange, placeholder }: TiptapEditorPro
             })
         ],
         content,
+        immediatelyRender: false,
         editorProps: {
             attributes: {
                 class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-xl focus:outline-none min-h-[300px] max-w-none p-4'
@@ -63,6 +64,15 @@ export function TiptapEditor({ content, onChange, placeholder }: TiptapEditorPro
             onChange(editor.getHTML())
         }
     })
+
+    useEffect(() => {
+        if (!editor) return
+
+        const currentContent = editor.getHTML()
+        if (currentContent !== content) {
+            editor.commands.setContent(content)
+        }
+    }, [content, editor])
 
     const setLink = useCallback(() => {
         if (!editor) return

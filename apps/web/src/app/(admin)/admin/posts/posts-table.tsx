@@ -1,0 +1,198 @@
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { format } from 'date-fns'
+import { MoreHorizontal, Pencil, Trash2, Eye, EyeOff } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { deletePost, togglePublishPost } from '@/lib/actions/posts'
+import { toast } from 'sonner'
+import Link from 'next/link'
+
+interface Post {
+    id: string
+    title: string
+    slug: string
+    published: boolean
+    createdAt: Date
+    author: {
+        id: string
+        name: string | null
+        email: string | null
+    }
+    tags: Array<{ id: string; name: string }>
+    _count: {
+        comments: number
+    }
+}
+
+interface PostsTableProps {
+    posts: Post[]
+    pagination: {
+        total: number
+        page: number
+        limit: number
+        totalPages: number
+    }
+}
+
+export function PostsTable({ posts, pagination }: PostsTableProps) {
+    const router = useRouter()
+    const [deletingId, setDeletingId] = useState<string | null>(null)
+    const [togglingId, setTogglingId] = useState<string | null>(null)
+
+    const handleDelete = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this post?')) return
+
+        setDeletingId(id)
+        const result = await deletePost(id)
+        setDeletingId(null)
+
+        if (result.success) {
+            toast.success('Post deleted successfully')
+            router.refresh()
+        } else {
+            toast.error(result.error || 'Failed to delete post')
+        }
+    }
+
+    const handleTogglePublish = async (id: string) => {
+        setTogglingId(id)
+        const result = await togglePublishPost(id)
+        setTogglingId(null)
+
+        if (result.success) {
+            toast.success(result.post?.published ? 'Post published' : 'Post unpublished')
+            router.refresh()
+        } else {
+            toast.error(result.error || 'Failed to update post')
+        }
+    }
+
+    return (
+        <div className="space-y-4">
+            <div className="rounded-md border">
+                <table className="w-full">
+                    <thead>
+                        <tr className="border-b bg-muted/50">
+                            <th className="h-12 px-4 text-left align-middle font-medium">
+                                Title
+                            </th>
+                            <th className="h-12 px-4 text-left align-middle font-medium">
+                                Author
+                            </th>
+                            <th className="h-12 px-4 text-left align-middle font-medium">
+                                Status
+                            </th>
+                            <th className="h-12 px-4 text-left align-middle font-medium">
+                                Comments
+                            </th>
+                            <th className="h-12 px-4 text-left align-middle font-medium">
+                                Date
+                            </th>
+                            <th className="h-12 px-4 text-right align-middle font-medium">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {posts.length === 0 ? (
+                            <tr>
+                                <td colSpan={6} className="h-24 text-center">
+                                    No posts found. Create your first post!
+                                </td>
+                            </tr>
+                        ) : (
+                            posts.map((post) => (
+                                <tr key={post.id} className="border-b">
+                                    <td className="p-4">
+                                        <div>
+                                            <div className="font-medium">{post.title}</div>
+                                            <div className="text-sm text-muted-foreground">
+                                                /{post.slug}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="p-4">
+                                        <div className="text-sm">
+                                            {post.author.name || post.author.email}
+                                        </div>
+                                    </td>
+                                    <td className="p-4">
+                                        <Badge variant={post.published ? 'success' : 'secondary'}>
+                                            {post.published ? 'Published' : 'Draft'}
+                                        </Badge>
+                                    </td>
+                                    <td className="p-4">
+                                        <div className="text-sm">{post._count.comments}</div>
+                                    </td>
+                                    <td className="p-4">
+                                        <div className="text-sm">
+                                            {format(new Date(post.createdAt), 'MMM d, yyyy')}
+                                        </div>
+                                    </td>
+                                    <td className="p-4">
+                                        <div className="flex items-center justify-end gap-2">
+                                            <Link href={`/admin/posts/${post.id}/edit`}>
+                                                <Button variant="ghost" size="icon">
+                                                    <Pencil className="h-4 w-4" />
+                                                </Button>
+                                            </Link>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => handleTogglePublish(post.id)}
+                                                disabled={togglingId === post.id}
+                                            >
+                                                {post.published ? (
+                                                    <EyeOff className="h-4 w-4" />
+                                                ) : (
+                                                    <Eye className="h-4 w-4" />
+                                                )}
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => handleDelete(post.id)}
+                                                disabled={deletingId === post.id}
+                                            >
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
+            </div>
+
+            {pagination.totalPages > 1 && (
+                <div className="flex items-center justify-between">
+                    <div className="text-sm text-muted-foreground">
+                        Page {pagination.page} of {pagination.totalPages} ({pagination.total} total posts)
+                    </div>
+                    <div className="flex gap-2">
+                        <Link
+                            href={`/admin/posts?page=${pagination.page - 1}`}
+                            className={pagination.page <= 1 ? 'pointer-events-none opacity-50' : ''}
+                        >
+                            <Button variant="outline" disabled={pagination.page <= 1}>
+                                Previous
+                            </Button>
+                        </Link>
+                        <Link
+                            href={`/admin/posts?page=${pagination.page + 1}`}
+                            className={pagination.page >= pagination.totalPages ? 'pointer-events-none opacity-50' : ''}
+                        >
+                            <Button variant="outline" disabled={pagination.page >= pagination.totalPages}>
+                                Next
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
+            )}
+        </div>
+    )
+}
