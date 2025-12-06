@@ -5,9 +5,10 @@ import { notFound } from 'next/navigation'
 export default async function EditPostPage({
     params,
 }: {
-    params: { id: string }
+    params: Promise<{ id: string }>
 }) {
-    const result = await getPostById(params.id)
+    const { id } = await params
+    const result = await getPostById(id)
 
     if (!result.success || !result.post) {
         notFound()
