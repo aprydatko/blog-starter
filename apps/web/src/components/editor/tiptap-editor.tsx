@@ -22,7 +22,7 @@ import {
     Image as ImageIcon
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface TiptapEditorProps {
     content: string
@@ -90,22 +90,101 @@ export function TiptapEditor({ content, onChange, placeholder }: TiptapEditorPro
         editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
     }, [editor])
 
-    const addImage = useCallback(() => {
+    const fileInputRef = useRef<HTMLInputElement>(null)
+    const [isUploading, setIsUploading] = useState(false)
+
+    const uploadImage = useCallback(async (file: File) => {
         if (!editor) return
 
-        const url = window.prompt('Image URL')
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file')
+            return
+        }
 
-        if (url) {
-            editor.chain().focus().setImage({ src: url }).run()
+        // Validate file size (max 5MB)
+        const maxSize = 5 * 1024 * 1024
+        if (file.size > maxSize) {
+            alert('Image size must be less than 5MB')
+            return
+        }
+
+        setIsUploading(true)
+
+        try {
+            const formData = new FormData()
+            formData.append('file', file)
+
+            const response = await fetch('/api/upload/image', {
+                method: 'POST',
+                body: formData
+            })
+
+            const data = await response.json()
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || 'Failed to upload image')
+            }
+
+            // Insert image into editor
+            editor.chain().focus().setImage({ src: data.url }).run()
+        } catch (error) {
+            console.error('Error uploading image:', error)
+            alert(error instanceof Error ? error.message : 'Failed to upload image')
+        } finally {
+            setIsUploading(false)
         }
     }, [editor])
+
+    const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0]
+        if (file) {
+            uploadImage(file)
+        }
+        // Reset input so same file can be selected again
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''
+        }
+    }, [uploadImage])
+
+    const addImage = useCallback(() => {
+        fileInputRef.current?.click()
+    }, [])
+
+    const handleDrop = useCallback((event: React.DragEvent) => {
+        event.preventDefault()
+        event.stopPropagation()
+
+        const file = event.dataTransfer.files?.[0]
+        if (file && file.type.startsWith('image/')) {
+            uploadImage(file)
+        }
+    }, [uploadImage])
+
+    const handleDragOver = useCallback((event: React.DragEvent) => {
+        event.preventDefault()
+        event.stopPropagation()
+    }, [])
 
     if (!editor) {
         return null
     }
 
     return (
-        <div className="border rounded-lg overflow-hidden">
+        <div 
+            className="border rounded-lg overflow-hidden"
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+        >
+            {/* Hidden file input */}
+            <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelect}
+                className="hidden"
+            />
+
             {/* Toolbar */}
             <div className="border-b bg-muted/50 p-2 flex flex-wrap gap-1">
                 <Button
@@ -221,6 +300,8 @@ export function TiptapEditor({ content, onChange, placeholder }: TiptapEditorPro
                     variant="ghost"
                     size="icon"
                     onClick={addImage}
+                    disabled={isUploading}
+                    title="Upload image"
                 >
                     <ImageIcon className="h-4 w-4" />
                 </Button>
