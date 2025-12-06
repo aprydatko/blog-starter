@@ -8,14 +8,18 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createPost, getCurrentUserId } from '@/lib/actions/posts'
+import { getAllCategories } from '@/lib/actions/categories'
 import { toast } from 'sonner'
 import { TiptapEditor } from '@/components/editor/tiptap-editor'
 import { useEffect } from 'react'
+import { Checkbox } from '@/components/ui/checkbox'
 
 export default function NewPostPage() {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [authorId, setAuthorId] = useState<string | null>(null)
+    const [categories, setCategories] = useState<Array<{ id: string; name: string }>>([])
+    const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([])
     const [formData, setFormData] = useState({
         title: '',
         content: '',
@@ -25,7 +29,7 @@ export default function NewPostPage() {
     })
 
     useEffect(() => {
-        async function fetchUserId() {
+        async function fetchData() {
             const userId = await getCurrentUserId()
             if (!userId) {
                 toast.error('You must be logged in to create a post')
@@ -33,8 +37,13 @@ export default function NewPostPage() {
                 return
             }
             setAuthorId(userId)
+
+            const categoriesResult = await getAllCategories()
+            if (categoriesResult.success && categoriesResult.categories) {
+                setCategories(categoriesResult.categories)
+            }
         }
-        fetchUserId()
+        fetchData()
     }, [router])
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -72,7 +81,8 @@ export default function NewPostPage() {
                 excerpt: formData.excerpt.trim() || undefined,
                 published: formData.published,
                 authorId,
-                tags: tags.length > 0 ? tags : undefined
+                tags: tags.length > 0 ? tags : undefined,
+                categoryIds: selectedCategoryIds.length > 0 ? selectedCategoryIds : undefined
             })
 
             if (result.success) {
@@ -151,6 +161,39 @@ export default function NewPostPage() {
                                 <p className="text-sm text-muted-foreground">
                                     Separate tags with commas
                                 </p>
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label>Categories</Label>
+                                <div className="space-y-2 border rounded-md p-4">
+                                    {categories.length === 0 ? (
+                                        <p className="text-sm text-muted-foreground">
+                                            No categories available. Create categories first.
+                                        </p>
+                                    ) : (
+                                        categories.map((category) => (
+                                            <div key={category.id} className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id={`category-${category.id}`}
+                                                    checked={selectedCategoryIds.includes(category.id)}
+                                                    onCheckedChange={(checked) => {
+                                                        if (checked) {
+                                                            setSelectedCategoryIds([...selectedCategoryIds, category.id])
+                                                        } else {
+                                                            setSelectedCategoryIds(selectedCategoryIds.filter(id => id !== category.id))
+                                                        }
+                                                    }}
+                                                />
+                                                <label
+                                                    htmlFor={`category-${category.id}`}
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                                                >
+                                                    {category.name}
+                                                </label>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
                             </div>
 
                             <div className="flex items-center space-x-2">

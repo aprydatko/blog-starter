@@ -22,6 +22,7 @@ interface Post {
         email: string | null
     }
     tags: Array<{ id: string; name: string }>
+    categories: Array<{ id: string; name: string }>
     _count: {
         comments: number
     }
@@ -112,6 +113,15 @@ export function PostsTable({ posts, pagination }: PostsTableProps) {
                                             <div className="text-sm text-muted-foreground">
                                                 /{post.slug}
                                             </div>
+                                            {post.categories.length > 0 && (
+                                                <div className="flex flex-wrap gap-1 mt-1">
+                                                    {post.categories.map((category) => (
+                                                        <Badge key={category.id} variant="outline" className="text-xs">
+                                                            {category.name}
+                                                        </Badge>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
                                     </td>
                                     <td className="p-4">

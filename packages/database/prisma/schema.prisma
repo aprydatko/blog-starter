@@ -77,18 +77,19 @@ enum UserRole {
 }
 
 model Post {
-  id        String    @id @default(cuid())
-  title     String
-  slug      String    @unique
-  content   String    @db.Text
-  excerpt   String?   @db.Text
-  published Boolean   @default(false)
-  authorId  String    @map("author_id")
-  author    User      @relation(fields: [authorId], references: [id])
-  comments  Comment[]
-  tags      Tag[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id         String     @id @default(cuid())
+  title      String
+  slug       String     @unique
+  content    String     @db.Text
+  excerpt    String?    @db.Text
+  published  Boolean    @default(false)
+  authorId   String     @map("author_id")
+  author     User       @relation(fields: [authorId], references: [id])
+  comments   Comment[]
+  tags       Tag[]
+  categories Category[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 
   @@map("posts")
 }
@@ -135,4 +136,16 @@ model Media {
   createdAt DateTime @default(now())
 
   @@map("media")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  description String? @db.Text
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
 }

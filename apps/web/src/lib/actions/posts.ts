@@ -12,6 +12,7 @@ export interface CreatePostInput {
     published?: boolean
     authorId: string
     tags?: string[]
+    categoryIds?: string[]
 }
 
 export interface UpdatePostInput {
@@ -20,6 +21,7 @@ export interface UpdatePostInput {
     excerpt?: string
     published?: boolean
     tags?: string[]
+    categoryIds?: string[]
 }
 
 export async function getCurrentUserId() {
@@ -65,6 +67,9 @@ export async function createPost(data: CreatePostInput) {
                         where: { name: tag },
                         create: { name: tag }
                     }))
+                } : undefined,
+                categories: data.categoryIds && data.categoryIds.length > 0 ? {
+                    connect: data.categoryIds.map(id => ({ id }))
                 } : undefined
             },
             include: {
@@ -75,7 +80,8 @@ export async function createPost(data: CreatePostInput) {
                         email: true
                     }
                 },
-                tags: true
+                tags: true,
+                categories: true
             }
         })
 
@@ -127,6 +133,11 @@ export async function updatePost(id: string, data: UpdatePostInput) {
                             create: { name: tag }
                         }))
                     }
+                }),
+                ...(data.categoryIds !== undefined && {
+                    categories: {
+                        set: data.categoryIds.length > 0 ? data.categoryIds.map(id => ({ id })) : []
+                    }
                 })
             },
             include: {
@@ -137,7 +148,8 @@ export async function updatePost(id: string, data: UpdatePostInput) {
                         email: true
                     }
                 },
-                tags: true
+                tags: true,
+                categories: true
             }
         })
 
@@ -230,6 +242,7 @@ export async function getPosts(options?: {
                         }
                     },
                     tags: true,
+                    categories: true,
                     _count: {
                         select: {
                             comments: true
@@ -270,6 +283,7 @@ export async function getPostById(id: string) {
                     }
                 },
                 tags: true,
+                categories: true,
                 comments: {
                     include: {
                         author: {
@@ -310,6 +324,7 @@ export async function getPostBySlug(slug: string) {
                     }
                 },
                 tags: true,
+                categories: true,
                 comments: {
                     include: {
                         author: {

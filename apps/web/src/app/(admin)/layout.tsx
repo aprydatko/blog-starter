@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, FileText, File, Users, MessageSquare, Image } from 'lucide-react'
+import { LayoutDashboard, FileText, File, Users, MessageSquare, Image, ChartBarStacked } from 'lucide-react'
 
 export default function AdminLayout({
     children,
@@ -13,6 +13,7 @@ export default function AdminLayout({
 
     const navigation = [
         { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+        { name: 'Categories', href: '/admin/categories', icon: ChartBarStacked },
         { name: 'Posts', href: '/admin/posts', icon: FileText },
         { name: 'Pages', href: '/admin/pages', icon: File },
         { name: 'Users', href: '/admin/users', icon: Users },
