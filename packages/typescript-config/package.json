@@ -1,12 +1,9 @@
 {
   "name": "@blog-starter/typescript-config",
   "version": "1.0.0",
-  "description": "Shared TypeScript configuration for the blog-starter project",
-  "main": "index.js",
   "type": "module",
   "private": true,
-  "author": "Arthur Prydatko",
-  "license": "ISC",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

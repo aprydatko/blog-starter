@@ -8,6 +8,7 @@
     "./library": "./library.js",
     "./base": "./base.js",
     "./next-js": "./next.js",
+    "./storybook": "./storybook.js",
     "./react-internal": "./react-internal.js"
   },
   "devDependencies": {

@@ -9,7 +9,12 @@
   ],
   "exports": {
     "./styles.css": "./dist/index.css",
-    "./*": "./dist/*.js"
+    "./*": "./dist/*.js",
+    "./button": {
+      "types": "./src/button.tsx",
+      "import": "./dist/button.js",
+      "require": "./dist/button.js"
+    }
   },
   "license": "MIT",
   "scripts": {

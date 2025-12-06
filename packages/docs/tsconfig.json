@@ -1,0 +1,11 @@
+{
+    "extends": "@blog-starter/typescript-config/react-library.json",
+    "include": [
+        "."
+    ],
+    "exclude": [
+        "dist",
+        "build",
+        "node_modules"
+    ]
+}

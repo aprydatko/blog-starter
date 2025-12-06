@@ -1,0 +1,35 @@
+{
+    "name": "@blog-starter/docs",
+    "version": "0.0.0",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "dev": "storybook dev -p 6006",
+        "build": "storybook build --docs",
+        "preview-storybook": "serve storybook-static",
+        "clean": "rm -rf .turbo node_modules",
+        "lint": "eslint ./stories/*.stories.tsx --max-warnings 0"
+    },
+    "dependencies": {
+        "@blog-starter/ui": "workspace:*",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0"
+    },
+    "devDependencies": {
+        "@blog-starter/eslint-config": "workspace:*",
+        "@types/react": "^19.0.0",
+        "@types/react-dom": "^19.0.0",
+        "@storybook/addon-actions": "^8.4.7",
+        "@storybook/addon-essentials": "^8.4.7",
+        "@storybook/addon-links": "^8.4.7",
+        "@storybook/react": "^8.4.7",
+        "@storybook/react-vite": "^8.4.7",
+        "@vitejs/plugin-react": "^4.2.1",
+        "eslint": "^9.39.1",
+        "serve": "^14.2.1",
+        "storybook": "^8.4.7",
+        "@blog-starter/typescript-config": "workspace:*",
+        "typescript": "5.5.4",
+        "vite": "^5.1.4"
+    }
+}
