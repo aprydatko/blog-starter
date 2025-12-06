@@ -1,6 +1,6 @@
 // src/your-post-validator.ts
 
-import { validateSlug } from '@/lib/utils' // Reusing the validateSlug function
+import { validateSlug } from '@/lib/utils/index' // Reusing the validateSlug function
 
 /**
  * Validates the post data, ensuring that title, content, and slug are valid.

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from '@jest/globals'
-import { validateEmail, validateSlug, validatePostData } from '@/lib/utils'
+import { validateEmail, validateSlug, validatePostData } from '@/lib/utils/index'
 import { logger } from '@blog-starter/logger'
 
 // Example validation utilities - adjust based on your actual utils

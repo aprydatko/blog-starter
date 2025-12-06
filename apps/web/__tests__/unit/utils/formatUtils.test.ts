@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from '@jest/globals'
-import { formatDate, formatSlug, truncateText } from '@/lib/utils'
+import { formatDate, formatSlug, truncateText } from '@/lib/utils/index'
 import { logger } from '@blog-starter/logger'
 
 // Example utility functions - adjust based on your actual utils
