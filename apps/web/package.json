@@ -25,6 +25,8 @@
     "@blog-starter/ui": "workspace:*",
     "@next/env": "^16.0.6",
     "@prisma/client": "^7.1.0",
+    "@radix-ui/react-avatar": "^1.1.11",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-slot": "^1.2.4",
     "@tiptap/extension-image": "^3.13.0",
     "@tiptap/extension-link": "^3.13.0",

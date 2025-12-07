@@ -17,33 +17,26 @@ export default async function SitePage({ searchParams }: PageProps) {
     })
 
     return (
-        <div className="min-h-screen">
-            <header className="border-b">
-                <div className="container mx-auto px-4 py-4">
-                    <h1 className="text-2xl font-bold">Web Blogger</h1>
-                </div>
-            </header>
-            <main className="container mx-auto px-4 py-8">
-                <div className="max-w-4xl mx-auto space-y-8">
-                    <section className="space-y-4">
-                        <h2 className="text-3xl font-bold">Latest Posts</h2>
-                        <p className="text-muted-foreground">
-                            Welcome to our blog. Here you can find the latest updates and articles.
-                        </p>
-                    </section>
+        <div className="container mx-auto px-4 py-8">
+            <div className="max-w-4xl mx-auto space-y-8">
+                <section className="space-y-4">
+                    <h2 className="text-3xl font-bold">Latest Posts</h2>
+                    <p className="text-muted-foreground">
+                        Welcome to our blog. Here you can find the latest updates and articles.
+                    </p>
+                </section>
 
-                    <div className="grid gap-6">
-                        {posts?.map(post => (
-                            <PostCard key={post.id} post={post} />
-                        ))}
-                        {posts?.length === 0 && (
-                            <p className="text-center text-muted-foreground py-12">
-                                No posts found. Check back later!
-                            </p>
-                        )}
-                    </div>
+                <div className="grid gap-6">
+                    {posts?.map(post => (
+                        <PostCard key={post.id} post={post} />
+                    ))}
+                    {posts?.length === 0 && (
+                        <p className="text-center text-muted-foreground py-12">
+                            No posts found. Check back later!
+                        </p>
+                    )}
                 </div>
-            </main>
+            </div>
         </div>
     )
 }

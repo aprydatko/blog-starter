@@ -1,5 +1,6 @@
 'use server'
 
+import { startOfMonth, endOfMonth } from 'date-fns' 
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@blog-starter/db'
 import { generateSlug, ensureUniqueSlug } from '@/lib/utils/slug'
@@ -12,6 +13,13 @@ export interface CreateCategoryInput {
 export interface UpdateCategoryInput {
   name?: string
   description?: string
+}
+
+export interface GetCategoriesOptions {
+  page?: number
+  limit?: number
+  search?: string
+  month?: string   // “1”‑“12”, or undefined
 }
 
 export async function createCategory(data: CreateCategoryInput) {
@@ -103,23 +111,29 @@ export async function deleteCategory(id: string) {
   }
 }
 
-export async function getCategories(options?: {
-  page?: number
-  limit?: number
-  search?: string
-}) {
+export async function getCategories(options?: GetCategoriesOptions) {
   try {
     const page = options?.page ?? 1
     const limit = options?.limit ?? 10
     const skip = (page - 1) * limit
 
-    const where = {
+    const where: any = {
       ...(options?.search && {
         OR: [
           { name: { contains: options.search, mode: 'insensitive' as const } },
           { description: { contains: options.search, mode: 'insensitive' as const } }
         ]
       })
+    }
+
+    // --- Month filter ------------------------------------------
+    if (options?.month) {
+      const monthNum = parseInt(options.month, 10)
+      if (monthNum >= 1 && monthNum <= 12) {
+        const start = startOfMonth(new Date(new Date().getFullYear(), monthNum - 1))
+        const end   = endOfMonth(start)
+        where.createdAt = { gte: start, lte: end }
+      }
     }
 
     const [categories, total] = await Promise.all([
