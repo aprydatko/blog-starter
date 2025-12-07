@@ -1,22 +1,27 @@
 import { getPosts, deletePost, togglePublishPost } from '@/lib/actions/posts'
 import { PostsTable } from './posts-table'
+import { PostsSearch } from '@/components/posts-search'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
 
 interface PageProps {
-    searchParams: Promise<{ page?: string; search?: string }>
+    searchParams: Promise<{ page?: string; search?: string; titleSearch?: string; monthDate?: string }>
 }
 
 export default async function PostsPage({ searchParams }: PageProps) {
     const resolvedSearchParams = await searchParams
     const page = Number(resolvedSearchParams.page) || 1
     const search = resolvedSearchParams.search || ''
+    const titleSearch = resolvedSearchParams.titleSearch || ''
+    const monthDate = resolvedSearchParams.monthDate || ''
 
     const result = await getPosts({
         page,
         limit: 10,
-        search: search || undefined
+        search: search || undefined,
+        titleSearch: titleSearch || undefined,
+        monthDate: monthDate || undefined
     })
 
     if (!result.success) {
@@ -46,6 +51,8 @@ export default async function PostsPage({ searchParams }: PageProps) {
                     </Button>
                 </Link>
             </div>
+
+            <PostsSearch />
 
             <PostsTable
                 posts={result.posts || []}

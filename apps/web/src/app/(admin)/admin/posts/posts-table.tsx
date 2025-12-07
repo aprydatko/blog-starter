@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { format } from 'date-fns'
 import { MoreHorizontal, Pencil, Trash2, Eye, EyeOff } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
@@ -40,8 +40,27 @@ interface PostsTableProps {
 
 export function PostsTable({ posts, pagination }: PostsTableProps) {
     const router = useRouter()
+    const searchParams = useSearchParams()
     const [deletingId, setDeletingId] = useState<string | null>(null)
     const [togglingId, setTogglingId] = useState<string | null>(null)
+
+    // Get current search parameters
+    const currentSearch = searchParams.get('search') || ''
+    const titleSearch = searchParams.get('titleSearch') || ''
+    const monthDate = searchParams.get('monthDate') || ''
+
+    // Build URL with search parameters
+    const buildPageUrl = (page: number) => {
+        const params = new URLSearchParams()
+        params.set('page', page.toString())
+        
+        if (titleSearch) params.set('titleSearch', titleSearch)
+        if (monthDate) params.set('monthDate', monthDate)
+        if (currentSearch && !titleSearch) params.set('search', currentSearch)
+        
+        const paramsString = params.toString()
+        return paramsString ? `/admin/posts?${paramsString}` : `/admin/posts?page=${page}`
+    }
 
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this post?')) return
@@ -184,8 +203,17 @@ export function PostsTable({ posts, pagination }: PostsTableProps) {
                         Page {pagination.page} of {pagination.totalPages} ({pagination.total} total posts)
                     </div>
                     <div className="flex gap-2">
+                        {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                            <Link key={pageNumber} href={buildPageUrl(pageNumber)}>
+                                <Button variant="outline" disabled={pagination.page === pageNumber}>
+                                    {pageNumber}
+                                </Button>
+                            </Link>
+                        ))}
+                    </div>
+                    <div className="flex gap-2">
                         <Link
-                            href={`/admin/posts?page=${pagination.page - 1}`}
+                            href={buildPageUrl(pagination.page - 1)}
                             className={pagination.page <= 1 ? 'pointer-events-none opacity-50' : ''}
                         >
                             <Button variant="outline" disabled={pagination.page <= 1}>
@@ -193,7 +221,7 @@ export function PostsTable({ posts, pagination }: PostsTableProps) {
                             </Button>
                         </Link>
                         <Link
-                            href={`/admin/posts?page=${pagination.page + 1}`}
+                            href={buildPageUrl(pagination.page + 1)}
                             className={pagination.page >= pagination.totalPages ? 'pointer-events-none opacity-50' : ''}
                         >
                             <Button variant="outline" disabled={pagination.page >= pagination.totalPages}>

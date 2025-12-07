@@ -211,20 +211,46 @@ export async function getPosts(options?: {
     page?: number
     limit?: number
     search?: string
+    titleSearch?: string
+    monthDate?: string // Format: YYYY-MM for month filtering
 }) {
     try {
         const page = options?.page ?? 1
         const limit = options?.limit ?? 10
         const skip = (page - 1) * limit
 
-        const where = {
-            ...(options?.published !== undefined && { published: options.published }),
-            ...(options?.search && {
-                OR: [
-                    { title: { contains: options.search, mode: 'insensitive' as const } },
-                    { content: { contains: options.search, mode: 'insensitive' as const } }
-                ]
-            })
+        const where: any = {
+            ...(options?.published !== undefined && { published: options.published })
+        }
+
+        // Handle title search
+        if (options?.titleSearch) {
+            where.title = {
+                contains: options.titleSearch,
+                mode: 'insensitive' as const
+            }
+        }
+
+        // Handle general text search (title and content)
+        if (options?.search && !options?.titleSearch) {
+            where.OR = [
+                { title: { contains: options.search, mode: 'insensitive' as const } },
+                { content: { contains: options.search, mode: 'insensitive' as const } }
+            ]
+        }
+
+        // Handle month/date filtering
+        if (options?.monthDate) {
+            const [year, month] = options.monthDate.split('-').map(Number)
+            if (year && month) {
+                const startDate = new Date(year, month - 1, 1) // First day of month
+                const endDate = new Date(year, month, 0) // Last day of month (0 gets last day of previous month)
+                
+                where.createdAt = {
+                    gte: startDate,
+                    lte: endDate
+                }
+            }
         }
 
         const [posts, total] = await Promise.all([
