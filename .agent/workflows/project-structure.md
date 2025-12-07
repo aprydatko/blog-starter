@@ -30,7 +30,6 @@ The main Next.js application using the App Router.
     - `middleware.ts`: Middleware configuration.
 - **`public/`**: Static assets served by Next.js.
 - **`next.config.ts`**: Next.js configuration.
-- **`envConfig.ts`**: Environment variable configuration.
 
 ## Packages (`packages/`)
 

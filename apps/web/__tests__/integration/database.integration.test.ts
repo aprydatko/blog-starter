@@ -1,5 +1,3 @@
-import "../../envConfig"
-
 import { describe, it, expect, beforeAll, afterAll } from '@jest/globals'
 import { logger } from '@blog-starter/logger'
 import { prisma } from '@blog-starter/db'

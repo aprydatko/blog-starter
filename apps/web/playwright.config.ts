@@ -1,5 +1,4 @@
 import { defineConfig, devices } from '@playwright/test'
-import './envConfig.ts'
 
 /**
  * See https://playwright.dev/docs/test-configuration.

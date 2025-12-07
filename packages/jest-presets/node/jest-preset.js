@@ -13,7 +13,7 @@ module.exports = {
         '<rootDir>/.next'
     ],
     moduleNameMapper: {
-        '^@/(.*)$': '<rootDir>/src/$1'
+        '^@/(.*)$': '<rootDir>/src/$1',
     },
     setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
     testTimeout: 30000,
@@ -22,6 +22,9 @@ module.exports = {
         'src/**/*.{js,jsx,ts,tsx}',
         '!src/**/*.d.ts',
         '!src/**/__tests__/**'
+    ],
+    transformIgnorePatterns: [
+        'node_modules/(?!(@auth|@prisma|@blog-starter)/)',
     ],
     preset: 'ts-jest'
 };
