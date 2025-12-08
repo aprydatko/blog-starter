@@ -2,16 +2,16 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@blog-starter/ui/button'
+import { Input } from '@blog-starter/ui/input'
+import { Textarea } from '@blog-starter/ui/textarea'
+import { Label } from '@blog-starter/ui/label'
+import { Card, CardContent, CardHeader, CardTitle } from '@blog-starter/ui/card'
 import { updatePost } from '@/lib/actions/posts'
 import { getAllCategories } from '@/lib/actions/categories'
 import { toast } from 'sonner'
 import { TiptapEditor } from '@/components/editor/tiptap-editor'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Checkbox } from '@blog-starter/ui/checkbox'
 import { useEffect } from 'react'
 
 interface Post {

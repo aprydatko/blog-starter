@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from './ui/button'
-import { Textarea } from './ui/textarea'
+import { Button } from '@blog-starter/ui/button'
+import { Textarea } from '@blog-starter/ui/textarea'
 import { createComment } from '@/lib/actions/comments'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'

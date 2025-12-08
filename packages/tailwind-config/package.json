@@ -7,9 +7,11 @@
   "author": "Arthur Prydatko",
   "exports": {
     ".": "./shared-styles.css",
+    "./web": "./web/shared-styles.css",
     "./postcss": "./postcss.config.js"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.17"
   }

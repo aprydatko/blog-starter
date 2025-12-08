@@ -8,17 +8,12 @@
     "dist"
   ],
   "exports": {
-    "./styles.css": "./dist/index.css",
-    "./*": "./dist/*.js",
-    "./button": {
-      "types": "./src/button.tsx",
-      "import": "./dist/button.js",
-      "require": "./dist/button.js"
-    }
+    "./styles.css": "./dist/src/index.css",
+    "./*": "./dist/src/*.js"
   },
   "license": "MIT",
   "scripts": {
-    "build:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
+    "build:styles": "tailwindcss -i ./src/styles.css -o ./dist/src/index.css",
     "build:components": "tsc",
     "check-types": "tsc --noEmit",
     "dev:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
@@ -37,5 +32,14 @@
     "eslint": "^9.39.1",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.11",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-slot": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.556.0",
+    "tailwind-merge": "^3.4.0"
   }
 }

@@ -46,7 +46,7 @@ import {
     Type,
     ChevronRight,
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@blog-starter/ui/button'
 import { useCallback, useEffect } from 'react'
 import {
     DropdownMenu,
@@ -54,7 +54,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
     DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu'
+} from '@blog-starter/ui/dropdown-menu'
 
 // Create lowlight instance
 const lowlight = createLowlight(common)

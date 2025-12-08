@@ -1,6 +1,6 @@
 import { getCategories } from '@/lib/actions/categories'
 import { CategoriesTable } from './categories-table'
-import { Button } from '@/components/ui/button'
+import { Button } from '@blog-starter/ui/button'
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
 import { months } from '@/lib/constants'

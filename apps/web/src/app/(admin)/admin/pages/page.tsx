@@ -1,6 +1,6 @@
 import { getPages, deletePage, togglePublishPage } from '@/lib/actions/pages'
 import { PagesTable } from './pages-table'
-import { Button } from '@/components/ui/button'
+import { Button } from '@blog-starter/ui/button'
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
 

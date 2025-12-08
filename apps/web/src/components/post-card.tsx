@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Badge } from './ui/badge'
+import { Badge } from '@blog-starter/ui/badge'
 import { formatDate } from '@/lib/utils/date'
 
 interface PostCardProps {

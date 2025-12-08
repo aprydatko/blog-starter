@@ -1,7 +1,7 @@
 import { getPosts, deletePost, togglePublishPost } from '@/lib/actions/posts'
 import { PostsTable } from './posts-table'
 import { PostsSearch } from '@/components/posts-search'
-import { Button } from '@/components/ui/button'
+import { Button } from '@blog-starter/ui/button'
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
 

@@ -4,8 +4,8 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+} from "@blog-starter/ui/avatar"
+import { Button } from "@blog-starter/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -14,7 +14,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@blog-starter/ui/dropdown-menu"
 import { User } from "next-auth"
 import Link from "next/link"
 import { logout } from "@/lib/actions/auth"

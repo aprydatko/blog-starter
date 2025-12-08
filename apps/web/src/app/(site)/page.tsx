@@ -2,6 +2,8 @@ import { getPosts } from '@/lib/actions/posts'
 import { PostCard } from '@/components/post-card'
 import { Pagination } from '@/components/pagination'
 
+import { Button } from '@blog-starter/ui/button'
+
 export const dynamic = 'force-dynamic'
 
 interface PageProps {
@@ -25,6 +27,7 @@ export default async function SitePage({ searchParams }: PageProps) {
                     <p className="text-muted-foreground">
                         Welcome to our blog. Here you can find the latest updates and articles.
                     </p>
+                    <Button>Hello world!</Button>
                 </section>
 
                 <div className="grid gap-6">

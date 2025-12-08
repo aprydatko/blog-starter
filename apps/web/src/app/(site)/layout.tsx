@@ -1,8 +1,9 @@
 import { auth } from "@/lib/auth"
 import { UserNav } from "@/components/user-nav"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { Button } from "@blog-starter/ui/button"
 import { prisma } from "@blog-starter/db"
+import ThemeToggler from "@/components/theme-toggler"
 
 export default async function SiteLayout({
     children,
@@ -34,6 +35,7 @@ export default async function SiteLayout({
                                 </Button>
                             </div>
                         )}
+                        <ThemeToggler />
                     </div>
                 </div>
             </header>

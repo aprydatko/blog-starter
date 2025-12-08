@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
+import { Input } from '@blog-starter/ui/input'
+import { Button } from '@blog-starter/ui/button'
+import { Label } from '@blog-starter/ui/label'
 import { Search, X } from 'lucide-react'
 import { format, subMonths, startOfMonth } from 'date-fns'
 

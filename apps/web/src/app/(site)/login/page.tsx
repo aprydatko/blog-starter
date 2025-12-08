@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Button } from '@blog-starter/ui/button'
+import { Input } from '@blog-starter/ui/input'
+import { Label } from '@blog-starter/ui/label'
 import { toast } from 'sonner'
 import Link from 'next/link'
 
