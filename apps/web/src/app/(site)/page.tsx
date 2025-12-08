@@ -1,5 +1,6 @@
 import { getPosts } from '@/lib/actions/posts'
 import { PostCard } from '@/components/post-card'
+import { Pagination } from '@/components/pagination'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,7 +11,7 @@ interface PageProps {
 export default async function SitePage({ searchParams }: PageProps) {
     const resolvedSearchParams = await searchParams
     const page = Number(resolvedSearchParams.page) || 1
-    const { posts } = await getPosts({
+    const { posts, pagination } = await getPosts({
         published: true,
         page,
         limit: 10
@@ -36,6 +37,13 @@ export default async function SitePage({ searchParams }: PageProps) {
                         </p>
                     )}
                 </div>
+
+                {pagination && (
+                    <Pagination
+                        currentPage={pagination.page}
+                        totalPages={pagination.totalPages}
+                    />
+                )}
             </div>
         </div>
     )

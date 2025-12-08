@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
-import { Trash2, Search, ArrowUpDown, ArrowUp, ArrowDown, ExternalLink, RefreshCw } from 'lucide-react'
+import { Trash2, Search, ArrowUpDown, ArrowUp, ArrowDown, ExternalLink, RefreshCw, Copy, Plus, Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { deleteMedia, syncMediaFromFilesystem } from '@/lib/actions/media'
@@ -44,6 +44,51 @@ export function MediaTable({
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState(currentSearch)
   const [isSyncing, setIsSyncing] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleCopyLink = (url: string) => {
+    const fullUrl = window.location.origin + url
+    navigator.clipboard.writeText(fullUrl)
+    toast.success('Link copied to clipboard')
+  }
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setIsUploading(true)
+    const formData = new FormData()
+    formData.append('file', file)
+
+    try {
+      const response = await fetch('/api/upload/image', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const result = await response.json()
+
+      if (response.ok && result.success) {
+        toast.success(`File "${result.filename}" uploaded successfully`)
+        router.refresh()
+      } else {
+        throw new Error(result.message || 'Upload failed')
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to upload file')
+    } finally {
+      setIsUploading(false)
+      // Reset input so same file can be selected again if needed
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+    }
+  }
 
   const handleDelete = async (id: string, filename: string) => {
     if (!confirm(`Are you sure you want to delete "${filename}"?`)) return
@@ -123,6 +168,20 @@ export function MediaTable({
           </div>
           <Button type="submit">Search</Button>
         </form>
+        <input
+          type="file"
+          ref={fileInputRef}
+          className="hidden"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+        <Button
+          onClick={handleUploadClick}
+          disabled={isUploading}
+        >
+          <Plus className="mr-2 h-4 w-4" />
+          {isUploading ? 'Uploading...' : 'Add Media'}
+        </Button>
         <Button
           onClick={handleSync}
           disabled={isSyncing}
@@ -228,11 +287,21 @@ export function MediaTable({
                   <td className="p-4">
                     <div className="flex items-center justify-end gap-2">
                       {item.mimeType.startsWith('image/') && (
-                        <Link href={item.url} target="_blank" rel="noopener noreferrer">
-                          <Button variant="ghost" size="icon" title="View image">
-                            <ExternalLink className="h-4 w-4" />
+                        <>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleCopyLink(item.url)}
+                            title="Copy link"
+                          >
+                            <Copy className="h-4 w-4" />
                           </Button>
-                        </Link>
+                          <Link href={item.url} target="_blank" rel="noopener noreferrer">
+                            <Button variant="ghost" size="icon" title="View image">
+                              <ExternalLink className="h-4 w-4" />
+                            </Button>
+                          </Link>
+                        </>
                       )}
                       <Button
                         variant="ghost"
