@@ -1,6 +1,6 @@
 'use client'
 
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, EditorContext } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
@@ -20,7 +20,10 @@ import TaskItem from '@tiptap/extension-task-item'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Mention from '@tiptap/extension-mention'
 import { common, createLowlight } from 'lowlight'
-import { Node, mergeAttributes } from '@tiptap/core'
+import { Node, Mark, mergeAttributes } from '@tiptap/core'
+import { UiState } from './extensions/ui-state-extension'
+import { NodeBackground } from './extensions/node-background-extension'
+import { DragContextMenu } from './drag-context-menu'
 
 import {
     Bold,
@@ -45,6 +48,7 @@ import {
     Highlighter,
     Type,
     ChevronRight,
+    Youtube,
 } from 'lucide-react'
 import { Button } from '@blog-starter/ui/button'
 import { useCallback, useEffect } from 'react'
@@ -58,6 +62,149 @@ import {
 
 // Create lowlight instance
 const lowlight = createLowlight(common)
+
+// Custom FontSize Extension
+const FontSize = Mark.create({
+    name: 'fontSize',
+    addGlobalAttributes() {
+        return [
+            {
+                types: ['textStyle'],
+                attributes: {
+                    fontSize: {
+                        default: null,
+                        parseHTML: element => {
+                            const fontSize = element.style.fontSize
+                            if (!fontSize) return null
+                            return fontSize.replace('px', '')
+                        },
+                        renderHTML: attributes => {
+                            if (!attributes.fontSize) {
+                                return {}
+                            }
+                            return {
+                                style: `font-size: ${attributes.fontSize}px`,
+                            }
+                        },
+                    },
+                },
+            },
+        ]
+    },
+    addCommands() {
+        return {
+            setFontSize: (fontSize: string) => ({ chain }) => {
+                return chain()
+                    .setMark('textStyle', { fontSize })
+                    .run()
+            },
+            unsetFontSize: () => ({ chain }) => {
+                return chain()
+                    .setMark('textStyle', { fontSize: null })
+                    .removeEmptyTextStyle()
+                    .run()
+            },
+        }
+    },
+})
+
+// Custom YouTube Node
+const YoutubeNode = Node.create({
+    name: 'youtube',
+    group: 'block',
+    atom: true,
+    addAttributes() {
+        return {
+            src: {
+                default: null,
+            },
+            width: {
+                default: 640,
+            },
+            height: {
+                default: 360,
+            },
+        }
+    },
+    parseHTML() {
+        return [
+            {
+                tag: 'div[data-youtube-video]',
+                getAttrs: (node) => {
+                    if (typeof node === 'string') return false
+                    const div = node as HTMLElement
+                    const iframe = div.querySelector('iframe')
+                    return {
+                        src: iframe?.getAttribute('src') || '',
+                        width: iframe?.getAttribute('width') || 640,
+                        height: iframe?.getAttribute('height') || 360,
+                    }
+                },
+            },
+        ]
+    },
+    renderHTML({ HTMLAttributes }) {
+        const videoId = this.extractVideoId(HTMLAttributes.src)
+        if (!videoId) {
+            return ['div', { 'data-youtube-video': true }, ['p', 'Invalid YouTube URL']]
+        }
+        const embedUrl = `https://www.youtube.com/embed/${videoId}`
+        return [
+            'div',
+            { 'data-youtube-video': true, class: 'youtube-embed-wrapper my-4' },
+            [
+                'iframe',
+                {
+                    src: embedUrl,
+                    width: HTMLAttributes.width,
+                    height: HTMLAttributes.height,
+                    frameborder: '0',
+                    allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+                    allowfullscreen: 'true',
+                    class: 'w-full rounded-lg',
+                },
+            ],
+        ]
+    },
+    addCommands() {
+        return {
+            setYoutubeVideo: (options: { src: string; width?: number; height?: number }) => ({ commands }) => {
+                return commands.insertContent({
+                    type: this.name,
+                    attrs: options,
+                })
+            },
+        }
+    },
+    addPasteRules() {
+        return [
+            {
+                find: /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/g,
+                handler: ({ state, range, match }) => {
+                    const videoId = match[1]
+                    const { tr } = state
+                    const start = range.from
+                    const end = range.to
+                    tr.replaceWith(
+                        start,
+                        end,
+                        this.type.create({
+                            src: `https://www.youtube.com/watch?v=${videoId}`,
+                            width: 640,
+                            height: 360,
+                        })
+                    )
+                },
+            },
+        ]
+    },
+    extractVideoId(url: string): string | null {
+        if (!url) return null
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
+        const match = url.match(regExp)
+        return match && match[2].length === 11 ? match[2] : null
+    },
+})
 
 // Custom Details Node
 const Details = Node.create({
@@ -163,6 +310,39 @@ const MenuBar = ({ editor }: { editor: any }) => {
         editor.chain().focus().insertContent('<details><summary>Summary</summary><p>Content</p></details>').run()
     }, [editor])
 
+    const insertYoutube = useCallback(() => {
+        const url = window.prompt('Enter YouTube URL')
+        if (url) {
+            editor.chain().focus().setYoutubeVideo({ src: url }).run()
+        }
+    }, [editor])
+
+    const fontSizes = [
+        { label: '8px', value: '8' },
+        { label: '10px', value: '10' },
+        { label: '12px', value: '12' },
+        { label: '14px', value: '14' },
+        { label: '16px', value: '16' },
+        { label: '18px', value: '18' },
+        { label: '20px', value: '20' },
+        { label: '24px', value: '24' },
+        { label: '32px', value: '32' },
+        { label: '48px', value: '48' },
+    ]
+
+    const fontFamilies = [
+        { label: 'Default', value: '' },
+        { label: 'Arial', value: 'Arial, sans-serif' },
+        { label: 'Times New Roman', value: '"Times New Roman", serif' },
+        { label: 'Courier New', value: '"Courier New", monospace' },
+        { label: 'Georgia', value: 'Georgia, serif' },
+        { label: 'Verdana', value: 'Verdana, sans-serif' },
+        { label: 'Roboto', value: '"Roboto", sans-serif' },
+    ]
+
+    const currentFontSize = editor.getAttributes('textStyle').fontSize || '16'
+    const currentFontFamily = editor.getAttributes('fontFamily') || ''
+
 
     return (
         <div className="border-b bg-background p-2 flex flex-wrap gap-1 sticky top-0 z-10 items-center">
@@ -175,29 +355,56 @@ const MenuBar = ({ editor }: { editor: any }) => {
                         <span className="sr-only">Typography</span>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>
-                        <Heading1 className="h-4 w-4 mr-2" /> Heading 1
+                <DropdownMenuContent className="min-w-[12rem]">
+                    <DropdownMenuItem 
+                        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                        className="gap-2 px-3 py-2"
+                    >
+                        <Heading1 className="h-4 w-4" /> 
+                        <span>Heading 1</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
-                        <Heading2 className="h-4 w-4 mr-2" /> Heading 2
+                    <DropdownMenuItem 
+                        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                        className="gap-2 px-3 py-2"
+                    >
+                        <Heading2 className="h-4 w-4" /> 
+                        <span>Heading 2</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>
-                        <Heading3 className="h-4 w-4 mr-2" /> Heading 3
+                    <DropdownMenuItem 
+                        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+                        className="gap-2 px-3 py-2"
+                    >
+                        <Heading3 className="h-4 w-4" /> 
+                        <span>Heading 3</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => editor.chain().focus().setParagraph().run()}>
-                        Paragraph
+                    <DropdownMenuItem 
+                        onClick={() => editor.chain().focus().setParagraph().run()}
+                        className="gap-2 px-3 py-2"
+                    >
+                        <span>Paragraph</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => editor.chain().focus().toggleBlockquote().run()}>
-                        <Quote className="h-4 w-4 mr-2" /> Blockquote
+                    <DropdownMenuItem 
+                        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                        className="gap-2 px-3 py-2"
+                    >
+                        <Quote className="h-4 w-4" /> 
+                        <span>Blockquote</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
-                        <Code className="h-4 w-4 mr-2" /> Code Block
+                    <DropdownMenuItem 
+                        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+                        className="gap-2 px-3 py-2"
+                    >
+                        <Code className="h-4 w-4" /> 
+                        <span>Code Block</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={insertDetails}>
-                        <ChevronRight className="h-4 w-4 mr-2" /> Details / Spoiler
+                    <DropdownMenuItem 
+                        onClick={insertDetails}
+                        className="gap-2 px-3 py-2"
+                    >
+                        <ChevronRight className="h-4 w-4" /> 
+                        <span>Details / Spoiler</span>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
@@ -209,8 +416,12 @@ const MenuBar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8"
-                onClick={() => editor.chain().focus().toggleBold().run()}
+                onClick={(e) => {
+                    e.preventDefault()
+                    editor.chain().focus().toggleBold().run()
+                }}
                 data-state={editor.isActive('bold') ? 'on' : 'off'}
+                title="Bold (Ctrl+B)"
             >
                 <Bold className="h-4 w-4" />
             </Button>
@@ -219,8 +430,12 @@ const MenuBar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8"
-                onClick={() => editor.chain().focus().toggleItalic().run()}
+                onClick={(e) => {
+                    e.preventDefault()
+                    editor.chain().focus().toggleItalic().run()
+                }}
                 data-state={editor.isActive('italic') ? 'on' : 'off'}
+                title="Italic (Ctrl+I)"
             >
                 <Italic className="h-4 w-4" />
             </Button>
@@ -229,8 +444,12 @@ const MenuBar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8"
-                onClick={() => editor.chain().focus().toggleStrike().run()}
+                onClick={(e) => {
+                    e.preventDefault()
+                    editor.chain().focus().toggleStrike().run()
+                }}
                 data-state={editor.isActive('strike') ? 'on' : 'off'}
+                title="Strikethrough"
             >
                 <Strikethrough className="h-4 w-4" />
             </Button>
@@ -239,8 +458,12 @@ const MenuBar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8"
-                onClick={() => editor.chain().focus().toggleUnderline().run()}
+                onClick={(e) => {
+                    e.preventDefault()
+                    editor.chain().focus().toggleUnderline().run()
+                }}
                 data-state={editor.isActive('underline') ? 'on' : 'off'}
+                title="Underline"
             >
                 <span className="underline font-bold text-sm">U</span>
             </Button>
@@ -249,8 +472,12 @@ const MenuBar = ({ editor }: { editor: any }) => {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8"
-                onClick={() => editor.chain().focus().toggleHighlight().run()}
+                onClick={(e) => {
+                    e.preventDefault()
+                    editor.chain().focus().toggleHighlight().run()
+                }}
                 data-state={editor.isActive('highlight') ? 'on' : 'off'}
+                title="Highlight"
             >
                 <Highlighter className="h-4 w-4" />
             </Button>
@@ -264,6 +491,56 @@ const MenuBar = ({ editor }: { editor: any }) => {
                     title="Text Color"
                 />
             </div>
+
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        type="button" variant="ghost" size="sm" className="h-8 gap-1">
+                        <span className="text-xs">{currentFontSize}px</span>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    {fontSizes.map((size) => (
+                        <DropdownMenuItem
+                            key={size.value}
+                            onClick={() => editor.chain().focus().setFontSize(size.value).run()}
+                        >
+                            {size.label}
+                        </DropdownMenuItem>
+                    ))}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => editor.chain().focus().unsetFontSize().run()}>
+                        Reset Size
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        type="button" variant="ghost" size="sm" className="h-8 gap-1">
+                        <span className="text-xs">
+                            {fontFamilies.find(f => f.value === currentFontFamily)?.label || 'Font'}
+                        </span>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    {fontFamilies.map((font) => (
+                        <DropdownMenuItem
+                            key={font.value}
+                            onClick={() => {
+                                if (font.value) {
+                                    editor.chain().focus().setFontFamily(font.value).run()
+                                } else {
+                                    editor.chain().focus().unsetFontFamily().run()
+                                }
+                            }}
+                        >
+                            {font.label}
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
 
             <div className="w-px h-6 bg-border mx-1" />
 
@@ -378,6 +655,15 @@ const MenuBar = ({ editor }: { editor: any }) => {
             >
                 <ImageIcon className="h-4 w-4" />
             </Button>
+            <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={insertYoutube}
+            >
+                <Youtube className="h-4 w-4" />
+            </Button>
 
             <div className="flex-1" />
 
@@ -416,7 +702,7 @@ export function TiptapEditor({ content, onChange, placeholder }: TiptapEditorPro
                 dropcursor: {
                     color: '#555',
                     width: 2
-                }
+                },
             }),
             Placeholder.configure({
                 placeholder: placeholder || 'Start writing your post...',
@@ -447,6 +733,7 @@ export function TiptapEditor({ content, onChange, placeholder }: TiptapEditorPro
             Underline,
             TextStyle,
             Color,
+            FontSize,
             FontFamily,
             TextAlign.configure({
                 types: ['heading', 'paragraph'],
@@ -465,6 +752,10 @@ export function TiptapEditor({ content, onChange, placeholder }: TiptapEditorPro
             }),
             Details,
             Summary,
+            YoutubeNode,
+            // Extensions for drag context menu
+            UiState,
+            NodeBackground,
         ],
         content,
         onUpdate: ({ editor }) => {
@@ -473,7 +764,27 @@ export function TiptapEditor({ content, onChange, placeholder }: TiptapEditorPro
         immediatelyRender: false,
         editorProps: {
             attributes: {
-                class: 'prose prose-zinc dark:prose-invert max-w-none focus:outline-none min-h-[300px] p-4',
+                class: 'prose prose-zinc dark:prose-invert max-w-none focus:outline-none min-h-[400px] p-6 prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-foreground prose-h1:text-3xl prose-h1:mb-4 prose-h1:mt-6 prose-h2:text-2xl prose-h2:mb-3 prose-h2:mt-5 prose-h3:text-xl prose-h3:mb-2 prose-h3:mt-4 prose-p:leading-relaxed prose-p:text-foreground prose-p:my-4 prose-p:text-base prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-a:font-medium prose-strong:font-semibold prose-strong:text-foreground prose-em:italic prose-code:text-sm prose-code:bg-muted prose-code:text-foreground prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:bg-muted prose-pre:text-foreground prose-pre:border prose-pre:border-border prose-pre:rounded-lg prose-pre:p-4 prose-pre:my-4 prose-pre:overflow-x-auto prose-blockquote:border-l-primary prose-blockquote:border-l-4 prose-blockquote:pl-6 prose-blockquote:pr-4 prose-blockquote:py-2 prose-blockquote:italic prose-blockquote:text-muted-foreground prose-blockquote:bg-muted/30 prose-blockquote:rounded-r-lg prose-ul:list-disc prose-ul:my-4 prose-ol:list-decimal prose-ol:my-4 prose-li:marker:text-muted-foreground prose-li:my-2 prose-li:pl-1 prose-hr:border-border prose-hr:my-8 prose-img:rounded-lg prose-img:shadow-sm',
+            },
+            handlePaste: (view, event) => {
+                const text = event.clipboardData?.getData('text/plain') || ''
+                const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+                const match = text.match(youtubeRegex)
+                if (match) {
+                    event.preventDefault()
+                    const videoId = match[1]
+                    const { state, dispatch } = view
+                    const { tr } = state
+                    const youtubeNode = YoutubeNode.create({
+                        src: `https://www.youtube.com/watch?v=${videoId}`,
+                        width: 640,
+                        height: 360,
+                    })
+                    tr.replaceSelectionWith(youtubeNode)
+                    dispatch(tr)
+                    return true
+                }
+                return false
             },
         },
     })
@@ -497,9 +808,14 @@ export function TiptapEditor({ content, onChange, placeholder }: TiptapEditorPro
     }
 
     return (
-        <div className="border rounded-lg overflow-hidden bg-background shadow-sm">
-            <MenuBar editor={editor} />
-            <EditorContent editor={editor} />
-        </div>
+        <EditorContext.Provider value={{ editor }}>
+            <div className="border rounded-lg overflow-hidden bg-background shadow-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 transition-all">
+                <MenuBar editor={editor} />
+                <div className="editor-content-wrapper relative">
+                    <EditorContent editor={editor} />
+                    <DragContextMenu editor={editor} />
+                </div>
+            </div>
+        </EditorContext.Provider>
     )
 }

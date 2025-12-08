@@ -4,6 +4,7 @@ packages:
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
+  - '@prisma/cli'
   - '@prisma/engines'
   - '@swc/core'
   - esbuild
