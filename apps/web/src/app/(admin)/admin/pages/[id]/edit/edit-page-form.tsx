@@ -8,7 +8,7 @@ import { Label } from '@blog-starter/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@blog-starter/ui/card'
 import { updatePage } from '@/lib/actions/pages'
 import { toast } from 'sonner'
-import { TiptapEditor } from '@/components/editor/tiptap-editor'
+import TiptapEditor from '@/components/my-editor/tiptap-editor'
 
 interface Page {
     id: string
@@ -75,7 +75,6 @@ export function EditPageForm({ page }: EditPageFormProps) {
                             <TiptapEditor
                                 content={formData.content}
                                 onChange={(content) => setFormData({ ...formData, content })}
-                                placeholder="Write your page content here..."
                             />
                         </div>
 
@@ -108,4 +107,5 @@ export function EditPageForm({ page }: EditPageFormProps) {
         </form>
     )
 }
+
 

@@ -150,7 +150,7 @@ export function PostsSearch({ className }: PostsSearchProps) {
                 <div className="flex flex-wrap gap-2">
                     {titleSearch && (
                         <div className="flex items-center gap-1 bg-primary/10 text-primary px-2 py-1 rounded-full text-sm">
-                            Title: "{titleSearch}"
+                            Title: &quot;{titleSearch}&quot;
                             <button
                                 onClick={() => {
                                     setTitleSearch('')
@@ -178,7 +178,7 @@ export function PostsSearch({ className }: PostsSearchProps) {
                     )}
                     {generalSearch && !titleSearch && (
                         <div className="flex items-center gap-1 bg-primary/10 text-primary px-2 py-1 rounded-full text-sm">
-                            Content: "{generalSearch}"
+                            Content: &quot;{generalSearch}&quot;
                             <button
                                 onClick={() => {
                                     setGeneralSearch('')

@@ -10,9 +10,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@blog-starter/ui/card'
 import { updatePost } from '@/lib/actions/posts'
 import { getAllCategories } from '@/lib/actions/categories'
 import { toast } from 'sonner'
-import { TiptapEditor } from '@/components/editor/tiptap-editor'
 import { Checkbox } from '@blog-starter/ui/checkbox'
 import { useEffect } from 'react'
+import TiptapEditor from "@/components/my-editor/tiptap-editor";
 
 interface Post {
     id: string
@@ -120,7 +120,6 @@ export function EditPostForm({ post }: EditPostFormProps) {
                             <TiptapEditor
                                 content={formData.content}
                                 onChange={(content) => setFormData({ ...formData, content })}
-                                placeholder="Write your post content here..."
                             />
                         </div>
 

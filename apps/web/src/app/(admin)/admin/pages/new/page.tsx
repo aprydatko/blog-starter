@@ -8,7 +8,8 @@ import { Label } from '@blog-starter/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@blog-starter/ui/card'
 import { createPage } from '@/lib/actions/pages'
 import { toast } from 'sonner'
-import { TiptapEditor } from '@/components/editor/tiptap-editor'
+import TiptapEditor from '@/components/my-editor/tiptap-editor'
+
 
 export default function NewPagePage() {
     const router = useRouter()
@@ -91,7 +92,6 @@ export default function NewPagePage() {
                                 <TiptapEditor
                                     content={formData.content}
                                     onChange={(content) => setFormData({ ...formData, content })}
-                                    placeholder="Write your page content here..."
                                 />
                             </div>
 
@@ -125,4 +125,5 @@ export default function NewPagePage() {
         </div>
     )
 }
+
 

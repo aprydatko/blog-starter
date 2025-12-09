@@ -159,3 +159,4 @@ export function CategoriesTable({ categories, pagination }: CategoriesTableProps
   )
 }
 
+

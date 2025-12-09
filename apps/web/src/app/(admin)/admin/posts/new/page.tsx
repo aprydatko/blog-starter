@@ -10,9 +10,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@blog-starter/ui/card'
 import { createPost, getCurrentUserId } from '@/lib/actions/posts'
 import { getAllCategories } from '@/lib/actions/categories'
 import { toast } from 'sonner'
-import { TiptapEditor } from '@/components/editor/tiptap-editor'
 import { useEffect } from 'react'
 import { Checkbox } from '@blog-starter/ui/checkbox'
+import TiptapEditor from "@/components/my-editor/tiptap-editor";
 
 export default function NewPostPage() {
     const router = useRouter()
@@ -143,11 +143,8 @@ export default function NewPostPage() {
 
                             <div className="space-y-2">
                                 <Label htmlFor="content">Content *</Label>
-                                <TiptapEditor
-                                    content={formData.content}
-                                    onChange={(content) => setFormData({ ...formData, content })}
-                                    placeholder="Write your post content here..."
-                                />
+                                <TiptapEditor content={formData.content}
+                                    onChange={(content) => setFormData({ ...formData, content })} />
                             </div>
 
                             <div className="space-y-2">
