@@ -1,6 +1,6 @@
 'use server'
 
-import { startOfMonth, endOfMonth } from 'date-fns' 
+import { startOfMonth, endOfMonth } from 'date-fns'
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@blog-starter/db'
 import { generateSlug, ensureUniqueSlug } from '@/lib/utils/slug'
@@ -19,7 +19,7 @@ export interface GetCategoriesOptions {
   page?: number
   limit?: number
   search?: string
-  month?: string   // “1”‑“12”, or undefined
+  month?: string // “1”‑“12”, or undefined
 }
 
 export async function createCategory(data: CreateCategoryInput) {
@@ -30,10 +30,10 @@ export async function createCategory(data: CreateCategoryInput) {
     const existingCategories = await prisma.category.findMany({
       where: {
         slug: {
-          startsWith: baseSlug
-        }
+          startsWith: baseSlug,
+        },
       },
-      select: { slug: true }
+      select: { slug: true },
     })
 
     const existingSlugs = existingCategories.map(c => c.slug)
@@ -43,8 +43,8 @@ export async function createCategory(data: CreateCategoryInput) {
       data: {
         name: data.name,
         slug,
-        description: data.description
-      }
+        description: data.description,
+      },
     })
 
     revalidatePath('/admin/categories')
@@ -65,13 +65,13 @@ export async function updateCategory(id: string, data: UpdateCategoryInput) {
       const existingCategories = await prisma.category.findMany({
         where: {
           slug: {
-            startsWith: baseSlug
+            startsWith: baseSlug,
           },
           NOT: {
-            id
-          }
+            id,
+          },
         },
-        select: { slug: true }
+        select: { slug: true },
       })
 
       const existingSlugs = existingCategories.map(c => c.slug)
@@ -83,8 +83,8 @@ export async function updateCategory(id: string, data: UpdateCategoryInput) {
       data: {
         ...(data.name && { name: data.name }),
         ...(slug && { slug }),
-        ...(data.description !== undefined && { description: data.description })
-      }
+        ...(data.description !== undefined && { description: data.description }),
+      },
     })
 
     revalidatePath('/admin/categories')
@@ -99,7 +99,7 @@ export async function updateCategory(id: string, data: UpdateCategoryInput) {
 export async function deleteCategory(id: string) {
   try {
     await prisma.category.delete({
-      where: { id }
+      where: { id },
     })
 
     revalidatePath('/admin/categories')
@@ -121,9 +121,9 @@ export async function getCategories(options?: GetCategoriesOptions) {
       ...(options?.search && {
         OR: [
           { name: { contains: options.search, mode: 'insensitive' as const } },
-          { description: { contains: options.search, mode: 'insensitive' as const } }
-        ]
-      })
+          { description: { contains: options.search, mode: 'insensitive' as const } },
+        ],
+      }),
     }
 
     // --- Month filter ------------------------------------------
@@ -131,7 +131,7 @@ export async function getCategories(options?: GetCategoriesOptions) {
       const monthNum = parseInt(options.month, 10)
       if (monthNum >= 1 && monthNum <= 12) {
         const start = startOfMonth(new Date(new Date().getFullYear(), monthNum - 1))
-        const end   = endOfMonth(start)
+        const end = endOfMonth(start)
         where.createdAt = { gte: start, lte: end }
       }
     }
@@ -145,12 +145,12 @@ export async function getCategories(options?: GetCategoriesOptions) {
         include: {
           _count: {
             select: {
-              posts: true
-            }
-          }
-        }
+              posts: true,
+            },
+          },
+        },
       }),
-      prisma.category.count({ where })
+      prisma.category.count({ where }),
     ])
 
     return {
@@ -160,8 +160,8 @@ export async function getCategories(options?: GetCategoriesOptions) {
         total,
         page,
         limit,
-        totalPages: Math.ceil(total / limit)
-      }
+        totalPages: Math.ceil(total / limit),
+      },
     }
   } catch (error) {
     console.error('Error fetching categories:', error)
@@ -176,10 +176,10 @@ export async function getCategoryById(id: string) {
       include: {
         _count: {
           select: {
-            posts: true
-          }
-        }
-      }
+            posts: true,
+          },
+        },
+      },
     })
 
     if (!category) {
@@ -200,8 +200,8 @@ export async function getAllCategories() {
       select: {
         id: true,
         name: true,
-        slug: true
-      }
+        slug: true,
+      },
     })
 
     return { success: true, categories }
@@ -210,5 +210,3 @@ export async function getAllCategories() {
     return { success: false, error: 'Failed to fetch categories' }
   }
 }
-
-

@@ -15,7 +15,7 @@ export default function NewCategoryPage() {
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
-    description: ''
+    description: '',
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,7 +32,7 @@ export default function NewCategoryPage() {
     try {
       const result = await createCategory({
         name: formData.name.trim(),
-        description: formData.description.trim() || undefined
+        description: formData.description.trim() || undefined,
       })
 
       if (result.success) {
@@ -54,9 +54,7 @@ export default function NewCategoryPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Create New Category</h1>
-        <p className="text-muted-foreground">
-          Add a new category for organizing posts
-        </p>
+        <p className="text-muted-foreground">Add a new category for organizing posts</p>
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -71,7 +69,7 @@ export default function NewCategoryPage() {
                 <Input
                   id="name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={e => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Enter category name"
                   required
                 />
@@ -82,7 +80,7 @@ export default function NewCategoryPage() {
                 <Textarea
                   id="description"
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={e => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Brief description of the category"
                   rows={3}
                 />
@@ -94,11 +92,7 @@ export default function NewCategoryPage() {
             <Button type="submit" disabled={loading}>
               {loading ? 'Creating...' : 'Create Category'}
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-            >
+            <Button type="button" variant="outline" onClick={() => router.back()}>
               Cancel
             </Button>
           </div>
@@ -107,5 +101,3 @@ export default function NewCategoryPage() {
     </div>
   )
 }
-
-

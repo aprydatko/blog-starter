@@ -10,12 +10,12 @@ import { z } from 'zod'
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters')
+  password: z.string().min(8, 'Password must be at least 8 characters'),
 })
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
-  password: z.string().min(1, 'Password is required')
+  password: z.string().min(1, 'Password is required'),
 })
 
 export type RegisterInput = z.infer<typeof registerSchema>
@@ -30,7 +30,7 @@ export async function registerUser(data: RegisterInput) {
 
   // Check if user already exists
   const existingUser = await prisma.user.findUnique({
-    where: { email: validated.email }
+    where: { email: validated.email },
   })
 
   if (existingUser) {
@@ -46,8 +46,8 @@ export async function registerUser(data: RegisterInput) {
       name: validated.name,
       email: validated.email,
       password: hashedPassword,
-      role: 'USER'
-    }
+      role: 'USER',
+    },
   })
 
   // Return user without password
@@ -62,7 +62,7 @@ export async function validateCredentials(email: string, password: string) {
   const validated = loginSchema.parse({ email, password })
 
   const user = await prisma.user.findUnique({
-    where: { email: validated.email }
+    where: { email: validated.email },
   })
 
   if (!user || !user.password) {
@@ -89,24 +89,21 @@ export function initializeAuth(nextAuth = NextAuth): NextAuthResult {
         name: 'credentials',
         credentials: {
           email: { label: 'Email', type: 'email' },
-          password: { label: 'Password', type: 'password' }
+          password: { label: 'Password', type: 'password' },
         },
         async authorize(credentials) {
           if (!credentials?.email || !credentials?.password) {
             return null
           }
 
-          const user = await validateCredentials(
-            credentials.email as string,
-            credentials.password as string
-          )
+          const user = await validateCredentials(credentials.email as string, credentials.password as string)
 
           return user
-        }
-      })
+        },
+      }),
     ],
     session: {
-      strategy: 'jwt'
+      strategy: 'jwt',
     },
     callbacks: {
       async jwt({ token, user }) {
@@ -120,11 +117,11 @@ export function initializeAuth(nextAuth = NextAuth): NextAuthResult {
           session.user.id = token.id as string
         }
         return session
-      }
+      },
     },
     pages: {
-      signIn: '/login'
-    }
+      signIn: '/login',
+    },
   })
 
   return result as unknown as NextAuthResult

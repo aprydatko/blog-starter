@@ -6,7 +6,7 @@ jest.mock('@/lib/auth', () => ({
   auth: jest.fn(async () => null),
 }))
 
-import { auth } from "@/lib/auth"
+import { auth } from '@/lib/auth'
 
 describe('Auth Integration Tests', () => {
   beforeAll(() => {

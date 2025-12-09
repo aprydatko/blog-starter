@@ -8,7 +8,6 @@ const testUser = {
 }
 
 describe('Database Integration Tests', () => {
-
   beforeAll(async () => {
     logger.info('Setting up database integration tests')
     await prisma.$connect()

@@ -55,24 +55,12 @@ export function CategoriesTable({ categories, pagination }: CategoriesTableProps
         <table className="w-full">
           <thead>
             <tr className="border-b bg-muted/50">
-              <th className="h-12 px-4 text-left align-middle font-medium">
-                Name
-              </th>
-              <th className="h-12 px-4 text-left align-middle font-medium">
-                Slug
-              </th>
-              <th className="h-12 px-4 text-left align-middle font-medium">
-                Description
-              </th>
-              <th className="h-12 px-4 text-left align-middle font-medium">
-                Posts
-              </th>
-              <th className="h-12 px-4 text-left align-middle font-medium">
-                Created
-              </th>
-              <th className="h-12 px-4 text-right align-middle font-medium">
-                Actions
-              </th>
+              <th className="h-12 px-4 text-left align-middle font-medium">Name</th>
+              <th className="h-12 px-4 text-left align-middle font-medium">Slug</th>
+              <th className="h-12 px-4 text-left align-middle font-medium">Description</th>
+              <th className="h-12 px-4 text-left align-middle font-medium">Posts</th>
+              <th className="h-12 px-4 text-left align-middle font-medium">Created</th>
+              <th className="h-12 px-4 text-right align-middle font-medium">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -83,28 +71,22 @@ export function CategoriesTable({ categories, pagination }: CategoriesTableProps
                 </td>
               </tr>
             ) : (
-              categories.map((category) => (
+              categories.map(category => (
                 <tr key={category.id} className="border-b">
                   <td className="p-4">
                     <div className="font-medium">{category.name}</div>
                   </td>
                   <td className="p-4">
-                    <div className="text-sm text-muted-foreground">
-                      /{category.slug}
-                    </div>
+                    <div className="text-sm text-muted-foreground">/{category.slug}</div>
                   </td>
                   <td className="p-4">
-                    <div className="text-sm text-muted-foreground max-w-md truncate">
-                      {category.description || '-'}
-                    </div>
+                    <div className="text-sm text-muted-foreground max-w-md truncate">{category.description || '-'}</div>
                   </td>
                   <td className="p-4">
                     <div className="text-sm">{category._count.posts}</div>
                   </td>
                   <td className="p-4">
-                    <div className="text-sm">
-                      {format(new Date(category.createdAt), 'MMM d, yyyy')}
-                    </div>
+                    <div className="text-sm">{format(new Date(category.createdAt), 'MMM d, yyyy')}</div>
                   </td>
                   <td className="p-4">
                     <div className="flex items-center justify-end gap-2">
@@ -158,5 +140,3 @@ export function CategoriesTable({ categories, pagination }: CategoriesTableProps
     </div>
   )
 }
-
-

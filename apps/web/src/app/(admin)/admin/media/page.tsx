@@ -22,7 +22,7 @@ export default async function MediaPage({ searchParams }: PageProps) {
     limit: 20,
     search: search || undefined,
     sortBy,
-    sortOrder
+    sortOrder,
   })
 
   if (!result.success) {
@@ -40,9 +40,7 @@ export default async function MediaPage({ searchParams }: PageProps) {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Media</h1>
-        <p className="text-muted-foreground">
-          Manage your uploaded images and media files
-        </p>
+        <p className="text-muted-foreground">Manage your uploaded images and media files</p>
       </div>
 
       <MediaTable
@@ -55,4 +53,3 @@ export default async function MediaPage({ searchParams }: PageProps) {
     </div>
   )
 }
-

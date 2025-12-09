@@ -38,9 +38,7 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Categories</h1>
-          <p className="text-muted-foreground">
-            Manage your blog categories
-          </p>
+          <p className="text-muted-foreground">Manage your blog categories</p>
         </div>
         <Link href="/admin/categories/new">
           <Button>
@@ -50,7 +48,7 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
         </Link>
       </div>
 
-       {/* -------------  Search / Filter Form  --------------------------- */}
+      {/* -------------  Search / Filter Form  --------------------------- */}
       <form
         action="/admin/categories"
         method="GET"
@@ -58,10 +56,7 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
       >
         {/* Search input */}
         <div className="flex-1">
-          <label
-            htmlFor="search"
-            className="block text-sm font-medium text-muted-foreground mb-1"
-          >
+          <label htmlFor="search" className="block text-sm font-medium text-muted-foreground mb-1">
             Search by name or description
           </label>
           <input
@@ -76,10 +71,7 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
 
         {/* Month dropdown */}
         <div>
-          <label
-            htmlFor="month"
-            className="block text-sm font-medium text-muted-foreground mb-1"
-          >
+          <label htmlFor="month" className="block text-sm font-medium text-muted-foreground mb-1">
             Created month
           </label>
           <select
@@ -102,10 +94,7 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
           <Button type="submit" variant="outline">
             Apply
           </Button>
-          <Link
-            href="/admin/categories"
-            className="text-muted-foreground hover:underline"
-          >
+          <Link href="/admin/categories" className="text-muted-foreground hover:underline">
             Reset
           </Link>
         </div>
@@ -118,5 +107,3 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
     </div>
   )
 }
-
-

@@ -10,34 +10,25 @@ export async function POST(request: NextRequest) {
     const file = formData.get('file') as File
 
     if (!file) {
-      return NextResponse.json(
-        { success: false, message: 'No file provided' },
-        { status: 400 }
-      )
+      return NextResponse.json({ success: false, message: 'No file provided' }, { status: 400 })
     }
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      return NextResponse.json(
-        { success: false, message: 'File must be an image' },
-        { status: 400 }
-      )
+      return NextResponse.json({ success: false, message: 'File must be an image' }, { status: 400 })
     }
 
     // Validate file size (max 5MB)
     const maxSize = 5 * 1024 * 1024 // 5MB
     if (file.size > maxSize) {
-      return NextResponse.json(
-        { success: false, message: 'File size must be less than 5MB' },
-        { status: 400 }
-      )
+      return NextResponse.json({ success: false, message: 'File size must be less than 5MB' }, { status: 400 })
     }
 
     // Generate unique filename: originalname-YYYY-MM-DD-HH-mm-ss.extension
     const originalName = file.name.replace(/[^a-zA-Z0-9.-]/g, '-')
     const nameWithoutExt = originalName.replace(/\.[^/.]+$/, '')
     const extension = originalName.split('.').pop() || 'jpg'
-    
+
     // Create readable datetime string: YYYY-MM-DD-HH-mm-ss
     const now = new Date()
     const year = now.getFullYear()
@@ -47,7 +38,7 @@ export async function POST(request: NextRequest) {
     const minutes = String(now.getMinutes()).padStart(2, '0')
     const seconds = String(now.getSeconds()).padStart(2, '0')
     const datetime = `${year}-${month}-${day}-${hours}-${minutes}-${seconds}`
-    
+
     const uniqueFileName = `${nameWithoutExt}-${datetime}.${extension}`
 
     // Create uploads/images directory if it doesn't exist
@@ -74,8 +65,8 @@ export async function POST(request: NextRequest) {
           url: publicUrl,
           filename: uniqueFileName,
           mimeType: file.type,
-          size: file.size
-        }
+          size: file.size,
+        },
       })
     } catch (dbError) {
       // Log error but don't fail the upload if DB save fails
@@ -86,7 +77,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         url: publicUrl,
-        filename: uniqueFileName
+        filename: uniqueFileName,
       },
       { status: 200 }
     )
@@ -95,10 +86,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: error instanceof Error ? error.message : 'Failed to upload image'
+        message: error instanceof Error ? error.message : 'Failed to upload image',
       },
       { status: 500 }
     )
   }
 }
-

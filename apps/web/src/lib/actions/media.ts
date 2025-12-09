@@ -24,24 +24,21 @@ export async function getMedia(options?: {
       ? {
           filename: {
             contains: options.search,
-            mode: 'insensitive' as const
-          }
+            mode: 'insensitive' as const,
+          },
         }
       : {}
 
-    const orderBy =
-      sortBy === 'name'
-        ? { filename: sortOrder }
-        : { createdAt: sortOrder }
+    const orderBy = sortBy === 'name' ? { filename: sortOrder } : { createdAt: sortOrder }
 
     const [media, total] = await Promise.all([
       prisma.media.findMany({
         where,
         skip,
         take: limit,
-        orderBy
+        orderBy,
       }),
-      prisma.media.count({ where })
+      prisma.media.count({ where }),
     ])
 
     return {
@@ -51,8 +48,8 @@ export async function getMedia(options?: {
         total,
         page,
         limit,
-        totalPages: Math.ceil(total / limit)
-      }
+        totalPages: Math.ceil(total / limit),
+      },
     }
   } catch (error) {
     console.error('Error fetching media:', error)
@@ -63,7 +60,7 @@ export async function getMedia(options?: {
 export async function deleteMedia(id: string) {
   try {
     const media = await prisma.media.findUnique({
-      where: { id }
+      where: { id },
     })
 
     if (!media) {
@@ -83,7 +80,7 @@ export async function deleteMedia(id: string) {
 
     // Delete from database
     await prisma.media.delete({
-      where: { id }
+      where: { id },
     })
 
     revalidatePath('/admin/media')
@@ -97,7 +94,7 @@ export async function deleteMedia(id: string) {
 export async function syncMediaFromFilesystem() {
   try {
     const uploadsDir = join(process.cwd(), 'public', 'uploads', 'images')
-    
+
     if (!existsSync(uploadsDir)) {
       return { success: true, synced: 0, message: 'Uploads directory does not exist' }
     }
@@ -115,14 +112,14 @@ export async function syncMediaFromFilesystem() {
 
     // Get existing media URLs from database to avoid duplicates
     const existingMedia = await prisma.media.findMany({
-      select: { url: true }
+      select: { url: true },
     })
     const existingUrls = new Set(existingMedia.map(m => m.url))
 
     for (const filename of imageFiles) {
       try {
         const publicUrl = `/uploads/images/${filename}`
-        
+
         // Skip if already in database
         if (existingUrls.has(publicUrl)) {
           skipped++
@@ -132,7 +129,7 @@ export async function syncMediaFromFilesystem() {
         // Get file stats
         const filePath = join(uploadsDir, filename)
         const stats = await stat(filePath)
-        
+
         // Determine MIME type from extension
         const ext = filename.toLowerCase().split('.').pop() || ''
         const mimeTypes: Record<string, string> = {
@@ -142,7 +139,7 @@ export async function syncMediaFromFilesystem() {
           gif: 'image/gif',
           webp: 'image/webp',
           svg: 'image/svg+xml',
-          bmp: 'image/bmp'
+          bmp: 'image/bmp',
         }
         const mimeType = mimeTypes[ext] || 'image/jpeg'
 
@@ -153,8 +150,8 @@ export async function syncMediaFromFilesystem() {
             filename,
             mimeType,
             size: stats.size,
-            createdAt: stats.birthtime // Use file creation time
-          }
+            createdAt: stats.birthtime, // Use file creation time
+          },
         })
 
         synced++
@@ -170,14 +167,13 @@ export async function syncMediaFromFilesystem() {
       synced,
       skipped,
       errors: errors.length > 0 ? errors : undefined,
-      message: `Synced ${synced} file(s), skipped ${skipped} existing file(s)`
+      message: `Synced ${synced} file(s), skipped ${skipped} existing file(s)`,
     }
   } catch (error) {
     console.error('Error syncing media from filesystem:', error)
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to sync media from filesystem'
+      error: error instanceof Error ? error.message : 'Failed to sync media from filesystem',
     }
   }
 }
-

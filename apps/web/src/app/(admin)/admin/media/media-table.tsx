@@ -3,7 +3,18 @@
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
-import { Trash2, Search, ArrowUpDown, ArrowUp, ArrowDown, ExternalLink, RefreshCw, Copy, Plus, Upload } from 'lucide-react'
+import {
+  Trash2,
+  Search,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  ExternalLink,
+  RefreshCw,
+  Copy,
+  Plus,
+  Upload,
+} from 'lucide-react'
 import { Button } from '@blog-starter/ui/button'
 import { Input } from '@blog-starter/ui/input'
 import { deleteMedia, syncMediaFromFilesystem } from '@/lib/actions/media'
@@ -33,13 +44,7 @@ interface MediaTableProps {
   currentSortOrder: 'asc' | 'desc'
 }
 
-export function MediaTable({
-  media,
-  pagination,
-  currentSearch,
-  currentSortBy,
-  currentSortOrder
-}: MediaTableProps) {
+export function MediaTable({ media, pagination, currentSearch, currentSortBy, currentSortOrder }: MediaTableProps) {
   const router = useRouter()
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState(currentSearch)
@@ -131,8 +136,7 @@ export function MediaTable({
     const params = new URLSearchParams()
     if (searchQuery) params.set('search', searchQuery)
     params.set('sortBy', sortBy)
-    const newOrder =
-      currentSortBy === sortBy && currentSortOrder === 'asc' ? 'desc' : 'asc'
+    const newOrder = currentSortBy === sortBy && currentSortOrder === 'asc' ? 'desc' : 'asc'
     params.set('sortOrder', newOrder)
     router.push(`/admin/media?${params.toString()}`)
   }
@@ -162,31 +166,18 @@ export function MediaTable({
               type="text"
               placeholder="Search by filename..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
               className="pl-10"
             />
           </div>
           <Button type="submit">Search</Button>
         </form>
-        <input
-          type="file"
-          ref={fileInputRef}
-          className="hidden"
-          accept="image/*"
-          onChange={handleFileChange}
-        />
-        <Button
-          onClick={handleUploadClick}
-          disabled={isUploading}
-        >
+        <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
+        <Button onClick={handleUploadClick} disabled={isUploading}>
           <Plus className="mr-2 h-4 w-4" />
           {isUploading ? 'Uploading...' : 'Add Media'}
         </Button>
-        <Button
-          onClick={handleSync}
-          disabled={isSyncing}
-          variant="outline"
-        >
+        <Button onClick={handleSync} disabled={isSyncing} variant="outline">
           <RefreshCw className={`mr-2 h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
           {isSyncing ? 'Syncing...' : 'Sync Files'}
         </Button>
@@ -196,14 +187,9 @@ export function MediaTable({
         <table className="w-full">
           <thead>
             <tr className="border-b bg-muted/50">
+              <th className="h-12 px-4 text-left align-middle font-medium">Preview</th>
               <th className="h-12 px-4 text-left align-middle font-medium">
-                Preview
-              </th>
-              <th className="h-12 px-4 text-left align-middle font-medium">
-                <button
-                  onClick={() => handleSort('name')}
-                  className="flex items-center gap-2 hover:text-foreground"
-                >
+                <button onClick={() => handleSort('name')} className="flex items-center gap-2 hover:text-foreground">
                   Name
                   {currentSortBy === 'name' ? (
                     currentSortOrder === 'asc' ? (
@@ -216,14 +202,9 @@ export function MediaTable({
                   )}
                 </button>
               </th>
+              <th className="h-12 px-4 text-left align-middle font-medium">Size</th>
               <th className="h-12 px-4 text-left align-middle font-medium">
-                Size
-              </th>
-              <th className="h-12 px-4 text-left align-middle font-medium">
-                <button
-                  onClick={() => handleSort('date')}
-                  className="flex items-center gap-2 hover:text-foreground"
-                >
+                <button onClick={() => handleSort('date')} className="flex items-center gap-2 hover:text-foreground">
                   Date
                   {currentSortBy === 'date' ? (
                     currentSortOrder === 'asc' ? (
@@ -236,9 +217,7 @@ export function MediaTable({
                   )}
                 </button>
               </th>
-              <th className="h-12 px-4 text-right align-middle font-medium">
-                Actions
-              </th>
+              <th className="h-12 px-4 text-right align-middle font-medium">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -251,18 +230,12 @@ export function MediaTable({
                 </td>
               </tr>
             ) : (
-              media.map((item) => (
+              media.map(item => (
                 <tr key={item.id} className="border-b">
                   <td className="p-4">
                     <div className="relative w-16 h-16 rounded-md overflow-hidden border bg-muted">
                       {item.mimeType.startsWith('image/') ? (
-                        <Image
-                          src={item.url}
-                          alt={item.filename}
-                          fill
-                          className="object-cover"
-                          sizes="64px"
-                        />
+                        <Image src={item.url} alt={item.filename} fill className="object-cover" sizes="64px" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">
                           File
@@ -272,17 +245,13 @@ export function MediaTable({
                   </td>
                   <td className="p-4">
                     <div className="font-medium">{item.filename}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {item.mimeType}
-                    </div>
+                    <div className="text-sm text-muted-foreground">{item.mimeType}</div>
                   </td>
                   <td className="p-4">
                     <div className="text-sm">{formatFileSize(item.size)}</div>
                   </td>
                   <td className="p-4">
-                    <div className="text-sm">
-                      {format(new Date(item.createdAt), 'MMM d, yyyy HH:mm')}
-                    </div>
+                    <div className="text-sm">{format(new Date(item.createdAt), 'MMM d, yyyy HH:mm')}</div>
                   </td>
                   <td className="p-4">
                     <div className="flex items-center justify-end gap-2">
@@ -323,15 +292,12 @@ export function MediaTable({
       {pagination.totalPages > 1 && (
         <div className="flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
-            Page {pagination.page} of {pagination.totalPages} ({pagination.total}{' '}
-            total files)
+            Page {pagination.page} of {pagination.totalPages} ({pagination.total} total files)
           </div>
           <div className="flex gap-2">
             <Link
               href={buildPaginationUrl(pagination.page - 1)}
-              className={
-                pagination.page <= 1 ? 'pointer-events-none opacity-50' : ''
-              }
+              className={pagination.page <= 1 ? 'pointer-events-none opacity-50' : ''}
             >
               <Button variant="outline" disabled={pagination.page <= 1}>
                 Previous
@@ -339,16 +305,9 @@ export function MediaTable({
             </Link>
             <Link
               href={buildPaginationUrl(pagination.page + 1)}
-              className={
-                pagination.page >= pagination.totalPages
-                  ? 'pointer-events-none opacity-50'
-                  : ''
-              }
+              className={pagination.page >= pagination.totalPages ? 'pointer-events-none opacity-50' : ''}
             >
-              <Button
-                variant="outline"
-                disabled={pagination.page >= pagination.totalPages}
-              >
+              <Button variant="outline" disabled={pagination.page >= pagination.totalPages}>
                 Next
               </Button>
             </Link>
@@ -358,4 +317,3 @@ export function MediaTable({
     </div>
   )
 }
-

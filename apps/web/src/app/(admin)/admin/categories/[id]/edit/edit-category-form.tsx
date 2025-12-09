@@ -25,7 +25,7 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: category.name,
-    description: category.description || ''
+    description: category.description || '',
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,7 +34,7 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
 
     const result = await updateCategory(category.id, {
       name: formData.name,
-      description: formData.description || undefined
+      description: formData.description || undefined,
     })
 
     setLoading(false)
@@ -61,7 +61,7 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
               <Input
                 id="name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={e => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Enter category name"
                 required
               />
@@ -72,7 +72,7 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
               <Textarea
                 id="description"
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={e => setFormData({ ...formData, description: e.target.value })}
                 placeholder="Brief description of the category"
                 rows={3}
               />
@@ -84,11 +84,7 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
           <Button type="submit" disabled={loading}>
             {loading ? 'Saving...' : 'Save Changes'}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => router.back()}
-          >
+          <Button type="button" variant="outline" onClick={() => router.back()}>
             Cancel
           </Button>
         </div>
@@ -96,5 +92,3 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
     </form>
   )
 }
-
-
