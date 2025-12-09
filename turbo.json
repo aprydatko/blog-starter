@@ -20,6 +20,11 @@
         "!.next/cache/**"
       ]
     },
+    "dev": {
+      "dependsOn": ["^build"],
+      "outputs": [],
+      "cache": false
+    },
     "lint": {
       "dependsOn": [
         "^lint"

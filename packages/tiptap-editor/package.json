@@ -687,7 +687,8 @@
     "build": "vite build",
     "dev": "vite build  --mode development --watch",
     "lint": "eslint src --quiet",
-    "check-types": "tsc"
+    "check-types": "tsc",
+    "release": "bumpp -r"
   },
   "dependencies": {
     "@excalidraw/excalidraw": "^0.18.0",
