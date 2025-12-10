@@ -4,6 +4,7 @@ import { formatDate, formatRelativeDate } from '@/lib/utils/date'
 import { Badge } from '@blog-starter/ui/badge'
 import { Button } from '@blog-starter/ui/button'
 import { CommentForm } from '@/components/comment-form'
+import { HtmlContent } from '@/components/html-content'
 import { auth } from '@/lib/auth'
 import Link from 'next/link'
 import { Metadata } from 'next'
@@ -107,11 +108,13 @@ export default async function PostPage({ params }: PageProps) {
           <div className="space-y-4">
             {post.comments.map(comment => (
               <div key={comment.id} className="border rounded-lg p-4 space-y-2">
-                <div className="flex justify-between items-start">
+                <div className="flex justify-between items-start mb-2">
                   <div className="font-semibold">{comment.author.name || 'Anonymous'}</div>
                   <div className="text-xs text-muted-foreground">{formatRelativeDate(comment.createdAt)}</div>
                 </div>
-                <p className="text-sm">{comment.content}</p>
+                <div className="text-sm">
+                  <HtmlContent content={comment.content} className="text-sm" />
+                </div>
               </div>
             ))}
             {post.comments.length === 0 && (

@@ -116,6 +116,30 @@ const DocumentColumn = /* @__PURE__ */ Document.extend({
   // echo editor is a block editor
 })
 
+const uploadImage = async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+        alert('Please select an image file')
+        return
+    }
+
+    try {
+        const formData = new FormData()
+        formData.append('file', file)
+        const response = await fetch('/api/upload/image', {
+            method: 'POST',
+            body: formData
+        })
+        const data = await response.json()
+        if (!data.success) {
+         throw new Error(data.error)
+        }
+        return data.url;
+    } catch (error) {
+        console.error('Failed to upload', error)
+        throw new Error("Failed to upload")
+    }
+}
+
 const BaseKit = [
   DocumentColumn,
   Text,
@@ -157,13 +181,7 @@ const extensions = [
   TaskList,
   Link,
   Image.configure({
-    upload: (files: File) => {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve(URL.createObjectURL(files))
-        }, 300)
-      })
-    },
+    upload: uploadImage,
   }),
   Video.configure({
     upload: (files: File) => {
