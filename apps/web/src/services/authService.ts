@@ -106,17 +106,40 @@ export function initializeAuth(nextAuth = NextAuth): NextAuthResult {
       strategy: 'jwt',
     },
     callbacks: {
-      async jwt({ token, user }) {
-        if (user) {
-          token.id = user.id
-        }
-        return token
-      },
       async session({ session, token }) {
-        if (session.user && token.id) {
+        if (token) {
           session.user.id = token.id as string
+          session.user.name = token.name as string | null | undefined
+          session.user.email = token.email as string 
+          session.user.image = token.picture as string | null | undefined
+          session.user.role = token.role as string | undefined
         }
         return session
+      },
+      async jwt({ token, user }) {
+        if (!token.email) return token
+        
+        const dbUser = await prisma.user.findFirst({
+          where: {
+            email: token.email,
+          },
+        })
+
+        if (!dbUser) {
+          if (user) {
+            token.id = user.id as string
+          }
+          return token
+        }
+
+        return {
+          ...token,
+          id: dbUser.id,
+          name: dbUser.name,
+          email: dbUser.email,
+          picture: dbUser.image,
+          role: dbUser.role,
+        }
       },
     },
     pages: {

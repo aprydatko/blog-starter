@@ -1,11 +1,40 @@
+
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { LayoutDashboard, FileText, File, Users, MessageSquare, Image, ChartBarStacked } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { LayoutDashboard, FileText, File, Users, MessageSquare, Image, ChartBarStacked, Loader2 } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
   const pathname = usePathname()
+  const { data: session, status } = useSession()
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // If session is loaded and user is not authenticated or not an admin, redirect to home
+    if (status === 'unauthenticated' || (status === 'authenticated' && session?.user?.role !== 'ADMIN')) {
+      router.push('/')
+    } else if (status === 'authenticated' && session?.user?.role === 'ADMIN') {
+      setIsLoading(false)
+    }
+  }, [status, session, router])
+
+  // Show loading state while checking authentication
+  if (status === 'loading' || isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    )
+  }
+
+  // If not an admin, this will be caught by the middleware and redirected, but we'll return null here
+  if (session?.user?.role !== 'ADMIN') {
+    return null
+  }
 
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
@@ -46,7 +75,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="flex-1">
         <header className="flex h-16 items-center border-b px-6">
           <div className="ml-auto flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">Admin User</span>
+            <span className="text-sm text-muted-foreground">{session?.user?.name || 'Admin User'}</span>
           </div>
         </header>
         <main className="p-6">{children}</main>

@@ -4,11 +4,6 @@ import { getDashboardStats } from "./dashboard-stats"
 export default async function AdminDashboard() {
   const { commentsCount, mediaCount, pagesCount, postsCount } = await getDashboardStats();
   
-  console.log("commentsCount", commentsCount);
-   console.log("mediaCount", mediaCount);
-    console.log("pagesCount", pagesCount);
-     console.log("postsCount", postsCount);
-  
   return (
     <div className="space-y-6">
       <div>
