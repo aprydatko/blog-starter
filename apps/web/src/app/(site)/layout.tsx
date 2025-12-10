@@ -43,6 +43,12 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         </div>
       </header>
       <main className="flex-1">{children}</main>
+      <footer className="border-t py-4">
+        <div className="container mx-auto px-4 flex justify-between items-center text-sm text-muted-foreground">
+          <span>Web Blogger</span>
+          <span>Copyright © 2025 Web blogger </span>
+        </div>
+      </footer>
     </div>
   )
 }

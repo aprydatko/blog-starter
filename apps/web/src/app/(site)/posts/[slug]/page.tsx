@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { getPostBySlug } from '@/lib/actions/posts'
+import { getPostBySlug, getPosts } from '@/lib/actions/posts'
 import { formatDate, formatRelativeDate } from '@/lib/utils/date'
 import { Badge } from '@blog-starter/ui/badge'
 import { Button } from '@blog-starter/ui/button'
@@ -62,8 +62,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PostPage({ params }: PageProps) {
   const { slug } = await params
-  const { post } = await getPostBySlug(slug)
+  const [{ post }, { posts: recentPosts }] = await Promise.all([
+    getPostBySlug(slug),
+    getPosts({ 
+      published: true,
+      limit: 4
+    })
+  ])
   const session = await auth()
+  
+  // Filter out the current post from recent posts
+  const otherPosts = recentPosts?.filter(p => p.id !== post?.id).slice(0, 4) || []
 
   if (!post) {
     notFound()
@@ -124,6 +133,29 @@ export default async function PostPage({ params }: PageProps) {
               </div>
             )}
           </div>
+
+        <hr className="my-8" />
+
+        {otherPosts.length > 0 && (
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold">More Posts</h3>
+            <div className="space-y-2">
+              {otherPosts.map((post) => (
+                <div key={post.id} className="flex justify-between items-center py-2 border-b">
+                  <Link 
+                    href={`/posts/${post.slug}`}
+                    className="hover:underline hover:text-primary transition-colors"
+                  >
+                    {post.title}
+                  </Link>
+                  <span className="text-sm text-muted-foreground">
+                    {formatDate(post.createdAt)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
         </section>
       </article>
     </main>

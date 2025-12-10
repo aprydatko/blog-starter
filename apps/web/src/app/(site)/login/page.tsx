@@ -8,11 +8,7 @@ import { Input } from '@blog-starter/ui/input'
 import { Label } from '@blog-starter/ui/label'
 import { toast } from 'sonner'
 import Link from 'next/link'
-import { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Login Page',
-}
+import Head from 'next/head';
 
 export default function LoginPage() {
   const router = useRouter()
@@ -47,7 +43,11 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="min-h-screen flex items-center justify-center px-4">
+       <Head>
+        <title>Login Page</title>
+        <meta name="description" content="Login page description" />
+      </Head>
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold">Welcome Back</h1>

@@ -7,11 +7,7 @@ import { Input } from '@blog-starter/ui/input'
 import { Label } from '@blog-starter/ui/label'
 import { toast } from 'sonner'
 import Link from 'next/link'
-import { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Register Page',
-}
+import Head from 'next/head';
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -85,6 +81,10 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
+      <Head>
+        <title>Sign Up Page</title>
+        <meta name="description" content="Sign up page description" />
+      </Head>
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold">Create Account</h1>

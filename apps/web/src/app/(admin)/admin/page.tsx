@@ -1,6 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@blog-starter/ui/card'
+import { getDashboardStats } from "./dashboard-stats"
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+  const { commentsCount, mediaCount, pagesCount, postsCount } = await getDashboardStats();
+  
+  console.log("commentsCount", commentsCount);
+   console.log("mediaCount", mediaCount);
+    console.log("pagesCount", pagesCount);
+     console.log("postsCount", postsCount);
+  
   return (
     <div className="space-y-6">
       <div>
@@ -15,7 +23,7 @@ export default function AdminDashboard() {
             <CardDescription>Published articles</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">0</div>
+            <div className="text-2xl font-bold">{postsCount}</div>
           </CardContent>
         </Card>
 
@@ -25,7 +33,7 @@ export default function AdminDashboard() {
             <CardDescription>Static pages</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">0</div>
+            <div className="text-2xl font-bold">{pagesCount}</div>
           </CardContent>
         </Card>
 
@@ -35,7 +43,7 @@ export default function AdminDashboard() {
             <CardDescription>User comments</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">0</div>
+            <div className="text-2xl font-bold">{commentsCount}</div>
           </CardContent>
         </Card>
 
@@ -45,7 +53,7 @@ export default function AdminDashboard() {
             <CardDescription>Uploaded files</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">0</div>
+            <div className="text-2xl font-bold">{mediaCount}</div>
           </CardContent>
         </Card>
       </div>

@@ -1,4 +1,7 @@
+'use client' 
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@blog-starter/ui/button'
@@ -9,7 +12,8 @@ interface PaginationProps {
   className?: string
 }
 
-export function Pagination({ totalPages, currentPage, className }: PaginationProps) {
+function PaginationLinks({ totalPages, currentPage, className }: PaginationProps) {
+  const pathname = usePathname()
   // If there's only one page (or less), don't show pagination
   if (totalPages <= 1) return null
 
@@ -23,7 +27,7 @@ export function Pagination({ totalPages, currentPage, className }: PaginationPro
         aria-label="Arrow Left"
       >
         {currentPage > 1 ? (
-          <Link href={`/?page=${currentPage - 1}`} aria-label="Previous Page">
+          <Link href={`${pathname}?page=${currentPage - 1}`} aria-label="Previous Page">
             <ChevronLeft className="h-4 w-4" />
           </Link>
         ) : (
@@ -44,7 +48,7 @@ export function Pagination({ totalPages, currentPage, className }: PaginationPro
         aria-label="Arrow Right"
       >
         {currentPage < totalPages ? (
-          <Link href={`/?page=${currentPage + 1}`} aria-label="Next Page">
+          <Link href={`${pathname}?page=${currentPage + 1}`} aria-label="Next Page">
             <ChevronRight className="h-4 w-4" />
           </Link>
         ) : (
@@ -53,4 +57,12 @@ export function Pagination({ totalPages, currentPage, className }: PaginationPro
       </Button>
     </div>
   )
+}
+
+export function Pagination(props: PaginationProps) {
+  // If there's only one page (or less), don't show pagination
+  if (props.totalPages <= 1) return null
+
+  // We need to use a client component for usePathname
+  return <PaginationLinks {...props} />
 }

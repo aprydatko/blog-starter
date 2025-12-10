@@ -1,43 +1,35 @@
 import { getPosts } from '@/lib/actions/posts'
 import { PostCard } from '@/components/post-card'
 import { Pagination } from '@/components/pagination'
-
-import { Button } from '@blog-starter/ui/button'
 import { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Home Page',
-  description: 'This is a description of the page content.',
+  title: 'All Posts',
+  description: 'Browse all blog posts',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.yoursite.com/page', // The full URL to the page being shared
-    title: 'Your Page Title',
-    description: 'This is a description of the page content.',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/posts`,
+    title: 'All Posts',
+    description: 'Browse all blog posts',
     images: [
       {
-        url: 'https://www.yoursite.com/api/og', // The dynamically generated OG image URL
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/og`,
         width: 1200,
         height: 630,
-        alt: 'OG Image Alt Text',
+        alt: 'All Posts',
       },
     ],
-  },
-  twitter: {
-    card: 'summary_large_image', // Ensures a large image card on Twitter
-    title: 'Your Page Title',
-    description: 'This is a description of the page content.',
-    images: ['https://www.yoursite.com/api/og'], // Twitter card image URL (same as OG)
   },
 }
 
 interface PageProps {
-  searchParams: Promise<{ page?: string }>
+  searchParams: { page?: string }
 }
 
-export default async function SitePage({ searchParams }: PageProps) {
+export default async function PostsPage({ searchParams }: PageProps) {
   const resolvedSearchParams = await searchParams
   const page = Number(resolvedSearchParams.page) || 1
   const { posts, pagination } = await getPosts({
@@ -50,11 +42,10 @@ export default async function SitePage({ searchParams }: PageProps) {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto space-y-8">
         <section className="space-y-4">
-          <h2 className="text-3xl font-bold">Latest Posts</h2>
+          <h1 className="text-3xl font-bold">All Posts</h1>
           <p className="text-muted-foreground">
-            Welcome to our blog. Here you can find the latest updates and articles.
+            Browse through all our blog posts.
           </p>
-          <Button>Hello world!</Button>
         </section>
 
         <div className="grid gap-6">
@@ -62,7 +53,7 @@ export default async function SitePage({ searchParams }: PageProps) {
             <PostCard key={post.id} post={post} />
           ))}
           {posts?.length === 0 && (
-            <p className="text-center text-muted-foreground py-12">No posts found. Check back later!</p>
+            <p className="text-center text-muted-foreground py-12">No posts found.</p>
           )}
         </div>
 
