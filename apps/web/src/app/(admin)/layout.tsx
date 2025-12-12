@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { LayoutDashboard, FileText, File, Users, MessageSquare, Image, ChartBarStacked, Loader2 } from 'lucide-react'
+import { LayoutDashboard, FileText, File, Users, MessageSquare, Image, ChartBarStacked, Loader2, Timer } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -44,6 +44,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Users', href: '/admin/users', icon: Users },
     { name: 'Comments', href: '/admin/comments', icon: MessageSquare },
     { name: 'Media', href: '/admin/media', icon: Image },
+    { name: 'Scheduled Posts', href: '/admin/scheduled-posts', icon: Timer },
   ]
 
   return (

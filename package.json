@@ -58,6 +58,8 @@
   "dependencies": {
     "@prisma/client": "^7.0.1",
     "@types/dompurify": "^3.2.0",
+    "class-variance-authority": "^0.7.1",
+    "date-fns": "^4.1.0",
     "dompurify": "^3.3.1"
   }
 }

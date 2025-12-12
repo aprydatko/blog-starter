@@ -14,6 +14,7 @@ export interface CreatePostInput {
   authorId: string
   tags?: string[]
   categoryIds?: string[]
+  scheduledAt?: Date
 }
 
 export interface UpdatePostInput {
@@ -41,6 +42,9 @@ export async function getCurrentUserId() {
 export async function createPost(data: CreatePostInput) {
   try {
     const baseSlug = generateSlug(data.title)
+    
+    // If post is scheduled, ensure it's not published immediately
+    const shouldPublish = data.scheduledAt ? false : data.published
 
     // Get existing slugs to ensure uniqueness
     const existingPosts = await prisma.post.findMany({
@@ -55,29 +59,40 @@ export async function createPost(data: CreatePostInput) {
     const existingSlugs = existingPosts.map(p => p.slug)
     const slug = ensureUniqueSlug(baseSlug, existingSlugs)
 
-    const post = await prisma.post.create({
-      data: {
-        title: data.title,
-        slug,
-        content: data.content,
-        excerpt: data.excerpt,
-        published: data.published ?? false,
-        authorId: data.authorId,
-        tags: data.tags
+    const postData: any = {
+      title: data.title,
+      slug,
+      content: data.content,
+      excerpt: data.excerpt,
+      published: shouldPublish ?? false,
+      authorId: data.authorId,
+    }
+    
+    // Add scheduledAt if provided
+    if (data.scheduledAt) {
+      postData.scheduledAt = data.scheduledAt
+    }
+    
+    const postDataWithRelations = {
+      ...postData,
+      tags: data.tags
+        ? {
+            connectOrCreate: data.tags.map(tag => ({
+              where: { name: tag },
+              create: { name: tag },
+            })),
+          }
+        : undefined,
+      categories:
+        data.categoryIds && data.categoryIds.length > 0
           ? {
-              connectOrCreate: data.tags.map(tag => ({
-                where: { name: tag },
-                create: { name: tag },
-              })),
+              connect: data.categoryIds.map(id => ({ id })),
             }
           : undefined,
-        categories:
-          data.categoryIds && data.categoryIds.length > 0
-            ? {
-                connect: data.categoryIds.map(id => ({ id })),
-              }
-            : undefined,
-      },
+    }
+
+    const post = await prisma.post.create({
+      data: postDataWithRelations,
       include: {
         author: {
           select: {

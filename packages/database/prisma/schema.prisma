@@ -90,6 +90,7 @@ model Post {
   categories Category[]
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
+  scheduledAt DateTime?  @map("scheduled_at")
 
   @@map("posts")
 }

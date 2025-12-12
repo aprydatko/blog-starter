@@ -12,6 +12,11 @@ import { getAllCategories } from '@/lib/actions/categories'
 import { toast } from 'sonner'
 import { useEffect } from 'react'
 import { Checkbox } from '@blog-starter/ui/checkbox'
+import { Calendar as CalendarIcon } from 'lucide-react'
+import { format } from 'date-fns'
+import { cn } from '@/lib/utils'
+import { Calendar } from '@blog-starter/ui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@blog-starter/ui/popover'
 import TiptapEditor from '@/components/my-editor/tiptap-editor'
 
 export default function NewPostPage() {
@@ -26,6 +31,8 @@ export default function NewPostPage() {
     excerpt: '',
     published: false,
     tags: '',
+    schedulePost: false,
+    scheduledAt: undefined as Date | undefined,
   })
 
   useEffect(() => {
@@ -67,6 +74,12 @@ export default function NewPostPage() {
       return
     }
 
+    // Validate scheduled date if scheduling is enabled
+    if (formData.schedulePost && !formData.scheduledAt) {
+      toast.error('Please select a date and time for scheduling')
+      return
+    }
+
     setLoading(true)
 
     const tags = formData.tags
@@ -75,15 +88,18 @@ export default function NewPostPage() {
       .filter(tag => tag.length > 0)
 
     try {
-      const result = await createPost({
+      const postData = {
         title: formData.title.trim(),
         content: formData.content,
         excerpt: formData.excerpt.trim() || undefined,
-        published: formData.published,
+        published: formData.schedulePost ? false : formData.published, // Don't publish immediately if scheduling
+        scheduledAt: formData.schedulePost ? formData.scheduledAt : undefined,
         authorId,
         tags: tags.length > 0 ? tags : undefined,
         categoryIds: selectedCategoryIds.length > 0 ? selectedCategoryIds : undefined,
-      })
+      }
+
+      const result = await createPost(postData)
 
       if (result.success) {
         toast.success('Post created successfully')
@@ -113,17 +129,125 @@ export default function NewPostPage() {
             <CardHeader>
               <CardTitle>Post Details</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <div className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="title">Title *</Label>
                 <Input
                   id="title"
+                  placeholder="Enter post title"
                   value={formData.title}
                   onChange={e => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Enter post title"
+                  disabled={loading}
                   required
                 />
               </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="published"
+                      checked={formData.published}
+                      onCheckedChange={(checked) => {
+                        // If scheduling is enabled, don't allow direct publishing
+                        if (formData.schedulePost) {
+                          setFormData(prev => ({ ...prev, published: false }))
+                          return
+                        }
+                        setFormData(prev => ({ ...prev, published: checked === true }))
+                      }}
+                      disabled={loading || formData.schedulePost}
+                    />
+                    <Label htmlFor="published">Publish immediately</Label>
+                  </div>
+                  {formData.schedulePost && (
+                    <p className="text-sm text-muted-foreground">
+                      Post will be scheduled instead of published immediately
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="schedule"
+                      checked={formData.schedulePost}
+                      onCheckedChange={(checked) => {
+                        const isScheduling = checked === true
+                        setFormData(prev => ({
+                          ...prev,
+                          schedulePost: isScheduling,
+                          // If enabling scheduling, uncheck published
+                          ...(isScheduling && { published: false })
+                        }))
+                      }}
+                      disabled={loading}
+                    />
+                    <Label htmlFor="schedule">Schedule for later</Label>
+                  </div>
+                </div>
+              </div>
+
+              {formData.schedulePost && (
+                <div className="space-y-2">
+                  <Label>Schedule Date & Time *</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            'w-full justify-start text-left font-normal',
+                            !formData.scheduledAt && 'text-muted-foreground'
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {formData.scheduledAt ? (
+                            format(formData.scheduledAt, 'PPP')
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar
+                          selected={formData.scheduledAt}
+                          onSelect={(date) => {
+                            if (!date) return
+                            // Keep the existing time if we have one, otherwise set to current time
+                            const currentTime = formData.scheduledAt || new Date()
+                            const newDate = new Date(date)
+                            newDate.setHours(
+                              currentTime.getHours(),
+                              currentTime.getMinutes(),
+                              0,
+                              0
+                            )
+                            setFormData(prev => ({ ...prev, scheduledAt: newDate }))
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <Input
+                      type="time"
+                      value={formData.scheduledAt ? format(formData.scheduledAt, 'HH:mm') : ''}
+                      onChange={(e) => {
+                        if (!formData.scheduledAt) return
+                        const [hours, minutes] = e.target.value.split(':').map(Number)
+                        const newDate = new Date(formData.scheduledAt)
+                        newDate.setHours(hours!, minutes)
+                        setFormData(prev => ({ ...prev, scheduledAt: newDate }))
+                      }}
+                      disabled={!formData.scheduledAt}
+                    />
+                  </div>
+                  {formData.scheduledAt && (
+                    <p className="text-sm text-muted-foreground">
+                      Post will be published on {format(formData.scheduledAt, 'PPPppp')}
+                    </p>
+                  )}
+                </div>
+              )}
 
               <div className="space-y-2">
                 <Label htmlFor="excerpt">Excerpt</Label>
@@ -183,18 +307,7 @@ export default function NewPostPage() {
                   )}
                 </div>
               </div>
-
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="published"
-                  checked={formData.published}
-                  onChange={e => setFormData({ ...formData, published: e.target.checked })}
-                  className="h-4 w-4 rounded border-gray-300"
-                />
-                <Label htmlFor="published">Publish immediately</Label>
-              </div>
-            </CardContent>
+            </div>
           </Card>
 
           <div className="flex gap-4">
