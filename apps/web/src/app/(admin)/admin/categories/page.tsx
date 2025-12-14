@@ -39,15 +39,15 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
           <h2 className="font-sans font-bold text-3xl text-secondary-foreground">Categories</h2>
         </div>
         <div className="flex">
-            <Link href="/admin/categories/new">
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                New Category
-              </Button>
-            </Link>
+          <Link href="/admin/categories/new">
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              New Category
+            </Button>
+          </Link>
         </div>
       </div>
-      <hr className='mb-10 border-border' />
+      <hr className="mb-10 border-border" />
 
       {/* -------------  Search / Filter Form  --------------------------- */}
       <form
@@ -75,9 +75,11 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
             defaultValue={month}
             className="rounded-md border border-border h-10 px-8 focus:outline-none focus:ring-1 focus:ring-primary"
           >
-            <option className='text-muted-foreground' value="">All months</option>
+            <option className="text-muted-foreground" value="">
+              All months
+            </option>
             {months.map((m, idx) => (
-              <option className='text-black dark:text-black' key={idx} value={idx + 1}>
+              <option className="text-black dark:text-black" key={idx} value={idx + 1}>
                 {m}
               </option>
             ))}
@@ -90,7 +92,7 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
             Apply
           </Button>
           <Link href="/admin/categories">
-            <Button size='lg' type="submit" variant="secondary" className="px-8">
+            <Button size="lg" type="submit" variant="secondary" className="px-8">
               Reset
             </Button>
           </Link>

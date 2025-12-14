@@ -145,7 +145,7 @@ export function CommentsTable({ comments, pagination, posts, users, currentFilte
     const tempDiv = document.createElement('div')
     tempDiv.innerHTML = content
     const textContent = tempDiv.textContent || tempDiv.innerText || ''
-    
+
     if (textContent.length <= maxLength) return textContent
     return textContent.substring(0, maxLength) + '...'
   }

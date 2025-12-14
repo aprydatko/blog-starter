@@ -1,10 +1,19 @@
-
 'use client'
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { LayoutDashboard, FileText, File, Users, MessageSquare, Image, ChartBarStacked, Loader2, Timer } from 'lucide-react'
+import {
+  LayoutDashboard,
+  FileText,
+  File,
+  Users,
+  MessageSquare,
+  Image,
+  ChartBarStacked,
+  Loader2,
+  Timer,
+} from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { UserNav } from '@/components/user-nav'
 import ThemeToggler from '@/components/theme-toggler'
@@ -15,7 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { data: session, status } = useSession()
   const [isLoading, setIsLoading] = useState(true)
 
-  const user = session?.user?.id ? session.user: null
+  const user = session?.user?.id ? session.user : null
 
   useEffect(() => {
     // If session is loaded and user is not authenticated or not an admin, redirect to home
@@ -78,22 +87,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Main Content */}
       <div className="flex-1 bg-background">
-        <header className='h-16 relative bg-white dark:bg-background border-b border-border'>
-            <div className="mx-auto max-w-8xl px-2 sm:px-6 lg:px-8">
-              <div className="relative flex h-16 items-center justify-between">
-                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                  <button>
-                    Toogle menu
-                  </button>
-                </div>
-                <div className="flex items-center">
-                  <div className="flex items-center gap-4">
-                      <ThemeToggler />
-                      {user && <UserNav user={user} />}
-                  </div>
+        <header className="h-16 relative bg-white dark:bg-background border-b border-border">
+          <div className="mx-auto max-w-8xl px-2 sm:px-6 lg:px-8">
+            <div className="relative flex h-16 items-center justify-between">
+              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <button>Toogle menu</button>
+              </div>
+              <div className="flex items-center">
+                <div className="flex items-center gap-4">
+                  <ThemeToggler />
+                  {user && <UserNav user={user} />}
                 </div>
               </div>
             </div>
+          </div>
         </header>
         <main className="p-6">{children}</main>
       </div>

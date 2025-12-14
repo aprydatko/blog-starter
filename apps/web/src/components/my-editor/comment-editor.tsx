@@ -44,13 +44,13 @@ const BaseKit = [
   ListItem,
   TextStyle,
   Placeholder.configure({
-    placeholder: "Write your comment line",
+    placeholder: 'Write your comment line',
   }),
 ]
 
 const extensions = [
   ...BaseKit,
-  
+
   Bold,
   Italic,
   TextUnderline,
@@ -127,14 +127,18 @@ const App = React.forwardRef<TiptapEditorRef, TiptapEditorProps>(({ content, onC
     },
   })
 
-    // Expose clearContent method via ref
-  React.useImperativeHandle(ref, () => ({
-    clearContent: () => {
-      if (editor) {
-        editor.commands.clearContent(true)
-      }
-    }
-  }), [editor])
+  // Expose clearContent method via ref
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      clearContent: () => {
+        if (editor) {
+          editor.commands.clearContent(true)
+        }
+      },
+    }),
+    [editor]
+  )
 
   // Update editor content when content prop changes
   useEffect(() => {

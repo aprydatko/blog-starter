@@ -117,27 +117,27 @@ const DocumentColumn = /* @__PURE__ */ Document.extend({
 })
 
 const uploadImage = async (file: File) => {
-    if (!file.type.startsWith('image/')) {
-        alert('Please select an image file')
-        return
-    }
+  if (!file.type.startsWith('image/')) {
+    alert('Please select an image file')
+    return
+  }
 
-    try {
-        const formData = new FormData()
-        formData.append('file', file)
-        const response = await fetch('/api/upload/image', {
-            method: 'POST',
-            body: formData
-        })
-        const data = await response.json()
-        if (!data.success) {
-         throw new Error(data.error)
-        }
-        return data.url;
-    } catch (error) {
-        console.error('Failed to upload', error)
-        throw new Error("Failed to upload")
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+    const response = await fetch('/api/upload/image', {
+      method: 'POST',
+      body: formData,
+    })
+    const data = await response.json()
+    if (!data.success) {
+      throw new Error(data.error)
     }
+    return data.url
+  } catch (error) {
+    console.error('Failed to upload', error)
+    throw new Error('Failed to upload')
+  }
 }
 
 const BaseKit = [

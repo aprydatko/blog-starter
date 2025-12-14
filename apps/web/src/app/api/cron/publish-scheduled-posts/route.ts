@@ -8,30 +8,24 @@ export async function GET(request: Request) {
   // Get the API key from the request headers
   const authHeader = request.headers.get('authorization')
   const apiKey = authHeader?.split(' ')[1] // Bearer <token>
-  
+
   // Verify the API key
   if (apiKey !== process.env.CRON_SECRET) {
-    return NextResponse.json(
-      { success: false, error: 'Unauthorized' },
-      { status: 401 }
-    )
+    return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
     // Publish any scheduled posts that are due
     const result = await publishScheduledPosts()
-    
+
     return NextResponse.json({
       success: true,
       message: `Successfully published ${result.count} scheduled posts`,
-      count: result.count
+      count: result.count,
     })
   } catch (error) {
     console.error('Error publishing scheduled posts:', error)
-    return NextResponse.json(
-      { success: false, error: 'Failed to publish scheduled posts' },
-      { status: 500 }
-    )
+    return NextResponse.json({ success: false, error: 'Failed to publish scheduled posts' }, { status: 500 })
   }
 }
 

@@ -148,7 +148,7 @@ export default function NewPostPage() {
                     <Checkbox
                       id="published"
                       checked={formData.published}
-                      onCheckedChange={(checked) => {
+                      onCheckedChange={checked => {
                         // If scheduling is enabled, don't allow direct publishing
                         if (formData.schedulePost) {
                           setFormData(prev => ({ ...prev, published: false }))
@@ -172,13 +172,13 @@ export default function NewPostPage() {
                     <Checkbox
                       id="schedule"
                       checked={formData.schedulePost}
-                      onCheckedChange={(checked) => {
+                      onCheckedChange={checked => {
                         const isScheduling = checked === true
                         setFormData(prev => ({
                           ...prev,
                           schedulePost: isScheduling,
                           // If enabling scheduling, uncheck published
-                          ...(isScheduling && { published: false })
+                          ...(isScheduling && { published: false }),
                         }))
                       }}
                       disabled={loading}
@@ -202,27 +202,18 @@ export default function NewPostPage() {
                           )}
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
-                          {formData.scheduledAt ? (
-                            format(formData.scheduledAt, 'PPP')
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
+                          {formData.scheduledAt ? format(formData.scheduledAt, 'PPP') : <span>Pick a date</span>}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0">
                         <Calendar
                           selected={formData.scheduledAt}
-                          onSelect={(date) => {
+                          onSelect={date => {
                             if (!date) return
                             // Keep the existing time if we have one, otherwise set to current time
                             const currentTime = formData.scheduledAt || new Date()
                             const newDate = new Date(date)
-                            newDate.setHours(
-                              currentTime.getHours(),
-                              currentTime.getMinutes(),
-                              0,
-                              0
-                            )
+                            newDate.setHours(currentTime.getHours(), currentTime.getMinutes(), 0, 0)
                             setFormData(prev => ({ ...prev, scheduledAt: newDate }))
                           }}
                         />
@@ -231,7 +222,7 @@ export default function NewPostPage() {
                     <Input
                       type="time"
                       value={formData.scheduledAt ? format(formData.scheduledAt, 'HH:mm') : ''}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (!formData.scheduledAt) return
                         const [hours, minutes] = e.target.value.split(':').map(Number)
                         const newDate = new Date(formData.scheduledAt)

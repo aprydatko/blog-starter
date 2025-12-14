@@ -7,7 +7,7 @@ import { Input } from '@blog-starter/ui/input'
 import { Label } from '@blog-starter/ui/label'
 import { toast } from 'sonner'
 import Link from 'next/link'
-import Head from 'next/head';
+import Head from 'next/head'
 
 export default function RegisterPage() {
   const router = useRouter()

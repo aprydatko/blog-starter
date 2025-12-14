@@ -110,7 +110,7 @@ export function initializeAuth(nextAuth = NextAuth): NextAuthResult {
         if (token) {
           session.user.id = token.id as string
           session.user.name = token.name as string | null | undefined
-          session.user.email = token.email as string 
+          session.user.email = token.email as string
           session.user.image = token.picture as string | null | undefined
           session.user.role = token.role as string | undefined
         }
@@ -118,7 +118,7 @@ export function initializeAuth(nextAuth = NextAuth): NextAuthResult {
       },
       async jwt({ token, user }) {
         if (!token.email) return token
-        
+
         const dbUser = await prisma.user.findFirst({
           where: {
             email: token.email,

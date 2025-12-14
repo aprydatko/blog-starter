@@ -30,7 +30,7 @@ interface PageProps {
 }
 
 export default async function PagesPage({ searchParams }: PageProps) {
-    const resolvedSearchParams = await searchParams
+  const resolvedSearchParams = await searchParams
   const page = Number(resolvedSearchParams.page) || 1
   const { pages, pagination } = await getPages({
     published: true,
@@ -43,35 +43,26 @@ export default async function PagesPage({ searchParams }: PageProps) {
       <div className="max-w-4xl mx-auto space-y-8">
         <section className="space-y-4">
           <h1 className="text-3xl font-bold">All Pages</h1>
-          <p className="text-muted-foreground">
-            Browse through all our pages.
-          </p>
+          <p className="text-muted-foreground">Browse through all our pages.</p>
         </section>
 
         <div className="grid gap-6">
-          {pages?.map((page) => (
+          {pages?.map(page => (
             <article key={page.id} className="border rounded-lg p-6 hover:shadow-md transition-shadow">
               <h2 className="text-xl font-semibold mb-2">
                 <Link href={`/pages/${page.slug}`} className="hover:underline">
                   {page.title}
                 </Link>
               </h2>
-              <p className="text-muted-foreground line-clamp-2">
-                {page.content.replace(/<[^>]*>?/gm, '')}
-              </p>
+              <p className="text-muted-foreground line-clamp-2">{page.content.replace(/<[^>]*>?/gm, '')}</p>
               <div className="mt-4">
-                <Link 
-                  href={`/pages/${page.slug}`}
-                  className="text-sm font-medium text-primary hover:underline"
-                >
+                <Link href={`/pages/${page.slug}`} className="text-sm font-medium text-primary hover:underline">
                   Read more →
                 </Link>
               </div>
             </article>
           ))}
-          {pages?.length === 0 && (
-            <p className="text-center text-muted-foreground py-12">No pages found.</p>
-          )}
+          {pages?.length === 0 && <p className="text-center text-muted-foreground py-12">No pages found.</p>}
         </div>
 
         {pagination && <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} />}

@@ -43,18 +43,14 @@ export default async function PostsPage({ searchParams }: PageProps) {
       <div className="max-w-4xl mx-auto space-y-8">
         <section className="space-y-4">
           <h1 className="text-3xl font-bold">All Posts</h1>
-          <p className="text-muted-foreground">
-            Browse through all our blog posts.
-          </p>
+          <p className="text-muted-foreground">Browse through all our blog posts.</p>
         </section>
 
         <div className="grid gap-6">
           {posts?.map(post => (
             <PostCard key={post.id} post={post} />
           ))}
-          {posts?.length === 0 && (
-            <p className="text-center text-muted-foreground py-12">No posts found.</p>
-          )}
+          {posts?.length === 0 && <p className="text-center text-muted-foreground py-12">No posts found.</p>}
         </div>
 
         {pagination && <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} />}

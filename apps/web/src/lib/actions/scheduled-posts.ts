@@ -9,15 +9,15 @@ export async function getScheduledPosts() {
       published: false,
       scheduledAt: {
         not: null,
-        lte: new Date()
-      }
-    }
+        lte: new Date(),
+      },
+    },
   })
 }
 
 export async function publishScheduledPosts() {
   const postsToPublish = await getScheduledPosts()
-  
+
   if (postsToPublish.length === 0) {
     return { count: 0 }
   }
@@ -25,13 +25,13 @@ export async function publishScheduledPosts() {
   const result = await prisma.post.updateMany({
     where: {
       id: {
-        in: postsToPublish.map(post => post.id)
-      }
+        in: postsToPublish.map(post => post.id),
+      },
     },
     data: {
       published: true,
-      scheduledAt: null
-    }
+      scheduledAt: null,
+    },
   })
 
   // Revalidate relevant paths
@@ -48,19 +48,19 @@ export async function getUpcomingScheduledPosts() {
       published: false,
       scheduledAt: {
         not: null,
-        gte: new Date()
-      }
+        gte: new Date(),
+      },
     },
     orderBy: {
-      scheduledAt: 'asc'
+      scheduledAt: 'asc',
     },
     include: {
       author: {
-        select: { name: true, email: true }
+        select: { name: true, email: true },
       },
       tags: true,
-      categories: true
-    }
+      categories: true,
+    },
   })
 }
 
@@ -69,19 +69,19 @@ export async function unschedulePost(id: string) {
     await prisma.post.update({
       where: { id },
       data: {
-        scheduledAt: null
-      }
+        scheduledAt: null,
+      },
     })
 
     revalidatePath('/admin/scheduled-posts')
     revalidatePath('/admin/posts')
-    
+
     return { success: true }
   } catch (error) {
     console.error('Error unscheduling post:', error)
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : 'Failed to unschedule post' 
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to unschedule post',
     }
   }
 }

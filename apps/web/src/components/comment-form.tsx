@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 
-import TiptapEditor, { TiptapEditorRef  } from "@/components/my-editor/comment-editor"
+import TiptapEditor, { TiptapEditorRef } from '@/components/my-editor/comment-editor'
 
 interface CommentFormProps {
   postId: string
@@ -21,7 +21,7 @@ export function CommentForm({ postId, postSlug }: CommentFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     // Validate content (remove HTML tags and check if there's actual text)
     const textContent = content.replace(/<[^>]*>/g, '').trim()
     if (!textContent) {
@@ -30,7 +30,7 @@ export function CommentForm({ postId, postSlug }: CommentFormProps) {
     }
 
     setLoading(true)
-    
+
     try {
       const response = await fetch('/api/comments', {
         method: 'POST',
@@ -67,11 +67,7 @@ export function CommentForm({ postId, postSlug }: CommentFormProps) {
         <div className="rounded-lg border bg-card">
           <TiptapEditor ref={editorRef} content={content} onChange={content => setContent(content)} />
           <div className="flex items-center justify-end p-2 border-t">
-            <Button 
-              type="submit" 
-              disabled={loading || !content.trim()}
-              className="gap-2"
-            >
+            <Button type="submit" disabled={loading || !content.trim()} className="gap-2">
               {loading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />

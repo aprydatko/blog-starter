@@ -4,7 +4,7 @@ import './globals.css'
 import { Inter, Roboto } from 'next/font/google'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from 'sonner'
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'] })
 const roboto = Roboto({ subsets: ['latin'] })

@@ -8,7 +8,7 @@ import { Input } from '@blog-starter/ui/input'
 import { Label } from '@blog-starter/ui/label'
 import { toast } from 'sonner'
 import Link from 'next/link'
-import Head from 'next/head';
+import Head from 'next/head'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -43,8 +43,8 @@ export default function LoginPage() {
   }
 
   return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-       <Head>
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <Head>
         <title>Login Page</title>
         <meta name="description" content="Login page description" />
       </Head>

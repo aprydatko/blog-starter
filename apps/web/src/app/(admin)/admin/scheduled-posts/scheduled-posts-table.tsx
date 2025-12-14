@@ -8,15 +8,8 @@ import { toast } from 'sonner'
 
 import { Badge } from '@blog-starter/ui/badge'
 import { Button } from '@blog-starter/ui/button'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@blog-starter/ui/table'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from '@blog-starter/ui/tooltip'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@blog-starter/ui/table'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@blog-starter/ui/tooltip'
 
 import { PostWithRelations } from '@/types/post'
 import { unschedulePost } from '@/lib/actions/scheduled-posts'
@@ -34,7 +27,7 @@ export function ScheduledPostsTable({ initialPosts }: ScheduledPostsTableProps) 
     try {
       setIsDeleting(id)
       const result = await unschedulePost(id)
-      
+
       if (result.success) {
         setPosts(posts.filter(post => post.id !== id))
         toast.success('Post unscheduled successfully')
@@ -71,7 +64,7 @@ export function ScheduledPostsTable({ initialPosts }: ScheduledPostsTableProps) 
           </TableRow>
         </TableHeader>
         <TableBody>
-          {posts.map((post) => (
+          {posts.map(post => (
             <TableRow key={post.id}>
               <TableCell className="font-medium">
                 <div className="flex items-center gap-2">
@@ -79,13 +72,11 @@ export function ScheduledPostsTable({ initialPosts }: ScheduledPostsTableProps) 
                 </div>
               </TableCell>
               <TableCell>
-                <div className="text-sm text-muted-foreground">
-                  {post.author?.name || 'Unknown'}
-                </div>
+                <div className="text-sm text-muted-foreground">{post.author?.name || 'Unknown'}</div>
               </TableCell>
               <TableCell>
                 <div className="flex flex-wrap gap-1">
-                  {post.categories.map((category) => (
+                  {post.categories.map(category => (
                     <Badge key={category.id} variant="secondary">
                       {category.name}
                     </Badge>
@@ -94,7 +85,7 @@ export function ScheduledPostsTable({ initialPosts }: ScheduledPostsTableProps) 
               </TableCell>
               <TableCell>
                 <div className="flex flex-wrap gap-1">
-                  {post.tags.map((tag) => (
+                  {post.tags.map(tag => (
                     <Badge key={tag.id} variant="outline">
                       {tag.name}
                     </Badge>
@@ -107,9 +98,7 @@ export function ScheduledPostsTable({ initialPosts }: ScheduledPostsTableProps) 
                   {post.scheduledAt ? (
                     <TooltipProvider>
                       <Tooltip>
-                        <TooltipTrigger>
-                          {format(new Date(post.scheduledAt), 'MMM d, yyyy h:mm a')}
-                        </TooltipTrigger>
+                        <TooltipTrigger>{format(new Date(post.scheduledAt), 'MMM d, yyyy h:mm a')}</TooltipTrigger>
                         <TooltipContent>
                           {format(new Date(post.scheduledAt), 'EEEE, MMMM d, yyyy h:mm a')}
                         </TooltipContent>
@@ -122,11 +111,7 @@ export function ScheduledPostsTable({ initialPosts }: ScheduledPostsTableProps) 
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => router.push(`/admin/posts/${post.id}/edit`)}
-                  >
+                  <Button variant="ghost" size="icon" onClick={() => router.push(`/admin/posts/${post.id}/edit`)}>
                     <Edit className="h-4 w-4" />
                     <span className="sr-only">Edit</span>
                   </Button>

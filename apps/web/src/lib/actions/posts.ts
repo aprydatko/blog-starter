@@ -42,7 +42,7 @@ export async function getCurrentUserId() {
 export async function createPost(data: CreatePostInput) {
   try {
     const baseSlug = generateSlug(data.title)
-    
+
     // If post is scheduled, ensure it's not published immediately
     const shouldPublish = data.scheduledAt ? false : data.published
 
@@ -67,12 +67,12 @@ export async function createPost(data: CreatePostInput) {
       published: shouldPublish ?? false,
       authorId: data.authorId,
     }
-    
+
     // Add scheduledAt if provided
     if (data.scheduledAt) {
       postData.scheduledAt = data.scheduledAt
     }
-    
+
     const postDataWithRelations = {
       ...postData,
       tags: data.tags

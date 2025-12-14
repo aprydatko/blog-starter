@@ -1,7 +1,7 @@
-import { MetadataRoute } from 'next';
-import { prisma } from '@blog-starter/db';
+import { MetadataRoute } from 'next'
+import { prisma } from '@blog-starter/db'
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Get all published posts
@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       slug: true,
       updatedAt: true,
     },
-  });
+  })
 
   // Get all published pages
   const pages = await prisma.page.findMany({
@@ -20,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       slug: true,
       updatedAt: true,
     },
-  });
+  })
 
   // Static routes
   const staticRoutes = [
@@ -48,23 +48,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly' as const,
       priority: 0.5,
     },
-  ];
+  ]
 
   // Dynamic routes for posts
-  const postRoutes = posts.map((post) => ({
+  const postRoutes = posts.map(post => ({
     url: `${BASE_URL}/posts/${post.slug}`,
     lastModified: post.updatedAt.toISOString(),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
-  }));
+  }))
 
   // Dynamic routes for pages
-  const pageRoutes = pages.map((page) => ({
+  const pageRoutes = pages.map(page => ({
     url: `${BASE_URL}/pages/${page.slug}`,
     lastModified: page.updatedAt.toISOString(),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
-  }));
+  }))
 
-  return [...staticRoutes, ...postRoutes, ...pageRoutes];
+  return [...staticRoutes, ...postRoutes, ...pageRoutes]
 }
