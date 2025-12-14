@@ -160,33 +160,38 @@ export function MediaTable({ media, pagination, currentSearch, currentSortBy, cu
     <div className="space-y-4">
       <div className="flex items-center gap-4">
         <form onSubmit={handleSearch} className="flex-1 flex gap-2">
-          <div className="relative flex-1">
+          <div className="relative flex-1 max-w-100">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="text"
               placeholder="Search by filename..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 pl-10 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
             />
           </div>
-          <Button type="submit">Search</Button>
+          <Button type="submit" variant="default" className="flex items-center gap-2">
+            <Search className="h-4 w-4" />
+            Search
+          </Button>
         </form>
-        <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
+
+        <Input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
         <Button onClick={handleUploadClick} disabled={isUploading}>
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className="h-4 w-4" />
           {isUploading ? 'Uploading...' : 'Add Media'}
         </Button>
+
         <Button onClick={handleSync} disabled={isSyncing} variant="outline">
-          <RefreshCw className={`mr-2 h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
+          <RefreshCw className={` h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
           {isSyncing ? 'Syncing...' : 'Sync Files'}
         </Button>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-md border border-border">
         <table className="w-full">
           <thead>
-            <tr className="border-b bg-muted/50">
+            <tr className="border-b border-border bg-muted/25">
               <th className="h-12 px-4 text-left align-middle font-medium">Preview</th>
               <th className="h-12 px-4 text-left align-middle font-medium">
                 <button onClick={() => handleSort('name')} className="flex items-center gap-2 hover:text-foreground">
@@ -231,7 +236,7 @@ export function MediaTable({ media, pagination, currentSearch, currentSortBy, cu
               </tr>
             ) : (
               media.map(item => (
-                <tr key={item.id} className="border-b">
+                <tr key={item.id} className="border-b border-border last:border-none">
                   <td className="p-4">
                     <div className="relative w-16 h-16 rounded-md overflow-hidden border bg-muted">
                       {item.mimeType.startsWith('image/') ? (

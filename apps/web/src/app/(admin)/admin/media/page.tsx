@@ -37,12 +37,13 @@ export default async function MediaPage({ searchParams }: PageProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Media</h1>
-        <p className="text-muted-foreground">Manage your uploaded images and media files</p>
+    <div className="space-y-6 bg-white dark:bg-background p-6 rounded-xl border border-border">
+      <div className="lg:flex lg:items-center lg:justify-between">
+        <div className="min-w-0 flex-1">
+          <h2 className="font-sans font-bold text-3xl text-secondary-foreground">Media Files</h2>
+        </div>
       </div>
-
+      <hr className="mb-10 border-border" />
       <MediaTable
         media={result.media || []}
         pagination={result.pagination || { total: 0, page: 1, limit: 20, totalPages: 0 }}

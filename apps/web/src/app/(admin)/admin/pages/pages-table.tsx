@@ -82,7 +82,7 @@ export function PagesTable({ pages, pagination }: PagesTableProps) {
               </tr>
             ) : (
               pages.map(page => (
-                <tr key={page.id}>
+                <tr key={page.id} className="border-b border-border last:border-none">
                   <td className="p-4">
                     <div>
                       <div className="font-medium">{page.title}</div>

@@ -42,7 +42,7 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
         </div>
         <div className="flex">
           <Link href="/admin/categories/new">
-            <Button className='flex justify-center gap-2'>
+            <Button className="flex justify-center gap-2">
               <Plus className="h-4 w-4" />
               New Category
             </Button>
@@ -52,19 +52,17 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
       <hr className="mb-10 border-border" />
 
       {/* -------------  Search / Filter Form  --------------------------- */}
-      <form
-        action="/admin/categories"
-        method="GET"
-        className="grid grid-cols-1 md:grid-cols-3 gap-4"
-      >
+      <form action="/admin/categories" method="GET" className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Search input */}
         <div className="space-y-2">
-          <Label htmlFor="search" className='block text-sm/6 font-medium text-gray-900 dark:text-white'>Search by name or description</Label>
+          <Label htmlFor="search" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+            Search by name or description
+          </Label>
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               id="search"
-              name='search'
+              name="search"
               defaultValue={month}
               placeholder="Enter search..."
               className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 pl-10 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
@@ -72,17 +70,21 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
           </div>
         </div>
 
-         <div className="space-y-2">
-          <Label htmlFor="month" className='block text-sm/6 font-medium text-gray-900 dark:text-white'>Filter by Month</Label>
+        <div className="space-y-2">
+          <Label htmlFor="month" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+            Filter by Month
+          </Label>
           <select
             id="month"
             name="month"
             defaultValue={month}
             className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-background dark:bg-white/5 py-1.5 pr-8 pl-3 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
           >
-            <option value="" className='text-muted-foreground'>All months</option>
+            <option value="" className="text-muted-foreground">
+              All months
+            </option>
             {months.map((m, idx) => (
-              <option className='text-black dark:text-black' key={idx} value={idx + 1}>
+              <option className="text-black dark:text-black" key={idx} value={idx + 1}>
                 {m}
               </option>
             ))}
@@ -91,7 +93,7 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
 
         {/* Submit & Reset */}
         <div className="flex items-end justify-end gap-4">
-          <Button type="submit" variant="default" className='flex items-center gap-2'>
+          <Button type="submit" variant="default" className="flex items-center gap-2">
             <Search className="h-4 w-4" />
             Search
           </Button>

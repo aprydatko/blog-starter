@@ -64,7 +64,9 @@ export function EditPageForm({ page }: EditPageFormProps) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Title *</Label>
+              <Label htmlFor="title" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                Title *
+              </Label>
               <Input
                 id="title"
                 className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
@@ -76,7 +78,9 @@ export function EditPageForm({ page }: EditPageFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="content" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Content *</Label>
+              <Label htmlFor="content" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                Content *
+              </Label>
               {/* <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} /> */}
             </div>
 
@@ -88,7 +92,9 @@ export function EditPageForm({ page }: EditPageFormProps) {
                 onChange={e => setFormData({ ...formData, published: e.target.checked })}
                 className="appearance-none rounded-sm border border-border bg-white checked:border-ring checked:bg-ring indeterminate:border-ring indeterminate:bg-ring focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
               />
-              <Label htmlFor="published" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Published</Label>
+              <Label htmlFor="published" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                Published
+              </Label>
             </div>
           </CardContent>
         </Card>

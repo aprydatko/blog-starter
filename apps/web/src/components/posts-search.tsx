@@ -82,7 +82,9 @@ export function PostsSearch({ className }: PostsSearchProps) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Title Search */}
         <div className="space-y-2">
-          <Label htmlFor="titleSearch" className='block text-sm/6 font-medium text-gray-900 dark:text-white'>Search by Title</Label>
+          <Label htmlFor="titleSearch" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+            Search by Title
+          </Label>
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
@@ -98,7 +100,9 @@ export function PostsSearch({ className }: PostsSearchProps) {
 
         {/* General Search */}
         <div className="space-y-2">
-          <Label htmlFor="generalSearch" className='block text-sm/6 font-medium text-gray-900 dark:text-white'>Search Content</Label>
+          <Label htmlFor="generalSearch" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+            Search Content
+          </Label>
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
@@ -114,16 +118,20 @@ export function PostsSearch({ className }: PostsSearchProps) {
 
         {/* Month/Date Filter */}
         <div className="space-y-2">
-          <Label htmlFor="monthDate" className='block text-sm/6 font-medium text-gray-900 dark:text-white'>Filter by Month</Label>
+          <Label htmlFor="monthDate" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+            Filter by Month
+          </Label>
           <select
             id="monthDate"
             value={monthDate}
             onChange={e => setMonthDate(e.target.value)}
             className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-background dark:bg-white/5 py-1.5 pr-8 pl-3 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
           >
-            <option value="" className='text-muted-foreground'>All months</option>
+            <option value="" className="text-muted-foreground">
+              All months
+            </option>
             {getMonthOptions().map(month => (
-              <option className='text-black dark:text-black' key={month.value} value={month.value}>
+              <option className="text-black dark:text-black" key={month.value} value={month.value}>
                 {month.label}
               </option>
             ))}

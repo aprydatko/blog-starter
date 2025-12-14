@@ -38,7 +38,7 @@ export default async function PagesPage({ searchParams }: PageProps) {
         </div>
         <div className="flex">
           <Link href="/admin/pages/new">
-            <Button className='flex justify-center gap-2'>
+            <Button className="flex justify-center gap-2">
               <Plus className="mr-2 h-4 w-4" />
               New Page
             </Button>

@@ -173,7 +173,7 @@ export function CommentsTable({ comments, pagination, posts, users, currentFilte
 
         <div className="space-y-2">
           <Label htmlFor="postId" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
-              Filter by Post
+            Filter by Post
           </Label>
           <select
             id="postId"
@@ -181,7 +181,9 @@ export function CommentsTable({ comments, pagination, posts, users, currentFilte
             onChange={e => handleFilterChange('postId', e.target.value)}
             className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-background dark:bg-white/5 py-1.5 pr-8 pl-3 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
           >
-            <option value="" className="className='text-muted-foreground'">All Posts</option>
+            <option value="" className="className='text-muted-foreground'">
+              All Posts
+            </option>
             {posts.map(post => (
               <option key={post.id} value={post.id} className="className='text-black dark:text-black'">
                 {post.title}
@@ -200,9 +202,11 @@ export function CommentsTable({ comments, pagination, posts, users, currentFilte
             onChange={e => handleFilterChange('authorId', e.target.value)}
             className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-background dark:bg-white/5 py-1.5 pr-8 pl-3 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
           >
-            <option value="" className='text-muted-foreground'>All Authors</option>
+            <option value="" className="text-muted-foreground">
+              All Authors
+            </option>
             {users.map(user => (
-              <option key={user.id} value={user.id} className='text-black dark:text-black'>
+              <option key={user.id} value={user.id} className="text-black dark:text-black">
                 {user.name || user.email || 'Unknown'}
               </option>
             ))}
@@ -219,13 +223,17 @@ export function CommentsTable({ comments, pagination, posts, users, currentFilte
             onChange={e => handleFilterChange('sortBy', e.target.value)}
             className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-background dark:bg-white/5 py-1.5 pr-8 pl-3 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
           >
-            <option value="desc" className='text-black dark:text-black'>Newest First</option>
-            <option value="asc" className='text-black dark:text-black'>Oldest First</option>
+            <option value="desc" className="text-black dark:text-black">
+              Newest First
+            </option>
+            <option value="asc" className="text-black dark:text-black">
+              Oldest First
+            </option>
           </select>
         </div>
 
         <div className="flex items-end justify-end gap-4">
-          <Button type="submit" variant="default" className='flex items-center gap-2'>
+          <Button type="submit" variant="default" className="flex items-center gap-2">
             <Search className="h-4 w-4" />
             Search
           </Button>

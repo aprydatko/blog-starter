@@ -113,7 +113,7 @@ export function PostsTable({ posts, pagination }: PostsTableProps) {
               </tr>
             ) : (
               posts.map(post => (
-                <tr key={post.id}>
+                <tr key={post.id} className="border-b border-border last:border-none">
                   <td className="p-4">
                     <div>
                       <div className="font-medium">{post.title}</div>

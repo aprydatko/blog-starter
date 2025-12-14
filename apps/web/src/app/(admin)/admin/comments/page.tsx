@@ -55,7 +55,7 @@ export default async function CommentsPage({ searchParams }: PageProps) {
         </div>
       </div>
       <hr className="mb-10 border-border" />
-      
+
       <CommentsTable
         comments={commentsResult.comments || []}
         pagination={commentsResult.pagination || { total: 0, page: 1, limit: 10, totalPages: 0 }}

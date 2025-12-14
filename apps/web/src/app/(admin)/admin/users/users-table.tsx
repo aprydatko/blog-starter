@@ -133,9 +133,9 @@ export function UsersTable({ users, pagination, currentFilters }: UsersTableProp
             <option value="desc">Z-A</option>
           </select>
         </div>
-        
-        <div className='flex items-end justify-end gap-4'>
-          <Button type="submit" variant="default" className='flex items-center gap-2'>
+
+        <div className="flex items-end justify-end gap-4">
+          <Button type="submit" variant="default" className="flex items-center gap-2">
             <Search className="h-4 w-4" />
             Search
           </Button>

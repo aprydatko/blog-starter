@@ -131,7 +131,9 @@ export default function NewPostPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Title *</Label>
+                    <Label htmlFor="name" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                      Title *
+                    </Label>
                     <Input
                       id="title"
                       className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
@@ -160,7 +162,12 @@ export default function NewPostPage() {
                           }}
                           disabled={loading || formData.schedulePost}
                         />
-                        <Label htmlFor="published" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Publish immediately</Label>
+                        <Label
+                          htmlFor="published"
+                          className="block text-sm/6 font-medium text-gray-900 dark:text-white"
+                        >
+                          Publish immediately
+                        </Label>
                       </div>
                       {formData.schedulePost && (
                         <p className="text-sm text-muted-foreground">
@@ -186,26 +193,30 @@ export default function NewPostPage() {
                           }}
                           disabled={loading}
                         />
-                        <Label htmlFor="schedule" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Schedule for later</Label>
+                        <Label htmlFor="schedule" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                          Schedule for later
+                        </Label>
                       </div>
                     </div>
                   </div>
 
                   {formData.schedulePost && (
                     <div className="space-y-2">
-                      <Label className="block text-sm/6 font-medium text-gray-900 dark:text-white">Schedule Date & Time *</Label>
+                      <Label className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                        Schedule Date & Time *
+                      </Label>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <Calendar
-                            selected={formData.scheduledAt}
-                            onSelect={date => {
-                              if (!date) return
-                              // Keep the existing time if we have one, otherwise set to current time
-                              const currentTime = formData.scheduledAt || new Date()
-                              const newDate = new Date(date)
-                              newDate.setHours(currentTime.getHours(), currentTime.getMinutes(), 0, 0)
-                              setFormData(prev => ({ ...prev, scheduledAt: newDate }))
-                            }}
-                          />
+                          selected={formData.scheduledAt}
+                          onSelect={date => {
+                            if (!date) return
+                            // Keep the existing time if we have one, otherwise set to current time
+                            const currentTime = formData.scheduledAt || new Date()
+                            const newDate = new Date(date)
+                            newDate.setHours(currentTime.getHours(), currentTime.getMinutes(), 0, 0)
+                            setFormData(prev => ({ ...prev, scheduledAt: newDate }))
+                          }}
+                        />
                         <Input
                           type="time"
                           className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
@@ -229,7 +240,9 @@ export default function NewPostPage() {
                   )}
 
                   <div className="space-y-2">
-                    <Label htmlFor="excerpt" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Excerpt</Label>
+                    <Label htmlFor="excerpt" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                      Excerpt
+                    </Label>
                     <Textarea
                       id="excerpt"
                       className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
@@ -242,12 +255,16 @@ export default function NewPostPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="content" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Content *</Label>
+                    <Label htmlFor="content" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                      Content *
+                    </Label>
                     {/* <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} /> */}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="tags" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Tags</Label>
+                    <Label htmlFor="tags" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                      Tags
+                    </Label>
                     <Input
                       id="tags"
                       className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
@@ -262,7 +279,9 @@ export default function NewPostPage() {
                     <Label className="block text-sm/6 font-medium text-gray-900 dark:text-white">Categories</Label>
                     <div className="space-y-2 border border-border rounded-md p-4 bg-background dark:bg-white/5">
                       {categories.length === 0 ? (
-                        <p className="text-sm text-muted-foreground">No categories available. Create categories first.</p>
+                        <p className="text-sm text-muted-foreground">
+                          No categories available. Create categories first.
+                        </p>
                       ) : (
                         categories.map(category => (
                           <div key={category.id} className="flex items-center space-x-2">

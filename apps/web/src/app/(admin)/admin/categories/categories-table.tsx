@@ -72,7 +72,7 @@ export function CategoriesTable({ categories, pagination }: CategoriesTableProps
               </tr>
             ) : (
               categories.map(category => (
-                <tr key={category.id}>
+                <tr key={category.id} className="border-b border-border last:border-none">
                   <td className="p-4">
                     <div className="font-medium">{category.name}</div>
                   </td>

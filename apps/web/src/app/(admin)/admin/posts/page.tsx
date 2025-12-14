@@ -43,7 +43,7 @@ export default async function PostsPage({ searchParams }: PageProps) {
         </div>
         <div className="flex">
           <Link href="/admin/posts/new">
-            <Button className='flex justify-center gap-2'>
+            <Button className="flex justify-center gap-2">
               <Plus className="h-4 w-4" />
               New Post
             </Button>
