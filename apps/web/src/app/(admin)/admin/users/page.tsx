@@ -38,11 +38,13 @@ export default async function UsersPage({ searchParams }: PageProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Users</h1>
-        <p className="text-muted-foreground">Manage users</p>
+    <div className="space-y-6 bg-white dark:bg-background p-6 rounded-xl border border-border">
+      <div className="lg:flex lg:items-center lg:justify-between">
+        <div className="min-w-0 flex-1">
+          <h2 className="font-sans font-bold text-3xl text-secondary-foreground">Users</h2>
+        </div>
       </div>
+      <hr className="mb-10 border-border" />
 
       <UsersTable
         users={usersResult.users || []}

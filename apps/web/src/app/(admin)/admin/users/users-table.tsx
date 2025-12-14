@@ -9,6 +9,7 @@ import { Input } from '@blog-starter/ui/input'
 import { deleteUser } from '@/lib/actions/users'
 import { toast } from 'sonner'
 import Link from 'next/link'
+import { Label } from '@blog-starter/ui/label'
 
 interface User {
   id: string
@@ -100,47 +101,52 @@ export function UsersTable({ users, pagination, currentFilters }: UsersTableProp
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <div className="rounded-md border p-4 space-y-4">
-        <form onSubmit={handleSearchSubmit} className="flex gap-4 items-end">
-          <div className="flex-1">
-            <label htmlFor="search" className="text-sm font-medium mb-2 block">
-              Search Users
-            </label>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="search"
-                type="text"
-                placeholder="Search by name or email..."
-                value={searchValue}
-                onChange={e => setSearchValue(e.target.value)}
-                className="pl-9"
-              />
-            </div>
+      <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="search" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+            Search Users
+          </Label>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              id="search"
+              type="text"
+              placeholder="Search by name or email..."
+              value={searchValue}
+              onChange={e => setSearchValue(e.target.value)}
+              className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 pl-10 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
+            />
           </div>
-          <div className="w-40">
-            <label htmlFor="sortBy" className="text-sm font-medium mb-2 block">
-              Sort by Name
-            </label>
-            <select
-              id="sortBy"
-              value={sortByFilter}
-              onChange={e => handleFilterChange('sortBy', e.target.value)}
-              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-            >
-              <option value="asc">A-Z</option>
-              <option value="desc">Z-A</option>
-            </select>
-          </div>
-          <Button type="submit">Search</Button>
-        </form>
-      </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="sortBy" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+            Sort by Name
+          </Label>
+          <select
+            id="sortBy"
+            value={sortByFilter}
+            onChange={e => handleFilterChange('sortBy', e.target.value)}
+            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-background dark:bg-white/5 py-1.5 pr-8 pl-3 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
+          >
+            <option value="asc">A-Z</option>
+            <option value="desc">Z-A</option>
+          </select>
+        </div>
+        
+        <div className='flex items-end justify-end gap-4'>
+          <Button type="submit" variant="default" className='flex items-center gap-2'>
+            <Search className="h-4 w-4" />
+            Search
+          </Button>
+        </div>
+      </form>
 
       {/* Table */}
-      <div className="rounded-md border">
+      <div className="rounded-md border border-border">
         <table className="w-full">
           <thead>
-            <tr className="border-b bg-muted/50">
+            <tr className="border-b border-border bg-muted/25">
               <th className="h-12 px-4 text-left align-middle font-medium">Name</th>
               <th className="h-12 px-4 text-left align-middle font-medium">Email</th>
               <th className="h-12 px-4 text-left align-middle font-medium">Role</th>
@@ -157,7 +163,7 @@ export function UsersTable({ users, pagination, currentFilters }: UsersTableProp
               </tr>
             ) : (
               users.map(user => (
-                <tr key={user.id} className="border-b">
+                <tr key={user.id}>
                   <td className="p-4">
                     <div className="text-sm font-medium">{user.name || 'No name'}</div>
                   </td>
