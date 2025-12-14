@@ -28,25 +28,26 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Categories</h1>
         </div>
-        <div className="text-destructive">Failed to load categories</div>
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Categories</h1>
-          <p className="text-muted-foreground">Manage your blog categories</p>
+    <div className="space-y-6 bg-white dark:bg-background p-6 rounded-xl border border-border">
+      <div className="lg:flex lg:items-center lg:justify-between">
+        <div className="min-w-0 flex-1">
+          <h2 className="font-sans font-bold text-3xl text-secondary-foreground">Categories</h2>
         </div>
-        <Link href="/admin/categories/new">
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            New Category
-          </Button>
-        </Link>
+        <div className="flex">
+            <Link href="/admin/categories/new">
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                New Category
+              </Button>
+            </Link>
+        </div>
       </div>
+      <hr className='mb-10 border-border' />
 
       {/* -------------  Search / Filter Form  --------------------------- */}
       <form
@@ -56,33 +57,27 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
       >
         {/* Search input */}
         <div className="flex-1">
-          <label htmlFor="search" className="block text-sm font-medium text-muted-foreground mb-1">
-            Search by name or description
-          </label>
           <input
             type="text"
             id="search"
             name="search"
             defaultValue={search}
-            className="w-full rounded-md border p-2 focus:outline-none focus:ring-2 focus:ring-primary"
-            placeholder="Search categories…"
+            className="w-full rounded-md border border-border h-10 p-2 focus:outline-none focus:ring-1 focus:ring-primary"
+            placeholder="Search by name or description…"
           />
         </div>
 
         {/* Month dropdown */}
         <div>
-          <label htmlFor="month" className="block text-sm font-medium text-muted-foreground mb-1">
-            Created month
-          </label>
           <select
             id="month"
             name="month"
             defaultValue={month}
-            className="rounded-md border p-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="rounded-md border border-border h-10 px-8 focus:outline-none focus:ring-1 focus:ring-primary"
           >
-            <option value="">All months</option>
+            <option className='text-muted-foreground' value="">All months</option>
             {months.map((m, idx) => (
-              <option key={idx} value={idx + 1}>
+              <option className='text-black dark:text-black' key={idx} value={idx + 1}>
                 {m}
               </option>
             ))}
@@ -91,11 +86,13 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
 
         {/* Submit & Reset */}
         <div className="flex gap-2">
-          <Button type="submit" variant="outline">
+          <Button size="lg" type="submit" variant="default">
             Apply
           </Button>
-          <Link href="/admin/categories" className="text-muted-foreground hover:underline">
-            Reset
+          <Link href="/admin/categories">
+            <Button size='lg' type="submit" variant="secondary" className="px-8">
+              Reset
+            </Button>
           </Link>
         </div>
       </form>

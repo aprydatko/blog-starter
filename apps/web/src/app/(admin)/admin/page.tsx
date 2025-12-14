@@ -11,11 +11,11 @@ export default async function AdminDashboard() {
         <Card className='border-border bg-card'>
           <CardContent>
             <div>
-              <div className='flex items-center justify-center w-16 h-16 bg-accent/5 rounded-xl'>
+              <div className='flex items-center justify-center w-12 h-12 bg-accent/5 rounded-xl'>
                 <Newspaper className='w-6 h-6' />
               </div>
-              <p className='mt-4 text-xl'>Posts</p>
-              <p className='mt-3 text-4xl font-bold leading-none'>{postsCount}</p>
+              <p className='mt-4 text-md'>Posts</p>
+              <p className='mt-3 text-3xl font-bold leading-none'>{postsCount}</p>
             </div>
           </CardContent>
         </Card>
@@ -23,11 +23,11 @@ export default async function AdminDashboard() {
         <Card className='border-border bg-card'>
           <CardContent>
             <div>
-              <div className='flex items-center justify-center w-16 h-16 bg-accent/5 rounded-xl'>
+              <div className='flex items-center justify-center w-12 h-12 bg-accent/5 rounded-xl'>
                 <StickyNote className='w-6 h-6' />
               </div>
-              <p className='mt-4 text-xl'>Pages</p>
-              <p className='mt-3 text-4xl font-bold leading-none'>{pagesCount}</p>
+              <p className='mt-4 text-md'>Pages</p>
+              <p className='mt-3 text-3xl font-bold leading-none'>{pagesCount}</p>
             </div>
           </CardContent>
         </Card>
@@ -35,11 +35,11 @@ export default async function AdminDashboard() {
         <Card className='border-border bg-card'>
           <CardContent>
             <div>
-              <div className='flex items-center justify-center w-16 h-16 bg-accent/5 rounded-xl'>
+              <div className='flex items-center justify-center w-12 h-12 bg-accent/5 rounded-xl'>
                 <MessageSquareMore className='w-6 h-6' />
               </div>
-              <p className='mt-4 text-xl'>Comments</p>
-              <p className='mt-3 text-4xl font-bold leading-none'>{commentsCount}</p>
+              <p className='mt-4 text-md'>Comments</p>
+              <p className='mt-3 text-3xl font-bold leading-none'>{commentsCount}</p>
             </div>
           </CardContent>
         </Card>
@@ -47,11 +47,11 @@ export default async function AdminDashboard() {
          <Card className='border-border bg-card'>
           <CardContent>
             <div>
-              <div className='flex items-center justify-center w-16 h-16 bg-accent/5 rounded-xl'>
+              <div className='flex items-center justify-center w-12 h-12 bg-accent/5 rounded-xl'>
                 <Image className='w-6 h-6' />
               </div>
-              <p className='mt-4 text-xl'>Media Files</p>
-              <p className='mt-3 text-4xl font-bold leading-none'>{mediaCount}</p>
+              <p className='mt-4 text-md'>Media Files</p>
+              <p className='mt-3 text-3xl font-bold leading-none'>{mediaCount}</p>
             </div>
           </CardContent>
         </Card>

@@ -51,10 +51,10 @@ export function CategoriesTable({ categories, pagination }: CategoriesTableProps
 
   return (
     <div className="space-y-4">
-      <div className="rounded-md border">
+      <div className="rounded-md border border-border">
         <table className="w-full">
           <thead>
-            <tr className="border-b bg-muted/50">
+            <tr className="border-b border-border bg-muted/25">
               <th className="h-12 px-4 text-left align-middle font-medium">Name</th>
               <th className="h-12 px-4 text-left align-middle font-medium">Slug</th>
               <th className="h-12 px-4 text-left align-middle font-medium">Description</th>
@@ -72,7 +72,7 @@ export function CategoriesTable({ categories, pagination }: CategoriesTableProps
               </tr>
             ) : (
               categories.map(category => (
-                <tr key={category.id} className="border-b">
+                <tr key={category.id} className="">
                   <td className="p-4">
                     <div className="font-medium">{category.name}</div>
                   </td>

@@ -7,7 +7,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import { LayoutDashboard, FileText, File, Users, MessageSquare, Image, ChartBarStacked, Loader2, Timer } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { UserNav } from '@/components/user-nav'
-import { Button } from '@blog-starter/ui/button'
 import ThemeToggler from '@/components/theme-toggler'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
