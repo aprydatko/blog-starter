@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@blog-starter/ui/button'
 import { Input } from '@blog-starter/ui/input'
 import { Label } from '@blog-starter/ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '@blog-starter/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@blog-starter/ui/card'
 import { updatePage } from '@/lib/actions/pages'
 import { toast } from 'sonner'
 import TiptapEditor from '@/components/my-editor/tiptap-editor'
+import { Checkbox } from '@blog-starter/ui/checkbox'
 
 interface Page {
   id: string
@@ -54,15 +55,19 @@ export function EditPageForm({ page }: EditPageFormProps) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="grid gap-6">
-        <Card>
+        <Card className="border-none dark:bg-background">
           <CardHeader>
-            <CardTitle>Page Details</CardTitle>
+            <CardTitle className="text-base/7 font-semibold text-gray-900 dark:text-gray-300">Edit Page</CardTitle>
+            <CardDescription className="mt-1 text-sm/6 text-gray-600 dark:text-gray-400">
+              This information will be displayed publicly so be careful what you share.
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Title *</Label>
+              <Label htmlFor="title" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Title *</Label>
               <Input
                 id="title"
+                className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
                 value={formData.title}
                 onChange={e => setFormData({ ...formData, title: e.target.value })}
                 placeholder="Enter page title"
@@ -71,28 +76,28 @@ export function EditPageForm({ page }: EditPageFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="content">Content *</Label>
-              <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} />
+              <Label htmlFor="content" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Content *</Label>
+              {/* <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} /> */}
             </div>
 
             <div className="flex items-center space-x-2">
-              <input
+              <Checkbox
                 type="checkbox"
                 id="published"
                 checked={formData.published}
                 onChange={e => setFormData({ ...formData, published: e.target.checked })}
-                className="h-4 w-4 rounded border-gray-300"
+                className="appearance-none rounded-sm border border-border bg-white checked:border-ring checked:bg-ring indeterminate:border-ring indeterminate:bg-ring focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
               />
-              <Label htmlFor="published">Published</Label>
+              <Label htmlFor="published" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Published</Label>
             </div>
           </CardContent>
         </Card>
 
-        <div className="flex gap-4">
+        <div className="flex justify-end gap-4">
           <Button type="submit" disabled={loading}>
             {loading ? 'Saving...' : 'Save Changes'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => router.back()}>
+          <Button type="button" variant="ghost" onClick={() => router.back()}>
             Cancel
           </Button>
         </div>

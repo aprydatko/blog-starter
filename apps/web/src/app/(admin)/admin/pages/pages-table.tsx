@@ -63,10 +63,10 @@ export function PagesTable({ pages, pagination }: PagesTableProps) {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-md border">
+      <div className="rounded-md border border-border">
         <table className="w-full">
           <thead>
-            <tr className="border-b bg-muted/50">
+            <tr className="border-b border-border bg-muted/25">
               <th className="h-12 px-4 text-left align-middle font-medium">Title</th>
               <th className="h-12 px-4 text-left align-middle font-medium">Status</th>
               <th className="h-12 px-4 text-left align-middle font-medium">Date</th>
@@ -82,7 +82,7 @@ export function PagesTable({ pages, pagination }: PagesTableProps) {
               </tr>
             ) : (
               pages.map(page => (
-                <tr key={page.id} className="border-b">
+                <tr key={page.id}>
                   <td className="p-4">
                     <div>
                       <div className="font-medium">{page.title}</div>

@@ -11,13 +11,12 @@ export default async function EditPagePage({ params }: { params: Promise<{ id: s
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Edit Page</h1>
-        <p className="text-muted-foreground">Update your static page</p>
+    <div className="bg-white dark:bg-gray-900 scheme-dark border border-border rounded-xl">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <div className="mx-auto max-w-2xl">
+          <EditPageForm page={result.page} />
+        </div>
       </div>
-
-      <EditPageForm page={result.page} />
     </div>
   )
 }
