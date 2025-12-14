@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@layer base;
+
+@import "./styles/base.css" layer(base);
+

@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer theme, base;
+
+@import "./styles/theme.css" layer(theme);
+@import "./styles/base.css" layer(base);
+

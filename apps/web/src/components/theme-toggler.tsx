@@ -19,7 +19,7 @@ const ThemeToggler = () => {
   }
 
   return (
-    <button onClick={toggleTheme} aria-label="Toggle Theme Button">
+    <button className='flex items-center justify-center rounded-full h-9 w-9 border border-border bg-gray-100 dark:bg-accent/15 hover:dark:bg-accent hover:bg-accent/15 cursor-pointer' onClick={toggleTheme} aria-label="Toggle Theme Button">
       {resolvedTheme === 'dark' ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
     </button>
   )

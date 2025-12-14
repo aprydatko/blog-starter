@@ -7,6 +7,7 @@
 @layer theme, base, components, utilities;
 
 @import "./styles/theme.css" layer(theme);
+@import "./styles/ui-theme.css" layer(theme);
 @import "./styles/preflight.css" layer(base);
 @import "./styles/components.css" layer(components);
 @import "./styles/utilities.css" layer(utilities);

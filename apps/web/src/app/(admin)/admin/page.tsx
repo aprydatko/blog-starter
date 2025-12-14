@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@blog-starter/ui/card'
+import { Newspaper, StickyNote, MessageSquareMore, Image } from 'lucide-react';
 import { getDashboardStats } from "./dashboard-stats"
 
 export default async function AdminDashboard() {
@@ -6,49 +7,52 @@ export default async function AdminDashboard() {
   
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground">Welcome to your admin dashboard</p>
-      </div>
-
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Posts</CardTitle>
-            <CardDescription>Published articles</CardDescription>
-          </CardHeader>
+        <Card className='border-border bg-card'>
           <CardContent>
-            <div className="text-2xl font-bold">{postsCount}</div>
+            <div>
+              <div className='flex items-center justify-center w-16 h-16 bg-accent/5 rounded-xl'>
+                <Newspaper className='w-6 h-6' />
+              </div>
+              <p className='mt-4 text-xl'>Posts</p>
+              <p className='mt-3 text-4xl font-bold leading-none'>{postsCount}</p>
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Pages</CardTitle>
-            <CardDescription>Static pages</CardDescription>
-          </CardHeader>
+        <Card className='border-border bg-card'>
           <CardContent>
-            <div className="text-2xl font-bold">{pagesCount}</div>
+            <div>
+              <div className='flex items-center justify-center w-16 h-16 bg-accent/5 rounded-xl'>
+                <StickyNote className='w-6 h-6' />
+              </div>
+              <p className='mt-4 text-xl'>Pages</p>
+              <p className='mt-3 text-4xl font-bold leading-none'>{pagesCount}</p>
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Comments</CardTitle>
-            <CardDescription>User comments</CardDescription>
-          </CardHeader>
+        <Card className='border-border bg-card'>
           <CardContent>
-            <div className="text-2xl font-bold">{commentsCount}</div>
+            <div>
+              <div className='flex items-center justify-center w-16 h-16 bg-accent/5 rounded-xl'>
+                <MessageSquareMore className='w-6 h-6' />
+              </div>
+              <p className='mt-4 text-xl'>Comments</p>
+              <p className='mt-3 text-4xl font-bold leading-none'>{commentsCount}</p>
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Media Files</CardTitle>
-            <CardDescription>Uploaded files</CardDescription>
-          </CardHeader>
+         <Card className='border-border bg-card'>
           <CardContent>
-            <div className="text-2xl font-bold">{mediaCount}</div>
+            <div>
+              <div className='flex items-center justify-center w-16 h-16 bg-accent/5 rounded-xl'>
+                <Image className='w-6 h-6' />
+              </div>
+              <p className='mt-4 text-xl'>Media Files</p>
+              <p className='mt-3 text-4xl font-bold leading-none'>{mediaCount}</p>
+            </div>
           </CardContent>
         </Card>
       </div>

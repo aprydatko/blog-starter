@@ -7,7 +7,8 @@
   "author": "Arthur Prydatko",
   "exports": {
     ".": "./shared-styles.css",
-    "./web": "./web/shared-styles.css",
+    "./web": "./web/web.css",
+    "./ui": "./web/ui.css",
     "./postcss": "./postcss.config.js"
   },
   "devDependencies": {
