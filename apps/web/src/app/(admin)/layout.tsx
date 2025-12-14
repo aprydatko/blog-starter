@@ -13,6 +13,8 @@ import {
   ChartBarStacked,
   Loader2,
   Timer,
+  ListCollapse,
+  Bold
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { UserNav } from '@/components/user-nav'
@@ -23,6 +25,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname()
   const { data: session, status } = useSession()
   const [isLoading, setIsLoading] = useState(true)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
   const user = session?.user?.id ? session.user : null
 
@@ -63,9 +66,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <aside className="w-64 border-r bg-white dark:bg-background border-border">
-        <div className="flex h-16 items-center px-6">
-          <h1 className="text-xl text-accent font-bold">Web Blogger Admin</h1>
+      <aside className={`${isSidebarCollapsed ? 'w-20' : 'w-64'} transition-all duration-500 border-r bg-white dark:bg-background border-border relative`}>
+        <div className="flex h-16 items-center px-6 justify-between">
+          {!isSidebarCollapsed && <h1 className="text-xl text-accent font-bold">Blogger</h1>}
+          {isSidebarCollapsed && <Bold className="h-6 w-6 text-accent dark:text-white cursor-pointer" />}
         </div>
         <nav className="space-y-1 p-4">
           {navigation.map(item => (
@@ -78,20 +82,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   : 'hover:bg-primary/15 hover:text-accent-foreground hover:dark:bg-accent'
               }`}
             >
-              <item.icon className="h-4 w-4 text-accent dark:text-white" />
-              {item.name}
+              <item.icon className={`h-4 w-4 text-accent dark:text-white ${isSidebarCollapsed ? 'mx-auto' : ''}`} />
+              {!isSidebarCollapsed && item.name}
             </Link>
           ))}
         </nav>
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 bg-background">
+      <div className={`flex-1 bg-background transition-all duration-500 ${isSidebarCollapsed ? 'ml-20' : 'ml-0'}`}>
         <header className="h-16 relative bg-white dark:bg-background border-b border-border">
           <div className="mx-auto max-w-8xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <button>Toogle menu</button>
+                <button onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}>
+                  <ListCollapse className="h-4 w-4 text-accent dark:text-white cursor-pointer" />
+                </button>
               </div>
               <div className="flex items-center">
                 <div className="flex items-center gap-4">
