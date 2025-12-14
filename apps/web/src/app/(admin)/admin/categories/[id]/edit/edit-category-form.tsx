@@ -93,7 +93,7 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
           <Button type="submit" disabled={loading}>
             {loading ? 'Saving...' : 'Save'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => router.back()}>
+          <Button type="button" variant="ghost" onClick={() => router.back()}>
             Cancel
           </Button>
         </div>

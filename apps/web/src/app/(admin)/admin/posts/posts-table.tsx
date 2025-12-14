@@ -92,10 +92,10 @@ export function PostsTable({ posts, pagination }: PostsTableProps) {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-md border">
+      <div className="rounded-md border border-border">
         <table className="w-full">
           <thead>
-            <tr className="border-b bg-muted/50">
+            <tr className="border-b border-border bg-muted/25">
               <th className="h-12 px-4 text-left align-middle font-medium">Title</th>
               <th className="h-12 px-4 text-left align-middle font-medium">Author</th>
               <th className="h-12 px-4 text-left align-middle font-medium">Status</th>
@@ -113,7 +113,7 @@ export function PostsTable({ posts, pagination }: PostsTableProps) {
               </tr>
             ) : (
               posts.map(post => (
-                <tr key={post.id} className="border-b">
+                <tr key={post.id}>
                   <td className="p-4">
                     <div>
                       <div className="font-medium">{post.title}</div>

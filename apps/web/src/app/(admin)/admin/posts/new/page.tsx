@@ -6,7 +6,7 @@ import { Button } from '@blog-starter/ui/button'
 import { Input } from '@blog-starter/ui/input'
 import { Textarea } from '@blog-starter/ui/textarea'
 import { Label } from '@blog-starter/ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '@blog-starter/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@blog-starter/ui/card'
 import { createPost, getCurrentUserId } from '@/lib/actions/posts'
 import { getAllCategories } from '@/lib/actions/categories'
 import { toast } from 'sonner'
@@ -117,200 +117,192 @@ export default function NewPostPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Create New Post</h1>
-        <p className="text-muted-foreground">Write and publish a new blog post</p>
-      </div>
-
-      <form onSubmit={handleSubmit}>
-        <div className="grid gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Post Details</CardTitle>
-            </CardHeader>
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="title">Title *</Label>
-                <Input
-                  id="title"
-                  placeholder="Enter post title"
-                  value={formData.title}
-                  onChange={e => setFormData({ ...formData, title: e.target.value })}
-                  disabled={loading}
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="published"
-                      checked={formData.published}
-                      onCheckedChange={checked => {
-                        // If scheduling is enabled, don't allow direct publishing
-                        if (formData.schedulePost) {
-                          setFormData(prev => ({ ...prev, published: false }))
-                          return
-                        }
-                        setFormData(prev => ({ ...prev, published: checked === true }))
-                      }}
-                      disabled={loading || formData.schedulePost}
-                    />
-                    <Label htmlFor="published">Publish immediately</Label>
-                  </div>
-                  {formData.schedulePost && (
-                    <p className="text-sm text-muted-foreground">
-                      Post will be scheduled instead of published immediately
-                    </p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="schedule"
-                      checked={formData.schedulePost}
-                      onCheckedChange={checked => {
-                        const isScheduling = checked === true
-                        setFormData(prev => ({
-                          ...prev,
-                          schedulePost: isScheduling,
-                          // If enabling scheduling, uncheck published
-                          ...(isScheduling && { published: false }),
-                        }))
-                      }}
+    <div className="bg-white dark:bg-gray-900 scheme-dark border border-border rounded-xl">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <div className="mx-auto max-w-2xl">
+          <form onSubmit={handleSubmit}>
+            <div className="grid gap-6">
+              <Card className="border-none dark:bg-background">
+                <CardHeader>
+                  <CardTitle className="text-base/7 font-semibold text-gray-900 dark:text-gray-300">Add Post</CardTitle>
+                  <CardDescription className="mt-1 text-sm/6 text-gray-600 dark:text-gray-400">
+                    This information will be displayed publicly so be careful what you share.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Title *</Label>
+                    <Input
+                      id="title"
+                      className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
+                      placeholder="Enter post title"
+                      value={formData.title}
+                      onChange={e => setFormData({ ...formData, title: e.target.value })}
                       disabled={loading}
+                      required
                     />
-                    <Label htmlFor="schedule">Schedule for later</Label>
                   </div>
-                </div>
-              </div>
 
-              {formData.schedulePost && (
-                <div className="space-y-2">
-                  <Label>Schedule Date & Time *</Label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            'w-full justify-start text-left font-normal',
-                            !formData.scheduledAt && 'text-muted-foreground'
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {formData.scheduledAt ? format(formData.scheduledAt, 'PPP') : <span>Pick a date</span>}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="published"
+                          className="appearance-none rounded-sm border border-border bg-white checked:border-ring checked:bg-ring indeterminate:border-ring indeterminate:bg-ring focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
+                          checked={formData.published}
+                          onCheckedChange={checked => {
+                            // If scheduling is enabled, don't allow direct publishing
+                            if (formData.schedulePost) {
+                              setFormData(prev => ({ ...prev, published: false }))
+                              return
+                            }
+                            setFormData(prev => ({ ...prev, published: checked === true }))
+                          }}
+                          disabled={loading || formData.schedulePost}
+                        />
+                        <Label htmlFor="published" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Publish immediately</Label>
+                      </div>
+                      {formData.schedulePost && (
+                        <p className="text-sm text-muted-foreground">
+                          Post will be scheduled instead of published immediately
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="schedule"
+                          className="appearance-none rounded-sm border border-border bg-white checked:border-ring checked:bg-ring indeterminate:border-ring indeterminate:bg-ring focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
+                          checked={formData.schedulePost}
+                          onCheckedChange={checked => {
+                            const isScheduling = checked === true
+                            setFormData(prev => ({
+                              ...prev,
+                              schedulePost: isScheduling,
+                              // If enabling scheduling, uncheck published
+                              ...(isScheduling && { published: false }),
+                            }))
+                          }}
+                          disabled={loading}
+                        />
+                        <Label htmlFor="schedule" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Schedule for later</Label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {formData.schedulePost && (
+                    <div className="space-y-2">
+                      <Label className="block text-sm/6 font-medium text-gray-900 dark:text-white">Schedule Date & Time *</Label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <Calendar
-                          selected={formData.scheduledAt}
-                          onSelect={date => {
-                            if (!date) return
-                            // Keep the existing time if we have one, otherwise set to current time
-                            const currentTime = formData.scheduledAt || new Date()
-                            const newDate = new Date(date)
-                            newDate.setHours(currentTime.getHours(), currentTime.getMinutes(), 0, 0)
+                            selected={formData.scheduledAt}
+                            onSelect={date => {
+                              if (!date) return
+                              // Keep the existing time if we have one, otherwise set to current time
+                              const currentTime = formData.scheduledAt || new Date()
+                              const newDate = new Date(date)
+                              newDate.setHours(currentTime.getHours(), currentTime.getMinutes(), 0, 0)
+                              setFormData(prev => ({ ...prev, scheduledAt: newDate }))
+                            }}
+                          />
+                        <Input
+                          type="time"
+                          className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
+                          value={formData.scheduledAt ? format(formData.scheduledAt, 'HH:mm') : ''}
+                          onChange={e => {
+                            if (!formData.scheduledAt) return
+                            const [hours, minutes] = e.target.value.split(':').map(Number)
+                            const newDate = new Date(formData.scheduledAt)
+                            newDate.setHours(hours!, minutes)
                             setFormData(prev => ({ ...prev, scheduledAt: newDate }))
                           }}
+                          disabled={!formData.scheduledAt}
                         />
-                      </PopoverContent>
-                    </Popover>
-                    <Input
-                      type="time"
-                      value={formData.scheduledAt ? format(formData.scheduledAt, 'HH:mm') : ''}
-                      onChange={e => {
-                        if (!formData.scheduledAt) return
-                        const [hours, minutes] = e.target.value.split(':').map(Number)
-                        const newDate = new Date(formData.scheduledAt)
-                        newDate.setHours(hours!, minutes)
-                        setFormData(prev => ({ ...prev, scheduledAt: newDate }))
-                      }}
-                      disabled={!formData.scheduledAt}
-                    />
-                  </div>
-                  {formData.scheduledAt && (
-                    <p className="text-sm text-muted-foreground">
-                      Post will be published on {format(formData.scheduledAt, 'PPPppp')}
-                    </p>
-                  )}
-                </div>
-              )}
-
-              <div className="space-y-2">
-                <Label htmlFor="excerpt">Excerpt</Label>
-                <Textarea
-                  id="excerpt"
-                  value={formData.excerpt}
-                  onChange={e => setFormData({ ...formData, excerpt: e.target.value })}
-                  placeholder="Brief summary of the post"
-                  rows={3}
-                />
-                <p className="text-sm text-muted-foreground">A short description that appears in post listings</p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="content">Content *</Label>
-                <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="tags">Tags</Label>
-                <Input
-                  id="tags"
-                  value={formData.tags}
-                  onChange={e => setFormData({ ...formData, tags: e.target.value })}
-                  placeholder="technology, web development, nextjs"
-                />
-                <p className="text-sm text-muted-foreground">Separate tags with commas</p>
-              </div>
-
-              <div className="space-y-2">
-                <Label>Categories</Label>
-                <div className="space-y-2 border rounded-md p-4">
-                  {categories.length === 0 ? (
-                    <p className="text-sm text-muted-foreground">No categories available. Create categories first.</p>
-                  ) : (
-                    categories.map(category => (
-                      <div key={category.id} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`category-${category.id}`}
-                          checked={selectedCategoryIds.includes(category.id)}
-                          onCheckedChange={checked => {
-                            if (checked) {
-                              setSelectedCategoryIds([...selectedCategoryIds, category.id])
-                            } else {
-                              setSelectedCategoryIds(selectedCategoryIds.filter(id => id !== category.id))
-                            }
-                          }}
-                        />
-                        <label
-                          htmlFor={`category-${category.id}`}
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                        >
-                          {category.name}
-                        </label>
                       </div>
-                    ))
+                      {formData.scheduledAt && (
+                        <p className="text-sm text-muted-foreground">
+                          Post will be published on {format(formData.scheduledAt, 'PPPppp')}
+                        </p>
+                      )}
+                    </div>
                   )}
-                </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="excerpt" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Excerpt</Label>
+                    <Textarea
+                      id="excerpt"
+                      className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
+                      value={formData.excerpt}
+                      onChange={e => setFormData({ ...formData, excerpt: e.target.value })}
+                      placeholder="Brief summary of the post"
+                      rows={3}
+                    />
+                    <p className="text-sm text-muted-foreground">A short description that appears in post listings</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="content" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Content *</Label>
+                    {/* <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} /> */}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="tags" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Tags</Label>
+                    <Input
+                      id="tags"
+                      className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
+                      value={formData.tags}
+                      onChange={e => setFormData({ ...formData, tags: e.target.value })}
+                      placeholder="technology, web development, nextjs"
+                    />
+                    <p className="text-sm text-muted-foreground">Separate tags with commas</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="block text-sm/6 font-medium text-gray-900 dark:text-white">Categories</Label>
+                    <div className="space-y-2 border border-border rounded-md p-4 bg-background dark:bg-white/5">
+                      {categories.length === 0 ? (
+                        <p className="text-sm text-muted-foreground">No categories available. Create categories first.</p>
+                      ) : (
+                        categories.map(category => (
+                          <div key={category.id} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={`category-${category.id}`}
+                              className="appearance-none rounded-sm border border-border bg-white checked:border-ring checked:bg-ring indeterminate:border-ring indeterminate:bg-ring focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
+                              checked={selectedCategoryIds.includes(category.id)}
+                              onCheckedChange={checked => {
+                                if (checked) {
+                                  setSelectedCategoryIds([...selectedCategoryIds, category.id])
+                                } else {
+                                  setSelectedCategoryIds(selectedCategoryIds.filter(id => id !== category.id))
+                                }
+                              }}
+                            />
+                            <label
+                              htmlFor={`category-${category.id}`}
+                              className="text-sm text-muted-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                            >
+                              {category.name}
+                            </label>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <div className="flex justify-end gap-4">
+                <Button type="submit" disabled={loading || !authorId}>
+                  {loading ? 'Creating...' : 'Create'}
+                </Button>
+                <Button type="button" variant="ghost" onClick={() => router.back()}>
+                  Cancel
+                </Button>
               </div>
             </div>
-          </Card>
-
-          <div className="flex gap-4">
-            <Button type="submit" disabled={loading || !authorId}>
-              {loading ? 'Creating...' : 'Create Post'}
-            </Button>
-            <Button type="button" variant="outline" onClick={() => router.back()}>
-              Cancel
-            </Button>
-          </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   )
 }

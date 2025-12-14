@@ -1,4 +1,4 @@
-import { getPosts, deletePost, togglePublishPost } from '@/lib/actions/posts'
+import { getPosts } from '@/lib/actions/posts'
 import { PostsTable } from './posts-table'
 import { PostsSearch } from '@/components/posts-search'
 import { Button } from '@blog-starter/ui/button'
@@ -36,19 +36,21 @@ export default async function PostsPage({ searchParams }: PageProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Posts</h1>
-          <p className="text-muted-foreground">Manage your blog posts</p>
+    <div className="space-y-6 bg-white dark:bg-background p-6 rounded-xl border border-border">
+      <div className="lg:flex lg:items-center lg:justify-between">
+        <div className="min-w-0 flex-1">
+          <h2 className="font-sans font-bold text-3xl text-secondary-foreground">Posts</h2>
         </div>
-        <Link href="/admin/posts/new">
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            New Post
-          </Button>
-        </Link>
+        <div className="flex">
+          <Link href="/admin/posts/new">
+            <Button className='flex justify-center gap-2'>
+              <Plus className="h-4 w-4" />
+              New Post
+            </Button>
+          </Link>
+        </div>
       </div>
+      <hr className="mb-10 border-border" />
 
       <PostsSearch />
 
