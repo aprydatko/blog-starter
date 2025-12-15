@@ -10,6 +10,7 @@ export async function GET(request: Request) {
   const apiKey = authHeader?.split(' ')[1] // Bearer <token>
 
   // Verify the API key
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
   if (apiKey !== process.env.CRON_SECRET) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }

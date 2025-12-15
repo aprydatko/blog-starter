@@ -92,7 +92,7 @@ export default function NewPagePage() {
                     <Label htmlFor="content" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
                       Content *
                     </Label>
-                    {/* <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} /> */}
+                    <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} />
                   </div>
 
                   <div className="flex items-center space-x-2">

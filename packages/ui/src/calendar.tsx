@@ -119,6 +119,7 @@ export function Calendar({
             ...(typeof className === 'object' ? className : {}),
           }}
           components={{
+            // eslint-disable-next-line react/prop-types
             Nav: ({ onPreviousClick, onNextClick }) => (
               <div className="flex">
                 <button

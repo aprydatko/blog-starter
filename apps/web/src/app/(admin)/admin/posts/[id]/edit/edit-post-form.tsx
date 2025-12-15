@@ -122,7 +122,7 @@ export function EditPostForm({ post }: EditPostFormProps) {
 
             <div className="space-y-2">
               <Label htmlFor="content">Content *</Label>
-              {/* <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} /> */}
+              <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} />
             </div>
 
             <div className="space-y-2">

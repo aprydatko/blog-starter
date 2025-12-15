@@ -117,7 +117,7 @@ export default function NewPostPage() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900 scheme-dark border border-border rounded-xl">
+    <div className="relative bg-white dark:bg-gray-900 scheme-dark border border-border rounded-xl">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="mx-auto max-w-2xl">
           <form onSubmit={handleSubmit}>
@@ -258,7 +258,7 @@ export default function NewPostPage() {
                     <Label htmlFor="content" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
                       Content *
                     </Label>
-                    {/* <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} /> */}
+                    <TiptapEditor content={formData.content} onChange={content => setFormData({ ...formData, content })} />
                   </div>
 
                   <div className="space-y-2">
