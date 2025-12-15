@@ -14,7 +14,7 @@ import {
   Loader2,
   Timer,
   ListCollapse,
-  Bold
+  Bold,
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { UserNav } from '@/components/user-nav'
@@ -66,7 +66,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <aside className={`${isSidebarCollapsed ? 'w-20' : 'w-64'} transition-all duration-500 border-r bg-white dark:bg-background border-border relative`}>
+      <aside
+        className={`${isSidebarCollapsed ? 'w-20' : 'w-64'} transition-all duration-500 border-r bg-white dark:bg-background border-border relative`}
+      >
         <div className="flex h-16 items-center px-6 justify-between">
           {!isSidebarCollapsed && <h1 className="text-xl text-accent font-bold">Blogger</h1>}
           {isSidebarCollapsed && <Bold className="h-6 w-6 text-accent dark:text-white cursor-pointer" />}
