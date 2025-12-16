@@ -15,6 +15,7 @@ export interface CreatePostInput {
   tags?: string[]
   categoryIds?: string[]
   scheduledAt?: Date
+  thumbnail?: string
 }
 
 export interface UpdatePostInput {
@@ -24,6 +25,7 @@ export interface UpdatePostInput {
   published?: boolean
   tags?: string[]
   categoryIds?: string[]
+  thumbnail?: string
 }
 
 export async function getCurrentUserId() {
@@ -66,6 +68,7 @@ export async function createPost(data: CreatePostInput) {
       excerpt: data.excerpt,
       published: shouldPublish ?? false,
       authorId: data.authorId,
+      thumbnail: data.thumbnail,
     }
 
     // Add scheduledAt if provided
@@ -77,17 +80,17 @@ export async function createPost(data: CreatePostInput) {
       ...postData,
       tags: data.tags
         ? {
-            connectOrCreate: data.tags.map(tag => ({
-              where: { name: tag },
-              create: { name: tag },
-            })),
-          }
+          connectOrCreate: data.tags.map(tag => ({
+            where: { name: tag },
+            create: { name: tag },
+          })),
+        }
         : undefined,
       categories:
         data.categoryIds && data.categoryIds.length > 0
           ? {
-              connect: data.categoryIds.map(id => ({ id })),
-            }
+            connect: data.categoryIds.map(id => ({ id })),
+          }
           : undefined,
     }
 
@@ -145,6 +148,7 @@ export async function updatePost(id: string, data: UpdatePostInput) {
         ...(slug && { slug }),
         ...(data.content !== undefined && { content: data.content }),
         ...(data.excerpt !== undefined && { excerpt: data.excerpt }),
+        ...(data.thumbnail !== undefined && { thumbnail: data.thumbnail }),
         ...(data.published !== undefined && { published: data.published }),
         ...(data.tags && {
           tags: {
@@ -181,7 +185,7 @@ export async function updatePost(id: string, data: UpdatePostInput) {
     return { success: true, post }
   } catch (error) {
     console.error('Error updating post:', error)
-    return { success: false, error: 'Failed to update post' }
+    return { success: false, error: error instanceof Error ? error.message : 'Failed to update post' }
   }
 }
 

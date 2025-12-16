@@ -17,6 +17,7 @@ import TiptapEditor from '@/components/my-editor/tiptap-editor'
 interface Post {
   id: string
   title: string
+  thumbnail: string | null
   content: string
   excerpt: string | null
   published: boolean
@@ -35,6 +36,7 @@ export function EditPostForm({ post }: EditPostFormProps) {
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>(post.categories.map(c => c.id))
   const [formData, setFormData] = useState({
     title: post.title,
+    thumbnail: post.thumbnail || '',
     content: post.content,
     excerpt: post.excerpt || '',
     published: post.published,
@@ -62,6 +64,7 @@ export function EditPostForm({ post }: EditPostFormProps) {
 
     const result = await updatePost(post.id, {
       title: formData.title,
+      thumbnail: formData.thumbnail || undefined,
       content: formData.content,
       excerpt: formData.excerpt || undefined,
       published: formData.published,
@@ -103,6 +106,20 @@ export function EditPostForm({ post }: EditPostFormProps) {
                 placeholder="Enter post title"
                 required
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="thumbnail" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                Thumbnail URL
+              </Label>
+              <Input
+                id="thumbnail"
+                className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 dark:text-white/50 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
+                value={formData.thumbnail}
+                onChange={e => setFormData({ ...formData, thumbnail: e.target.value })}
+                placeholder="https://example.com/image.jpg"
+              />
+              <p className="text-sm text-muted-foreground">URL of the post thumbnail image</p>
             </div>
 
             <div className="space-y-2">

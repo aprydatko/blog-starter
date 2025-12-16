@@ -7,6 +7,7 @@ interface PostCardProps {
     id: string
     title: string
     slug: string
+    thumbnail?: string | null
     excerpt?: string | null
     createdAt: Date
     author: {
@@ -19,7 +20,9 @@ interface PostCardProps {
   }
 }
 
+
 export function PostCard({ post }: PostCardProps) {
+  console.log("post", post)
   return (
     <article className="flex flex-col gap-2 border rounded-lg p-4 hover:bg-muted/50 transition-colors">
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -27,6 +30,11 @@ export function PostCard({ post }: PostCardProps) {
         <span>•</span>
         <span>{post.author.name || 'Anonymous'}</span>
       </div>
+      {post.thumbnail && (
+        <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+          <img src={post.thumbnail} alt={post.title} className="object-cover w-full h-full hover:scale-105 transition-transform duration-300" />
+        </div>
+      )}
       <Link href={`/posts/${post.slug}`} className="hover:underline">
         <h2 className="text-xl font-semibold">{post.title}</h2>
       </Link>

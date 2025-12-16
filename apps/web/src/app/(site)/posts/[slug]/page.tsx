@@ -105,6 +105,12 @@ export default async function PostPage({ params }: PageProps) {
                   </Badge>
                 ))}
               </div>
+
+              {post.thumbnail && (
+                <div className="relative aspect-video w-full overflow-hidden rounded-lg mt-6">
+                  <img src={post.thumbnail} alt={post.title} className="object-cover w-full h-full" />
+                </div>
+              )}
             </div>
 
             <div className="pt-6 prose prose-lg dark:prose-invert" dangerouslySetInnerHTML={{ __html: post.content }} />

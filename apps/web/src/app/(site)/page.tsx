@@ -47,27 +47,26 @@ export default async function SitePage({ searchParams }: PageProps) {
   })
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        <section className="space-y-4">
-          <h2 className="text-3xl font-bold">Latest Posts</h2>
-          <p className="text-muted-foreground">
-            Welcome to our blog. Here you can find the latest updates and articles.
-          </p>
-          <Button>Hello world!</Button>
-        </section>
-
-        <div className="grid gap-6">
-          {posts?.map(post => (
-            <PostCard key={post.id} post={post} />
-          ))}
+    <div className="mx-auto w-full max-w-[1504px]">
+      <section className="mx-auto my-10 w-full px-4 sm:px-6 lg:px-8 grid grow">
+        <header>
+          <h2 className='flex items-center font-bold leading-10 text-2xl'>More from Yahoo Shopping</h2>
+        </header>
+        <div className='lg:grid lg:grid-cols-3 lg:gap-6'>
+          <ul className='flex flex-col gap-4 lg:col-span-2 lg:gap-6'>
+            {posts?.map(post => (
+              <li key={post.id}>
+                <PostCard post={post} />
+              </li>
+            ))}
+          </ul>
           {posts?.length === 0 && (
             <p className="text-center text-muted-foreground py-12">No posts found. Check back later!</p>
           )}
         </div>
+      </section>
 
-        {pagination && <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} />}
-      </div>
+      {pagination && <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} />}
     </div>
   )
 }

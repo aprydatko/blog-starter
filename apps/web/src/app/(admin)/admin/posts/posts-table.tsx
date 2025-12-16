@@ -14,6 +14,7 @@ interface Post {
   id: string
   title: string
   slug: string
+  thumbnail?: string | null
   published: boolean
   createdAt: Date
   author: {
@@ -96,6 +97,7 @@ export function PostsTable({ posts, pagination }: PostsTableProps) {
         <table className="w-full">
           <thead>
             <tr className="border-b border-border bg-muted/25">
+              <th className="h-12 px-4 text-left align-middle font-medium w-[80px]">Thumb</th>
               <th className="h-12 px-4 text-left align-middle font-medium">Title</th>
               <th className="h-12 px-4 text-left align-middle font-medium">Author</th>
               <th className="h-12 px-4 text-left align-middle font-medium">Status</th>
@@ -114,6 +116,17 @@ export function PostsTable({ posts, pagination }: PostsTableProps) {
             ) : (
               posts.map(post => (
                 <tr key={post.id} className="border-b border-border last:border-none">
+                  <td className="p-4">
+                    {post.thumbnail ? (
+                      <div className="relative w-12 h-12 rounded overflow-hidden bg-muted">
+                        <img src={post.thumbnail} alt="" className="object-cover w-full h-full" />
+                      </div>
+                    ) : (
+                      <div className="w-12 h-12 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">
+                        No Img
+                      </div>
+                    )}
+                  </td>
                   <td className="p-4">
                     <div>
                       <div className="font-medium">{post.title}</div>

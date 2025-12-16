@@ -27,6 +27,7 @@ export default function NewPostPage() {
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([])
   const [formData, setFormData] = useState({
     title: '',
+    thumbnail: '',
     content: '',
     excerpt: '',
     published: false,
@@ -97,6 +98,7 @@ export default function NewPostPage() {
         authorId,
         tags: tags.length > 0 ? tags : undefined,
         categoryIds: selectedCategoryIds.length > 0 ? selectedCategoryIds : undefined,
+        thumbnail: formData.thumbnail || undefined,
       }
 
       const result = await createPost(postData)
@@ -238,6 +240,20 @@ export default function NewPostPage() {
                       )}
                     </div>
                   )}
+
+                  <div className="space-y-2">
+                    <Label htmlFor="thumbnail" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                      Thumbnail URL
+                    </Label>
+                    <Input
+                      id="thumbnail"
+                      className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
+                      value={formData.thumbnail}
+                      onChange={e => setFormData({ ...formData, thumbnail: e.target.value })}
+                      placeholder="https://example.com/image.jpg"
+                    />
+                    <p className="text-sm text-muted-foreground">URL of the post thumbnail image</p>
+                  </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="excerpt" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
