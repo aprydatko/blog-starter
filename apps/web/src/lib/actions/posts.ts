@@ -424,3 +424,37 @@ export const getPostBySlug = cache(async (slug: string) => {
     return { success: false, error: 'Failed to fetch post' }
   }
 })
+
+export async function searchPosts(query: string) {
+  try {
+    if (!query || query.trim().length === 0) {
+      return { success: true, posts: [] }
+    }
+
+    const posts = await prisma.post.findMany({
+      where: {
+        published: true,
+        title: {
+          contains: query.trim(),
+          mode: 'insensitive',
+        },
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        thumbnail: true,
+        createdAt: true,
+      },
+      take: 5,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+
+    return { success: true, posts }
+  } catch (error) {
+    console.error('Error searching posts:', error)
+    return { success: false, error: 'Failed to search posts' }
+  }
+}

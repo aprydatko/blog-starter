@@ -20,7 +20,7 @@ interface UserNavProps {
 
 export function UserNav({ user }: UserNavProps) {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
@@ -35,7 +35,7 @@ export function UserNav({ user }: UserNavProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-48 borderorigin-top-right rounded-md mt-1 py-1 bg-popover border-white/10 "
+        className="w-48 border origin-top-right rounded-md mt-1 py-1 bg-popover border-white/10"
         align="end"
         forceMount
       >

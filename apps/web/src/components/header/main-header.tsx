@@ -5,9 +5,8 @@ import ThemeToggler from "@/components/theme-toggler"
 import { UserNav } from "@/components/user-nav"
 import { Button } from "@blog-starter/ui/button"
 import { User } from "next-auth"
-import { Label } from "@blog-starter/ui/label"
-import { Search } from "lucide-react"
-import { Input } from "@blog-starter/ui/input"
+import { Search as SearchIcon } from "lucide-react"
+import { Search } from "./search"
 import { useScrollDirection } from "@/hooks/use-scroll-direction"
 import { MENU_ITEMS } from "./menu-data"
 import MenuLink from "./menu-link"
@@ -32,30 +31,14 @@ const Header = ({ user }: { user: User | null }) => {
                                     Blogger
                                 </Link>
                                 <div className="flex-1 max-w-lg hidden md:block">
-                                    <form className="z-10 gap-2.5">
-                                        <div className="relative">
-                                            <Label htmlFor="titleSearch" className="sr-only">
-                                                Search by Title
-                                            </Label>
-                                            <div className="relative flex items-center">
-                                                <Input
-                                                    id="titleSearch"
-                                                    placeholder="Enter title..."
-                                                    className="flex h-11 shrink w-full shadow-none rounded-full bg-background dark:bg-white/5 px-3 py-1.5 text-base outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                                                />
-                                                <Button type="submit" size="icon" className="absolute right-1 top-1 h-9 w-9 rounded-full">
-                                                    <Search className="h-4 w-4" />
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    <Search />
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-4 md:gap-6">
                                 <div className="md:hidden">
                                     <Button variant="ghost" size="icon">
-                                        <Search className="h-5 w-5" />
+                                        <SearchIcon className="h-5 w-5" />
                                     </Button>
                                 </div>
                                 {user ? (
