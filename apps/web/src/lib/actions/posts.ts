@@ -16,6 +16,7 @@ export interface CreatePostInput {
   categoryIds?: string[]
   scheduledAt?: Date
   thumbnail?: string
+  thumbnailDescription?: string
 }
 
 export interface UpdatePostInput {
@@ -26,6 +27,7 @@ export interface UpdatePostInput {
   tags?: string[]
   categoryIds?: string[]
   thumbnail?: string
+  thumbnailDescription?: string
 }
 
 export async function getCurrentUserId() {
@@ -69,6 +71,7 @@ export async function createPost(data: CreatePostInput) {
       published: shouldPublish ?? false,
       authorId: data.authorId,
       thumbnail: data.thumbnail,
+      thumbnailDescription: data.thumbnailDescription,
     }
 
     // Add scheduledAt if provided
@@ -149,6 +152,7 @@ export async function updatePost(id: string, data: UpdatePostInput) {
         ...(data.content !== undefined && { content: data.content }),
         ...(data.excerpt !== undefined && { excerpt: data.excerpt }),
         ...(data.thumbnail !== undefined && { thumbnail: data.thumbnail }),
+        ...(data.thumbnailDescription !== undefined && { thumbnailDescription: data.thumbnailDescription }),
         ...(data.published !== undefined && { published: data.published }),
         ...(data.tags && {
           tags: {

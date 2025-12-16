@@ -28,6 +28,7 @@ export default function NewPostPage() {
   const [formData, setFormData] = useState({
     title: '',
     thumbnail: '',
+    thumbnailDescription: '',
     content: '',
     excerpt: '',
     published: false,
@@ -99,6 +100,7 @@ export default function NewPostPage() {
         tags: tags.length > 0 ? tags : undefined,
         categoryIds: selectedCategoryIds.length > 0 ? selectedCategoryIds : undefined,
         thumbnail: formData.thumbnail || undefined,
+        thumbnailDescription: formData.thumbnailDescription || undefined,
       }
 
       const result = await createPost(postData)
@@ -253,6 +255,20 @@ export default function NewPostPage() {
                       placeholder="https://example.com/image.jpg"
                     />
                     <p className="text-sm text-muted-foreground">URL of the post thumbnail image</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="thumbnailDescription" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                      Thumbnail Description
+                    </Label>
+                    <Input
+                      id="thumbnailDescription"
+                      className="block w-full shadow-none rounded-md bg-background dark:bg-white/5 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-input placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-1 focus:-outline-offset-1 focus:outline-ring sm:text-sm/6"
+                      value={formData.thumbnailDescription}
+                      onChange={e => setFormData({ ...formData, thumbnailDescription: e.target.value })}
+                      placeholder="Description for accessibility and SEO"
+                    />
+                    <p className="text-sm text-muted-foreground">Alt text for the thumbnail image</p>
                   </div>
 
                   <div className="space-y-2">

@@ -3,6 +3,15 @@ import { PostCard } from '@/components/post-card'
 import { Pagination } from '@/components/pagination'
 import { Metadata } from 'next'
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@blog-starter/ui/breadcrumb'
+
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
@@ -42,6 +51,17 @@ export default async function PostsPage({ searchParams }: PageProps) {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto space-y-8">
         <section className="space-y-4">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Posts</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
           <h1 className="text-3xl font-bold">All Posts</h1>
           <p className="text-muted-foreground">Browse through all our blog posts.</p>
         </section>

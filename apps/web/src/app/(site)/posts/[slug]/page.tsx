@@ -3,6 +3,14 @@ import { getPostBySlug, getPosts } from '@/lib/actions/posts'
 import { formatDate, formatRelativeDate } from '@/lib/utils/date'
 import { Badge } from '@blog-starter/ui/badge'
 import { Button } from '@blog-starter/ui/button'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@blog-starter/ui/breadcrumb'
 import { CommentForm } from '@/components/comment-form'
 import { HtmlContent } from '@/components/html-content'
 import { auth } from '@/lib/auth'
@@ -93,6 +101,25 @@ export default async function PostPage({ params }: PageProps) {
         <div className='mx-auto flex flex-row justify-between px-5 lg:px-5  xl:px-10 md:max-w-[1220px]'>
           <div className="min-w-0 flex-1">
             <div className="space-y-4">
+              {/* Breadcrumb */}
+              <div className='pb-2'>
+                <Breadcrumb>
+                  <BreadcrumbList>
+                    <BreadcrumbItem>
+                      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbLink href="/posts">Posts</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbPage>{post.title}</BreadcrumbPage>
+                    </BreadcrumbItem>
+                  </BreadcrumbList>
+                </Breadcrumb>
+              </div>
+
               <div className="flex flex-wrap justify-start gap-2">
                 {post.tags.map(tag => (
                   <Badge key={tag.id} variant="secondary">
@@ -113,7 +140,7 @@ export default async function PostPage({ params }: PageProps) {
                     <Image fill src={'/uploads/images/carnaval-2025-12-10-13-34-24.jpg'} alt={post.title} className="object-cover" />
                   </div>
                   <figcaption className='relative text-[0.875rem]/[1.25rem] mt-1 line-clamp-2 pr-2.5'>
-                    <div className='text-muted-foreground'>{post.title}</div>
+                    <div className='text-muted-foreground'>{post.thumbnailDescription}</div>
                   </figcaption>
                 </figure>
               )}

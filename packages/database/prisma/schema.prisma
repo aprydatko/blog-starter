@@ -81,6 +81,8 @@ model Post {
   title      String
   slug       String     @unique
   thumbnail  String?
+  thumbnailDescription String?
+
   content    String     @db.Text
   excerpt    String?    @db.Text
   published  Boolean    @default(false)
