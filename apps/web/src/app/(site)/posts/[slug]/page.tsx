@@ -80,82 +80,102 @@ export default async function PostPage({ params }: PageProps) {
   }
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <article className="max-w-3xl mx-auto space-y-8">
-        <div className="space-y-4 text-center">
-          <div className="flex items-center justify-center gap-2 text-muted-foreground">
-            <span>{formatDate(post.createdAt)}</span>
-            <span>•</span>
-            <span>{post.author.name || 'Anonymous'}</span>
+    <>
+      <div className="top-[92px] md:top-16">
+        <section className='bg-grey-hair mx-auto flex items-center overflow-x-hidden min-h-[48px] pb-6 pt-5 md:min-h-[294px] justify-center'>
+          <div className='flex items-center justify-center'>
+            <div className="w-[600px] h-[90px] flex size-full items-center justify-center bg-gray-200 dark:bg-background text-center leading-3">Advertisement</div>
           </div>
-          <h1 className="text-4xl font-bold tracking-tight">{post.title}</h1>
-          <div className="flex flex-wrap justify-center gap-2">
-            {post.tags.map(tag => (
-              <Badge key={tag.id} variant="secondary">
-                {tag.name}
-              </Badge>
-            ))}
-          </div>
-        </div>
-
-        <div className="prose prose-lg dark:prose-invert mx-auto" dangerouslySetInnerHTML={{ __html: post.content }} />
-
-        <hr className="my-8" />
-
-        <section className="space-y-6">
-          <h3 className="text-2xl font-bold">Comments ({post.comments.length})</h3>
-
-          <div className="space-y-4">
-            {post.comments.map(comment => (
-              <div key={comment.id} className="border rounded-lg p-4 space-y-2">
-                <div className="flex justify-between items-start mb-2">
-                  <div className="font-semibold">{comment.author.name || 'Anonymous'}</div>
-                  <div className="text-xs text-muted-foreground">{formatRelativeDate(comment.createdAt)}</div>
-                </div>
-                <div className="text-sm">
-                  <HtmlContent content={comment.content} className="text-sm" />
-                </div>
+        </section>
+      </div>
+      <article className="max-w-7xl mt-0 pt-10 pb-20 mx-auto space-y-8 bg-white dark:bg-background xl:rounded-lg xl:border border-border">
+        <div className='mx-auto flex flex-row justify-between px-5 lg:px-5  xl:px-10 md:max-w-[1220px]'>
+          <div className="min-w-0 flex-1">
+            <div className="space-y-4">
+              <div className="flex items-center justify-start gap-2 text-muted-foreground">
+                <span>{formatDate(post.createdAt)}</span>
+                <span>•</span>
+                <span>{post.author.name || 'Anonymous'}</span>
               </div>
-            ))}
-            {post.comments.length === 0 && (
-              <p className="text-muted-foreground text-center py-4">
-                No comments yet. Be the first to share your thoughts!
-              </p>
-            )}
-          </div>
-
-          <div className="pt-4">
-            {session ? (
-              <CommentForm postId={post.id} postSlug={post.slug} />
-            ) : (
-              <div className="text-center p-6 border rounded-lg bg-muted/50">
-                <p className="mb-4">Please login to leave a comment</p>
-                <Button asChild>
-                  <Link href="/login">Login</Link>
-                </Button>
-              </div>
-            )}
-          </div>
-
-          <hr className="my-8" />
-
-          {otherPosts.length > 0 && (
-            <section className="space-y-6">
-              <h3 className="text-2xl font-bold">More Posts</h3>
-              <div className="space-y-2">
-                {otherPosts.map(post => (
-                  <div key={post.id} className="flex justify-between items-center py-2 border-b">
-                    <Link href={`/posts/${post.slug}`} className="hover:underline hover:text-primary transition-colors">
-                      {post.title}
-                    </Link>
-                    <span className="text-sm text-muted-foreground">{formatDate(post.createdAt)}</span>
-                  </div>
+              <h1 className="font-sans text-3xl font-bold tracking-tight">{post.title}</h1>
+              <div className="flex flex-wrap justify-start gap-2">
+                {post.tags.map(tag => (
+                  <Badge key={tag.id} variant="secondary">
+                    {tag.name}
+                  </Badge>
                 ))}
               </div>
+            </div>
+
+            <div className="pt-6 prose prose-lg dark:prose-invert" dangerouslySetInnerHTML={{ __html: post.content }} />
+
+            <hr className="my-8 border border border-border" />
+
+            <section className="space-y-6">
+              <h3 className="text-2xl font-bold">Comments ({post.comments.length})</h3>
+
+              <div className="space-y-4">
+                {post.comments.map(comment => (
+                  <div key={comment.id} className="border border-border rounded-lg p-4 space-y-2">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="font-semibold">{comment.author.name || 'Anonymous'}</div>
+                      <div className="text-xs text-muted-foreground">{formatRelativeDate(comment.createdAt)}</div>
+                    </div>
+                    <div className="text-sm">
+                      <HtmlContent content={comment.content} className="text-sm" />
+                    </div>
+                  </div>
+                ))}
+                {post.comments.length === 0 && (
+                  <p className="text-muted-foreground text-center py-4">
+                    No comments yet. Be the first to share your thoughts!
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-4">
+                {session ? (
+                  <CommentForm postId={post.id} postSlug={post.slug} />
+                ) : (
+                  <div className="text-center p-6 border rounded-lg bg-muted/50">
+                    <p className="mb-4">Please login to leave a comment</p>
+                    <Button asChild>
+                      <Link href="/login">Login</Link>
+                    </Button>
+                  </div>
+                )}
+              </div>
+
+              {otherPosts.length > 0 && (
+                <section className="space-y-6">
+                  <h3 className="text-2xl font-bold">More Posts</h3>
+                  <div className="space-y-2">
+                    {otherPosts.map(post => (
+                      <div key={post.id} className="flex justify-between items-center py-2 border-b">
+                        <Link href={`/posts/${post.slug}`} className="hover:underline hover:text-primary transition-colors">
+                          {post.title}
+                        </Link>
+                        <span className="text-sm text-muted-foreground">{formatDate(post.createdAt)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
             </section>
-          )}
-        </section>
+          </div>
+          <aside className="hidden md:block w-[300px] min-h-[600px] ml-8">
+            <div className='flex size-full flex-col flex-nowrap'>
+              <div className="h-[900px] pb-[40px]">
+                <div className='sticky flex flex-none top-[135px]'>
+                  <div className='w-[300px] h-[300px] bg-gray-100 dark:bg-secondary flex size-full items-center justify-center bg-marshmallow text-center leading-3'>
+                    Advertisement
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
       </article>
-    </main>
+    </>
   )
 }

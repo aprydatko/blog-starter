@@ -62,22 +62,20 @@ export function CommentForm({ postId, postSlug }: CommentFormProps) {
   }
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
+    <div className="w-full max-w-4xl mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="rounded-lg border bg-card">
-          <TiptapEditor ref={editorRef} content={content} onChange={content => setContent(content)} />
-          <div className="flex items-center justify-end p-2 border-t">
-            <Button type="submit" disabled={loading || !content.trim()} className="gap-2">
-              {loading ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Posting...
-                </>
-              ) : (
-                'Post Comment'
-              )}
-            </Button>
-          </div>
+        <TiptapEditor ref={editorRef} content={content} onChange={content => setContent(content)} />
+        <div className="flex items-center justify-end p-2">
+          <Button type="submit" disabled={loading || !content.trim()} className="gap-2">
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Posting...
+              </>
+            ) : (
+              'Post Comment'
+            )}
+          </Button>
         </div>
       </form>
     </div>

@@ -66,7 +66,7 @@ const extensions = [
 
 const RichTextToolbar = () => {
   return (
-    <div className="flex items-center gap-2 flex-wrap border-b border-solid">
+    <div className="flex items-center gap-4 p-1 flex-wrap border-b border-border bg-background">
       <RichTextBold />
       <RichTextItalic />
       <RichTextUnderline />
@@ -148,12 +148,12 @@ const App = React.forwardRef<TiptapEditorRef, TiptapEditorProps>(({ content, onC
   }, [content, editor])
 
   useEffect(() => {
-    ;(window as Record<string, any>)['editor'] = editor
+    ; (window as Record<string, any>)['editor'] = editor
   }, [editor])
 
   return (
     <div
-      className="p-[24px] flex flex-col w-full max-w-screen-lg gap-[24px] mx-[auto] my-0"
+      className="flex flex-col w-full max-w-screen-lg mx-[auto] my-0"
       style={{
         maxWidth: 1400,
         margin: '40px auto',
@@ -161,10 +161,12 @@ const App = React.forwardRef<TiptapEditorRef, TiptapEditorProps>(({ content, onC
     >
       {editor && (
         <RichTextProvider editor={editor} dark={theme === 'dark'}>
-          <div className="overflow-hidden rounded-[0.5rem] bg-background shadow outline outline-1">
+          <div className="overflow-hidden rounded-[0.5rem] outline outline-1 outline-border">
             <div className="flex max-h-full w-full flex-col">
               <RichTextToolbar />
-              <EditorContent editor={editor} />
+              <div className="bg-white">
+                <EditorContent className="[&>div]:focus:outline-none" editor={editor} />
+              </div>
             </div>
           </div>
         </RichTextProvider>

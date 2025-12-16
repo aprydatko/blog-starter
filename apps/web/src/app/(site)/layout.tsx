@@ -3,6 +3,7 @@ import { prisma } from '@blog-starter/db'
 
 import { Viewport } from 'next'
 import Header from '@/components/header/main-header'
+import Footer from '@/components/footer/main-footer'
 
 export const viewport: Viewport = {
   themeColor: [
@@ -18,13 +19,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <div className="min-h-screen flex flex-col">
       <Header user={user} />
-      <main className="flex-1">{children}</main>
-      <footer className="border-t py-4">
-        <div className="container mx-auto px-4 flex justify-between items-center text-sm text-muted-foreground">
-          <span>Web Blogger</span>
-          <span>Copyright © 2025 Web blogger </span>
-        </div>
-      </footer>
+      <main className="pb-10 flex-1 bg-secondary">{children}</main>
+      <Footer />
     </div>
   )
 }
