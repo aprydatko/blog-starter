@@ -25,7 +25,7 @@ const Header = ({ user }: { user: User | null }) => {
             <header className={cn("fixed top-0 z-40 w-full flex flex-col transition-none", isVisible ? "shadow-none" : "shadow-md")}>
                 {/* Top Bar - Always Visible */}
                 <div className="z-20 w-full bg-white dark:bg-background border-b border-border relative">
-                    <div className="w-full py-2.5 px-5 max-w-7xl mx-auto">
+                    <div className="w-full py-2.5 px-5 max-w-8xl mx-auto">
                         <div className="flex items-center justify-between gap-6">
                             <div className="flex flex-1 gap-6 items-center">
                                 <Link href="/" className="font-serif text-2xl font-bold">

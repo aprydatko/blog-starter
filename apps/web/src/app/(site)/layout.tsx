@@ -19,7 +19,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <div className="min-h-screen flex flex-col">
       <Header user={user} />
-      <main className="w-full overflow-x-hidden bg-white">{children}</main>
+      <main className="w-full min-h-[calc(100vh-390px)] overflow-x-hidden bg-white">{children}</main>
       <Footer />
     </div>
   )

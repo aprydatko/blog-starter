@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Badge } from '@blog-starter/ui/badge'
 import { formatDate } from '@/lib/utils/date'
 
@@ -24,27 +25,39 @@ interface PostCardProps {
 export function PostCard({ post }: PostCardProps) {
   console.log("post", post)
   return (
-    <article className="flex flex-col gap-2 border rounded-lg p-4 hover:bg-muted/50 transition-colors">
-      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <span>{formatDate(post.createdAt)}</span>
-        <span>•</span>
-        <span>{post.author.name || 'Anonymous'}</span>
+    <article className="relative grid grid-cols-[130px_auto] gap-3 sm:grid-cols-[36.396%_auto] md:grid-cols-[247.5px_auto] lg:grid-cols-[260px_auto]">
+      <div className='relative aspect-square sm:col-auto sm:aspect-auto'>
+        {post.thumbnail && (
+          <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+            <Image
+              fill
+              src={'/uploads/images/carnaval-2025-12-10-13-34-24.jpg'}
+              alt={post.title}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+        )}
       </div>
-      {post.thumbnail && (
-        <div className="relative aspect-video w-full overflow-hidden rounded-lg">
-          <img src={post.thumbnail} alt={post.title} className="object-cover w-full h-full hover:scale-105 transition-transform duration-300" />
+
+      <div className='flex min-w-0 flex-col gap-1'>
+        <span className='block uppercase leading-0 font-semibold'>
+          {post.tags.map(tag => (
+            <Badge key={tag.id} variant="secondary">
+              {tag.name}
+            </Badge>
+          ))}
+          {!post.tags.length && (
+            <Badge variant="secondary">No Tags</Badge>
+          )}
+        </span>
+        <div className='flex flex-col gap-1 md:gap-2'>
+          <h3 className='text-xl leading-normal font-bold'>
+            <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+          </h3>
+          <div className='flex gap-2'>
+            <span className='text-sm text-muted-foreground'>{formatDate(post.createdAt)}</span>
+          </div>
         </div>
-      )}
-      <Link href={`/posts/${post.slug}`} className="hover:underline">
-        <h2 className="text-xl font-semibold">{post.title}</h2>
-      </Link>
-      {post.excerpt && <p className="text-muted-foreground line-clamp-2">{post.excerpt}</p>}
-      <div className="flex flex-wrap gap-2 mt-2">
-        {post.tags.map(tag => (
-          <Badge key={tag.id} variant="secondary">
-            {tag.name}
-          </Badge>
-        ))}
       </div>
     </article>
   )

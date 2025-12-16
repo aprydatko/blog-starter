@@ -7,6 +7,7 @@ import { CommentForm } from '@/components/comment-form'
 import { HtmlContent } from '@/components/html-content'
 import { auth } from '@/lib/auth'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
@@ -80,7 +81,7 @@ export default async function PostPage({ params }: PageProps) {
   }
 
   return (
-    <>
+    <div className='bg-secondary'>
       <div className="top-[92px] md:top-16">
         <section className='bg-grey-hair mx-auto flex items-center overflow-x-hidden min-h-[48px] pb-6 pt-5 md:min-h-[294px] justify-center'>
           <div className='flex items-center justify-center'>
@@ -92,12 +93,6 @@ export default async function PostPage({ params }: PageProps) {
         <div className='mx-auto flex flex-row justify-between px-5 lg:px-5  xl:px-10 md:max-w-[1220px]'>
           <div className="min-w-0 flex-1">
             <div className="space-y-4">
-              <div className="flex items-center justify-start gap-2 text-muted-foreground">
-                <span>{formatDate(post.createdAt)}</span>
-                <span>•</span>
-                <span>{post.author.name || 'Anonymous'}</span>
-              </div>
-              <h1 className="font-sans text-3xl font-bold tracking-tight">{post.title}</h1>
               <div className="flex flex-wrap justify-start gap-2">
                 {post.tags.map(tag => (
                   <Badge key={tag.id} variant="secondary">
@@ -106,10 +101,21 @@ export default async function PostPage({ params }: PageProps) {
                 ))}
               </div>
 
+              <h1 className="font-sans text-3xl font-bold tracking-tight">{post.title}</h1>
+              <div className=" flex flex-col items-start justify-start gap-1 text-muted-foreground">
+                <span className='text-sm font-semibold text-gray-800 dark:text-gray-200'>{post.author.name || 'Anonymous'}</span>
+                <span className='text-sm text-muted-foreground'>{formatDate(post.createdAt)}</span>
+              </div>
+
               {post.thumbnail && (
-                <div className="relative aspect-video w-full overflow-hidden rounded-lg mt-6">
-                  <img src={post.thumbnail} alt={post.title} className="object-cover w-full h-full" />
-                </div>
+                <figure className='relative grid grid-cols-1 md:grid-cols-1 mb-4'>
+                  <div className='relative aspect-video w-full overflow-hidden rounded-lg'>
+                    <Image fill src={'/uploads/images/carnaval-2025-12-10-13-34-24.jpg'} alt={post.title} className="object-cover" />
+                  </div>
+                  <figcaption className='relative text-[0.875rem]/[1.25rem] mt-1 line-clamp-2 pr-2.5'>
+                    <div className='text-muted-foreground'>{post.title}</div>
+                  </figcaption>
+                </figure>
               )}
             </div>
 
@@ -182,6 +188,6 @@ export default async function PostPage({ params }: PageProps) {
           </aside>
         </div>
       </article>
-    </>
+    </div>
   )
 }
