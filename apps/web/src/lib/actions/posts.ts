@@ -241,6 +241,8 @@ export async function getPosts(options?: {
   limit?: number
   search?: string
   titleSearch?: string
+  categorySlug?: string
+  tagName?: string
   monthDate?: string // Format: YYYY-MM for month filtering
 }) {
   try {
@@ -250,6 +252,23 @@ export async function getPosts(options?: {
 
     const where: any = {
       ...(options?.published !== undefined && { published: options.published }),
+      ...(options?.categorySlug && {
+        categories: {
+          some: {
+            slug: options.categorySlug,
+          },
+        },
+      }),
+      ...(options?.tagName && {
+        tags: {
+          some: {
+            name: {
+              equals: options.tagName.replace(/-/g, ' '),
+              mode: 'insensitive',
+            },
+          },
+        },
+      }),
     }
 
     // Handle title search

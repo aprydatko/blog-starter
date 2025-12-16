@@ -89,7 +89,7 @@ export default async function PostPage({ params }: PageProps) {
   }
 
   return (
-    <div className='bg-secondary'>
+    <div className='pb-10 bg-secondary'>
       <div className="top-[92px] md:top-16">
         <section className='bg-grey-hair mx-auto flex items-center overflow-x-hidden min-h-[48px] pb-6 pt-5 md:min-h-[294px] justify-center'>
           <div className='flex items-center justify-center'>
@@ -137,7 +137,7 @@ export default async function PostPage({ params }: PageProps) {
               {post.thumbnail && (
                 <figure className='relative grid grid-cols-1 md:grid-cols-1 mb-4'>
                   <div className='relative aspect-video w-full overflow-hidden rounded-lg'>
-                    <Image fill src={'/uploads/images/carnaval-2025-12-10-13-34-24.jpg'} alt={post.title} className="object-cover" />
+                    <Image fill src={'/uploads/images/' + post.thumbnail} alt={post.title} className="object-cover" />
                   </div>
                   <figcaption className='relative text-[0.875rem]/[1.25rem] mt-1 line-clamp-2 pr-2.5'>
                     <div className='text-muted-foreground'>{post.thumbnailDescription}</div>
@@ -190,7 +190,7 @@ export default async function PostPage({ params }: PageProps) {
                   <h3 className="text-2xl font-bold">More Posts</h3>
                   <div className="space-y-2">
                     {otherPosts.map(post => (
-                      <div key={post.id} className="flex justify-between items-center py-2 border-b">
+                      <div key={post.id} className="flex justify-between items-center py-2 border-b border-border">
                         <Link href={`/posts/${post.slug}`} className="hover:underline hover:text-primary transition-colors">
                           {post.title}
                         </Link>

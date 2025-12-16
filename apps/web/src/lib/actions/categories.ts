@@ -210,3 +210,27 @@ export async function getAllCategories() {
     return { success: false, error: 'Failed to fetch categories' }
   }
 }
+
+export async function getCategoryBySlug(slug: string) {
+  try {
+    const category = await prisma.category.findUnique({
+      where: { slug },
+      include: {
+        _count: {
+          select: {
+            posts: true,
+          },
+        },
+      },
+    })
+
+    if (!category) {
+      return { success: false, error: 'Category not found' }
+    }
+
+    return { success: true, category }
+  } catch (error) {
+    console.error('Error fetching category:', error)
+    return { success: false, error: 'Failed to fetch category' }
+  }
+}

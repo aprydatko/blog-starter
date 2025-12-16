@@ -7,21 +7,21 @@ export type MenuItem = {
 export const MENU_ITEMS: MenuItem[] = [
     {
         label: "Style",
-        href: "/style",
+        href: "#",
         children: [
-            { label: "Accessories", href: "/style/accessories" },
-            { label: "Clothing", href: "/style/clothing" },
-            { label: "Luggage", href: "/style/luggage" },
-            { label: "Shoes", href: "/style/shoes" },
+            { label: "Accessories", href: "/accessories" },
+            { label: "Clothing", href: "/clothing" },
+            { label: "Luggage", href: "/luggage" },
+            { label: "Shoes", href: "/shoes" },
         ],
     },
     {
         label: "Beauty",
-        href: "/beauty",
+        href: "#",
         children: [
-            { label: "Makeup", href: "/beauty/makeup" },
-            { label: "Skin Care", href: "/beauty/skin-care" },
-            { label: "Hair", href: "/beauty/hair" },
+            { label: "Makeup", href: "/makeup" },
+            { label: "Skin Care", href: "/skin-care" },
+            { label: "Hair", href: "/hair" },
         ],
     },
     {

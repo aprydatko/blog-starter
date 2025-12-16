@@ -119,7 +119,7 @@ export function PostsTable({ posts, pagination }: PostsTableProps) {
                   <td className="p-4">
                     {post.thumbnail ? (
                       <div className="relative w-12 h-12 rounded overflow-hidden bg-muted">
-                        <img src={post.thumbnail} alt="" className="object-cover w-full h-full" />
+                        <img src={'/uploads/images/' + post.thumbnail} alt="" className="object-cover w-full h-full" />
                       </div>
                     ) : (
                       <div className="w-12 h-12 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">

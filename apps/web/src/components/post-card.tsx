@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Badge } from '@blog-starter/ui/badge'
 import { formatDate } from '@/lib/utils/date'
+import { generateSlug } from '@/lib/utils/slug'
 
 interface PostCardProps {
   post: {
@@ -14,6 +15,9 @@ interface PostCardProps {
     author: {
       name: string | null
     }
+    categories: {
+      slug: string
+    }[]
     tags: {
       id: string
       name: string
@@ -23,7 +27,9 @@ interface PostCardProps {
 
 
 export function PostCard({ post }: PostCardProps) {
-  console.log("post", post)
+  const categorySlug = post.categories?.[0]?.slug || 'general'
+  const tagName = post.tags?.[0]?.name || 'general'
+
   return (
     <article className="relative grid grid-cols-[130px_auto] gap-3 sm:grid-cols-[36.396%_auto] md:grid-cols-[247.5px_auto] lg:grid-cols-[260px_auto]">
       <div className='relative aspect-square sm:col-auto sm:aspect-auto'>
@@ -31,7 +37,7 @@ export function PostCard({ post }: PostCardProps) {
           <div className="relative aspect-video w-full overflow-hidden rounded-lg">
             <Image
               fill
-              src={'/uploads/images/carnaval-2025-12-10-13-34-24.jpg'}
+              src={'/uploads/images/' + post.thumbnail}
               alt={post.title}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
@@ -42,7 +48,7 @@ export function PostCard({ post }: PostCardProps) {
       <div className='flex min-w-0 flex-col gap-1'>
         <span className='block uppercase leading-0 font-semibold'>
           {post.tags.map(tag => (
-            <Badge key={tag.id} variant="secondary">
+            <Badge key={tag.id} variant="secondary" className="mr-1">
               {tag.name}
             </Badge>
           ))}
@@ -52,7 +58,7 @@ export function PostCard({ post }: PostCardProps) {
         </span>
         <div className='flex flex-col gap-1 md:gap-2'>
           <h3 className='text-xl leading-normal font-bold'>
-            <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+            <Link href={`/${categorySlug}/${generateSlug(tagName)}/${post.slug}`}>{post.title}</Link>
           </h3>
           <div className='flex gap-2'>
             <span className='text-sm text-muted-foreground'>{formatDate(post.createdAt)}</span>
