@@ -83,17 +83,17 @@ export async function createPost(data: CreatePostInput) {
       ...postData,
       tags: data.tags
         ? {
-          connectOrCreate: data.tags.map(tag => ({
-            where: { name: tag },
-            create: { name: tag },
-          })),
-        }
+            connectOrCreate: data.tags.map(tag => ({
+              where: { name: tag },
+              create: { name: tag },
+            })),
+          }
         : undefined,
       categories:
         data.categoryIds && data.categoryIds.length > 0
           ? {
-            connect: data.categoryIds.map(id => ({ id })),
-          }
+              connect: data.categoryIds.map(id => ({ id })),
+            }
           : undefined,
     }
 

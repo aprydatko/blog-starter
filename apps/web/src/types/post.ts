@@ -19,7 +19,7 @@ export type PostWithRelations = {
   id: string
   title: string
   content?: string
-  excerpt?: string
+  excerpt?: string | null
   slug?: string
   published?: boolean
   publishedAt?: Date | string | null

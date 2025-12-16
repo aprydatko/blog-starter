@@ -1,10 +1,11 @@
 import { Button } from '@blog-starter/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@blog-starter/ui/card'
+import { Card, CardContent, CardTitle } from '@blog-starter/ui/card'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 
 import { getUpcomingScheduledPosts } from '@/lib/actions/scheduled-posts'
 import { ScheduledPostsTable } from './scheduled-posts-table'
+import { PostWithRelations } from '@/types/post'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,7 +32,11 @@ export default async function ScheduledPostsPage() {
           Upcoming Scheduled Posts
         </CardTitle>
         <CardContent className="space-y-4">
-          <ScheduledPostsTable initialPosts={posts} />
+          {posts.length === 0 ? (
+            <p>No scheduled posts found.</p>
+          ) : (
+            <ScheduledPostsTable initialPosts={posts as unknown as PostWithRelations[]} />
+          )}
         </CardContent>
       </Card>
     </div>

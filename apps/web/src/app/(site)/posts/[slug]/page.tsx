@@ -89,20 +89,22 @@ export default async function PostPage({ params }: PageProps) {
   }
 
   return (
-    <div className='pb-10 bg-secondary'>
+    <div className="pb-10 bg-secondary">
       <div className="top-[92px] md:top-16">
-        <section className='bg-grey-hair mx-auto flex items-center overflow-x-hidden min-h-[48px] pb-6 pt-5 md:min-h-[294px] justify-center'>
-          <div className='flex items-center justify-center'>
-            <div className="w-[600px] h-[90px] flex size-full items-center justify-center bg-gray-200 dark:bg-background text-center leading-3">Advertisement</div>
+        <section className="bg-grey-hair mx-auto flex items-center overflow-x-hidden min-h-[48px] pb-6 pt-5 md:min-h-[294px] justify-center">
+          <div className="flex items-center justify-center">
+            <div className="w-[600px] h-[90px] flex size-full items-center justify-center bg-gray-200 dark:bg-background text-center leading-3">
+              Advertisement
+            </div>
           </div>
         </section>
       </div>
       <article className="max-w-7xl mt-0 pt-10 pb-20 mx-auto space-y-8 bg-white dark:bg-background xl:rounded-lg xl:border border-border">
-        <div className='mx-auto flex flex-row justify-between px-5 lg:px-5  xl:px-10 md:max-w-[1220px]'>
+        <div className="mx-auto flex flex-row justify-between px-5 lg:px-5  xl:px-10 md:max-w-[1220px]">
           <div className="min-w-0 flex-1">
             <div className="space-y-4">
               {/* Breadcrumb */}
-              <div className='pb-2'>
+              <div className="pb-2">
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem>
@@ -130,17 +132,19 @@ export default async function PostPage({ params }: PageProps) {
 
               <h1 className="font-sans text-3xl font-bold tracking-tight">{post.title}</h1>
               <div className=" flex flex-col items-start justify-start gap-1 text-muted-foreground">
-                <span className='text-sm font-semibold text-gray-800 dark:text-gray-200'>{post.author.name || 'Anonymous'}</span>
-                <span className='text-sm text-muted-foreground'>{formatDate(post.createdAt)}</span>
+                <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                  {post.author.name || 'Anonymous'}
+                </span>
+                <span className="text-sm text-muted-foreground">{formatDate(post.createdAt)}</span>
               </div>
 
               {post.thumbnail && (
-                <figure className='relative grid grid-cols-1 md:grid-cols-1 mb-4'>
-                  <div className='relative aspect-video w-full overflow-hidden rounded-lg'>
+                <figure className="relative grid grid-cols-1 md:grid-cols-1 mb-4">
+                  <div className="relative aspect-video w-full overflow-hidden rounded-lg">
                     <Image fill src={'/uploads/images/' + post.thumbnail} alt={post.title} className="object-cover" />
                   </div>
-                  <figcaption className='relative text-[0.875rem]/[1.25rem] mt-1 line-clamp-2 pr-2.5'>
-                    <div className='text-muted-foreground'>{post.thumbnailDescription}</div>
+                  <figcaption className="relative text-[0.875rem]/[1.25rem] mt-1 line-clamp-2 pr-2.5">
+                    <div className="text-muted-foreground">{post.thumbnailDescription}</div>
                   </figcaption>
                 </figure>
               )}
@@ -191,7 +195,10 @@ export default async function PostPage({ params }: PageProps) {
                   <div className="space-y-2">
                     {otherPosts.map(post => (
                       <div key={post.id} className="flex justify-between items-center py-2 border-b border-border">
-                        <Link href={`/posts/${post.slug}`} className="hover:underline hover:text-primary transition-colors">
+                        <Link
+                          href={`/posts/${post.slug}`}
+                          className="hover:underline hover:text-primary transition-colors"
+                        >
                           {post.title}
                         </Link>
                         <span className="text-sm text-muted-foreground">{formatDate(post.createdAt)}</span>
@@ -203,10 +210,10 @@ export default async function PostPage({ params }: PageProps) {
             </section>
           </div>
           <aside className="hidden md:block w-[300px] min-h-[600px] ml-8">
-            <div className='flex size-full flex-col flex-nowrap'>
+            <div className="flex size-full flex-col flex-nowrap">
               <div className="h-[900px] pb-[40px]">
-                <div className='sticky flex flex-none top-[135px]'>
-                  <div className='w-[300px] h-[300px] bg-gray-100 dark:bg-secondary flex size-full items-center justify-center bg-marshmallow text-center leading-3'>
+                <div className="sticky flex flex-none top-[135px]">
+                  <div className="w-[300px] h-[300px] bg-gray-100 dark:bg-secondary flex size-full items-center justify-center bg-marshmallow text-center leading-3">
                     Advertisement
                   </div>
                 </div>

@@ -25,14 +25,13 @@ interface PostCardProps {
   }
 }
 
-
 export function PostCard({ post }: PostCardProps) {
   const categorySlug = post.categories?.[0]?.slug || 'general'
   const tagName = post.tags?.[0]?.name || 'general'
 
   return (
     <article className="relative grid grid-cols-[130px_auto] gap-3 sm:grid-cols-[36.396%_auto] md:grid-cols-[247.5px_auto] lg:grid-cols-[260px_auto]">
-      <div className='relative aspect-square sm:col-auto sm:aspect-auto'>
+      <div className="relative aspect-square sm:col-auto sm:aspect-auto">
         {post.thumbnail && (
           <div className="relative aspect-video w-full overflow-hidden rounded-lg">
             <Image
@@ -45,23 +44,21 @@ export function PostCard({ post }: PostCardProps) {
         )}
       </div>
 
-      <div className='flex min-w-0 flex-col gap-1'>
-        <span className='block uppercase leading-0 font-semibold'>
+      <div className="flex min-w-0 flex-col gap-1">
+        <span className="block uppercase leading-0 font-semibold">
           {post.tags.map(tag => (
             <Badge key={tag.id} variant="secondary" className="mr-1">
               {tag.name}
             </Badge>
           ))}
-          {!post.tags.length && (
-            <Badge variant="secondary">No Tags</Badge>
-          )}
+          {!post.tags.length && <Badge variant="secondary">No Tags</Badge>}
         </span>
-        <div className='flex flex-col gap-1 md:gap-2'>
-          <h3 className='text-xl leading-normal font-bold'>
+        <div className="flex flex-col gap-1 md:gap-2">
+          <h3 className="text-xl leading-normal font-bold">
             <Link href={`/${categorySlug}/${generateSlug(tagName)}/${post.slug}`}>{post.title}</Link>
           </h3>
-          <div className='flex gap-2'>
-            <span className='text-sm text-muted-foreground'>{formatDate(post.createdAt)}</span>
+          <div className="flex gap-2">
+            <span className="text-sm text-muted-foreground">{formatDate(post.createdAt)}</span>
           </div>
         </div>
       </div>

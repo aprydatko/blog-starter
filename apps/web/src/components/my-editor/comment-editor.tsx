@@ -148,7 +148,7 @@ const App = React.forwardRef<TiptapEditorRef, TiptapEditorProps>(({ content, onC
   }, [content, editor])
 
   useEffect(() => {
-    ; (window as Record<string, any>)['editor'] = editor
+    ;(window as Record<string, any>)['editor'] = editor
   }, [editor])
 
   return (

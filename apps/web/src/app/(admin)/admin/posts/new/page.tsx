@@ -258,7 +258,10 @@ export default function NewPostPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="thumbnailDescription" className="block text-sm/6 font-medium text-gray-900 dark:text-white">
+                    <Label
+                      htmlFor="thumbnailDescription"
+                      className="block text-sm/6 font-medium text-gray-900 dark:text-white"
+                    >
                       Thumbnail Description
                     </Label>
                     <Input

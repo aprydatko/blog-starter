@@ -3,12 +3,13 @@
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { format } from 'date-fns'
-import { MoreHorizontal, Pencil, Trash2, Eye, EyeOff } from 'lucide-react'
+import { Pencil, Trash2, Eye, EyeOff } from 'lucide-react'
 import { Badge } from '@blog-starter/ui/badge'
 import { Button } from '@blog-starter/ui/button'
 import { deletePost, togglePublishPost } from '@/lib/actions/posts'
 import { toast } from 'sonner'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface Post {
   id: string
@@ -119,7 +120,12 @@ export function PostsTable({ posts, pagination }: PostsTableProps) {
                   <td className="p-4">
                     {post.thumbnail ? (
                       <div className="relative w-12 h-12 rounded overflow-hidden bg-muted">
-                        <img src={'/uploads/images/' + post.thumbnail} alt="" className="object-cover w-full h-full" />
+                        <Image
+                          fill
+                          src={'/uploads/images/' + post.thumbnail}
+                          alt=""
+                          className="object-cover w-full h-full"
+                        />
                       </div>
                     ) : (
                       <div className="w-12 h-12 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">

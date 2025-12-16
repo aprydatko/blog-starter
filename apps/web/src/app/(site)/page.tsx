@@ -49,11 +49,11 @@ export default async function SitePage({ searchParams }: PageProps) {
   return (
     <div className="my-10 mx-auto w-full max-w-8xl">
       <section className="mx-auto w-full px-4 sm:px-6 lg:px-8 grid grow">
-        <header className='mb-4'>
-          <h2 className='flex items-center font-semibold leading-7 text-2xl'>More from Shopping</h2>
+        <header className="mb-4">
+          <h2 className="flex items-center font-semibold leading-7 text-2xl">More from Shopping</h2>
         </header>
-        <div className='lg:grid lg:grid-cols-3 lg:gap-6'>
-          <ul className='flex flex-col gap-4 lg:col-span-2 lg:gap-6'>
+        <div className="lg:grid lg:grid-cols-3 lg:gap-6">
+          <ul className="flex flex-col gap-4 lg:col-span-2 lg:gap-6">
             {posts?.map(post => (
               <li key={post.id}>
                 <PostCard post={post} />
